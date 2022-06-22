@@ -5,26 +5,34 @@ import React, {
   useCallback,
   useRef,
 } from "react";
-import Skeleton from '@mui/material/Skeleton';
+import Skeleton from "@mui/material/Skeleton";
 import moment from "moment";
 import { AgGridReact } from "ag-grid-react";
 import "ag-grid-community/dist/styles/ag-grid.css";
 import "ag-grid-community/dist/styles/ag-theme-alpine.css";
-import { ModuleRegistry, setRowData } from "@ag-grid-community/core";
+import { ModuleRegistry } from "@ag-grid-community/core";
 import { ClientSideRowModelModule } from "@ag-grid-community/client-side-row-model";
 import { SetFilterModule } from "@ag-grid-enterprise/set-filter";
 import { MenuModule } from "@ag-grid-enterprise/menu";
 import { FiltersToolPanelModule } from "@ag-grid-enterprise/filter-tool-panel";
 import { NavLink } from "react-router-dom";
 import "ag-grid-enterprise";
-import './TableComponent.css'
-import { Check, Clear, Event, ExpandLess, ExpandMore, Link, Search } from "@material-ui/icons";
+import "./TableComponent.css";
+import {
+  Check,
+  Clear,
+  Event,
+  ExpandLess,
+  ExpandMore,
+  Link,
+  Search,
+} from "@material-ui/icons";
 import { Button, InputBase, TextField } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   search: {
-    position: 'relative',
+    position: "relative",
     // borderRadius: theme.shape.borderRadius,
     // backgroundColor: (theme.palette.common.white, 0.15),
     // '&:hover': {
@@ -32,7 +40,7 @@ const useStyles = makeStyles((theme) => ({
     // },
     // marginLeft: theme.spacing(2),
     // marginRight: 0,
-    // width: '100%',
+    width: "100%",
     // [theme.breakpoints.up('sm')]: {
     //   marginRight: theme.spacing(3),
     //   width: 'auto',
@@ -40,26 +48,26 @@ const useStyles = makeStyles((theme) => ({
   },
   searchIcon: {
     padding: theme.spacing(0, 2),
-    height: '100%',
-    position: 'absolute',
-    color: '#204162',
-    pointerEvents: 'none',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
+    height: "100%",
+    position: "absolute",
+    color: "#204162",
+    pointerEvents: "none",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
   },
   inputRoot: {
-    color: '#204162',
+    color: "#204162",
   },
   inputInput: {
     padding: theme.spacing(1, 1, 1, 0),
     // vertical padding + font size from searchIcon
     paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
-    transition: theme.transitions.create('width'),
-    color: '#204162',
-    width: '100%',
-    [theme.breakpoints.up('md')]: {
-      width: '20ch',
+    transition: theme.transitions.create("width"),
+    color: "#204162",
+    width: "100%",
+    [theme.breakpoints.up("md")]: {
+      width: "20ch",
     },
   },
 }));
@@ -73,81 +81,27 @@ ModuleRegistry.registerModules([
 
 export default function Table(props) {
   const classes = useStyles();
-  useEffect(() => {
-    console.log('TableCOmProps', props.Data);
-    setrowData(props.Data);
-    if (gridApi) {
-      var dateFilterComponent = gridApi.api.getFilterInstance("Notification");
-      dateFilterComponent.setModel({
-        type: getFilterType(),
-        inRange: true,
-        dateFrom: startDate,
-        dateTo: endDate,
-      });
-      gridApi.api.onFilterChanged();
-    }
-  }, [startDate, endDate]);
-
-  const onGridReady = useCallback((params) => {
-    setGridApi(params);
-  }, []);
-
-
-  const initialload = function () {
-    var initdata = []
-    for (let i = 0; i <= 15; i++) {
-      initdata.push({
-        "recordid": "empty",
-        "Id": "empty",
-        "Notification": "empty",
-        "Dissemination": "empty",
-        "ratingTypeId": "empty",
-        "Entity": "empty",
-        "newhistory": "empty",
-        "shl": "empty",
-        "Industry": "empty",
-        "title": "empty",
-        "sr": "empty",
-        "RatingAction": "empty",
-        "Outlook": "empty",
-        "RatingST": "empty",
-        "RatingLT": "empty",
-        "RatingScale": "empty",
-        "analyst": "empty",
-        "ratingUpdateType": "empty",
-        "pacraAnalyst": "empty",
-        "user_id2": "empty",
-        "lead_rc_id": "empty",
-        "leadRcName": "empty",
-        "managerName": "empty",
-        "user_id3": "empty",
-        "user_id1": "empty",
-        "rw": "empty",
-        "cf": "empty",
-        "sNo": "empty",
-        "pr": "empty"
-      })
-    }
-    return initdata;
-  }
   const gridRef = useRef();
-  const [rowData, setrowData] = useState(initialload());
   const [gridApi, setGridApi] = useState();
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
-
-
-
+  
+  
+  
   function fullDate(params) {
     if (params.value === "empty") {
-      return <Skeleton variant="rectangular" width={120} height={18} style={{ marginTop: '3px' }} />
-    }
-    else {
+      return (
+        <Skeleton
+          variant="rectangular"
+          width={120}
+          height={18}
+          style={{ marginTop: "3px" }}
+        />
+      );
+    } else {
       if (params.value == null) {
-        return "-"
-      }
-      else {
-
+        return "-";
+      } else {
         const date = new Date(params.value);
         const yyyy = date.getFullYear();
         const yy = yyyy.toString();
@@ -161,7 +115,21 @@ export default function Table(props) {
   }
   const cellrander = (params) => {
     if (params.value === "empty") {
-      return <Skeleton variant="rectangular" width='auto' height={18} style={{ marginTop: '3px' }} />
+      return (
+        <Skeleton
+          variant="rectangular"
+          width="auto"
+          height={18}
+          style={{ marginTop: "3px" }}
+        />
+      );
+    } else {
+      return params.value;
+    }
+  };
+  const cellrandered = (params) => {
+    if (params.value === "empty") {
+      return <img src="https://www.ag-grid.com/example-assets/loading.gif" />
     }
     else {
       return params.value
@@ -175,8 +143,7 @@ export default function Table(props) {
       sortable: true,
       filter: "agSetColumnFilter",
       menuTabs: false,
-      cellRenderer: cellrander,
-
+      cellRenderer:cellrandered
     },
     {
       headerName: "Opinion",
@@ -185,7 +152,7 @@ export default function Table(props) {
       sortable: true,
       filter: "agSetColumnFilter",
       excelMode: "windows",
-      cellRenderer: cellrander
+      cellRenderer: cellrander,
     },
 
     {
@@ -195,7 +162,7 @@ export default function Table(props) {
       sortable: true,
       filter: "agSetColumnFilter",
       excelMode: "windows",
-      cellRenderer: cellrander
+      cellRenderer: cellrander,
     },
     {
       headerName: "Rating Type",
@@ -204,7 +171,7 @@ export default function Table(props) {
       sortable: true,
       filter: "agSetColumnFilter",
       excelMode: "windows",
-      cellRenderer: cellrander
+      cellRenderer: cellrander,
     },
     {
       headerName: "Team",
@@ -213,7 +180,7 @@ export default function Table(props) {
       sortable: true,
       filter: "agSetColumnFilter",
       excelMode: "windows",
-      cellRenderer: cellrander
+      cellRenderer: cellrander,
     },
 
     {
@@ -223,7 +190,7 @@ export default function Table(props) {
       sortable: true,
       filter: "agSetColumnFilter",
       excelMode: "windows",
-      cellRenderer: cellrander
+      cellRenderer: cellrander,
     },
 
     {
@@ -233,7 +200,7 @@ export default function Table(props) {
       sortable: true,
       filter: "agSetColumnFilter",
       excelMode: "windows",
-      cellRenderer: cellrander
+      cellRenderer: cellrander,
     },
     {
       headerName: "R|LT",
@@ -242,7 +209,7 @@ export default function Table(props) {
       sortable: true,
       filter: "agSetColumnFilter",
       excelMode: "windows",
-      cellRenderer: cellrander
+      cellRenderer: cellrander,
     },
     {
       headerName: "R|ST",
@@ -252,7 +219,7 @@ export default function Table(props) {
       sortable: true,
       filter: "agSetColumnFilter",
       excelMode: "windows",
-      cellRenderer: cellrander
+      cellRenderer: cellrander,
     },
 
     {
@@ -263,7 +230,7 @@ export default function Table(props) {
       sortable: true,
       filter: "agSetColumnFilter",
       excelMode: "windows",
-      cellRenderer: cellrander
+      cellRenderer: cellrander,
     },
 
     {
@@ -274,7 +241,7 @@ export default function Table(props) {
       sortable: true,
       filter: "agSetColumnFilter",
       excelMode: "windows",
-      cellRenderer: cellrander
+      cellRenderer: cellrander,
     },
     {
       field: "Outlook",
@@ -282,14 +249,14 @@ export default function Table(props) {
       sortable: true,
       filter: "agSetColumnFilter",
       excelMode: "windows",
-      cellRenderer: cellrander
+      cellRenderer: cellrander,
     },
 
     {
       field: "Notification",
       // hide: true,
       sortable: true,
-      filter: 'agDateColumnFilter',
+      filter: "agDateColumnFilter",
       excelMode: "windows",
       cellRenderer: fullDate,
       debounceMs: "DateFilter",
@@ -325,7 +292,7 @@ export default function Table(props) {
       field: "Dissemination",
       // hide: true,
       sortable: true,
-      filter: 'agDateColumnFilter',
+      filter: "agDateColumnFilter",
       excelMode: "windows",
       debounceMs: "DateFilter",
       filterParams: {
@@ -365,35 +332,45 @@ export default function Table(props) {
       quickFilterText: "string",
       cellRenderer: (params) => {
         if (params.value === "empty") {
-          return <Skeleton variant="rectangular" width={120} height={18} style={{ marginTop: '3px' }} />
-        }
-        else {
-
+          return (
+            <Skeleton
+              variant="rectangular"
+              width={120}
+              height={18}
+              style={{ marginTop: "3px" }}
+            />
+          );
+        } else {
           if (params.value) {
-            return <Check color='primary' />;
+            return <Check color="primary" />;
           } else {
-            return <Clear color='primary' />;
+            return <Clear color="primary" />;
           }
         }
       },
     },
 
     {
-      headerName: 'RR',
+      headerName: "RR",
       field: "sr",
       sortable: true,
       filter: "agSetColumnFilter",
       excelMode: "windows",
       cellRenderer: (params) => {
         if (params.value === "empty") {
-          return <Skeleton variant="rectangular" width={210} height={118} style={{ marginTop: '3px' }} />
-        }
-        else {
-
+          return (
+            <Skeleton
+              variant="rectangular"
+              width={210}
+              height={118}
+              style={{ marginTop: "3px" }}
+            />
+          );
+        } else {
           if (params.value) {
-            return <Check color='primary' />;
+            return <Check color="primary" />;
           } else {
-            return <Clear color='primary' />;
+            return <Clear color="primary" />;
           }
         }
       },
@@ -407,13 +384,18 @@ export default function Table(props) {
       filter: "agSetColumnFilter",
       cellRenderer: function (params) {
         if (params.value === "empty") {
-          return <Skeleton variant="rectangular" width={210} height={118} style={{ marginTop: '3px' }} />
-        }
-        else {
-
+          return (
+            <Skeleton
+              variant="rectangular"
+              width={210}
+              height={118}
+              style={{ marginTop: "3px" }}
+            />
+          );
+        } else {
           return (
             <NavLink to={`/${params.value}`}>
-              <Event color='primary' />
+              <Event color="primary" />
             </NavLink>
           );
         }
@@ -428,14 +410,19 @@ export default function Table(props) {
       filter: "agSetColumnFilter",
       cellRenderer: (params) => {
         if (params.value === "empty") {
-          return <Skeleton variant="rectangular" width={210} height={118} style={{ marginTop: '3px' }} />
-        }
-        else {
-
+          return (
+            <Skeleton
+              variant="rectangular"
+              width={210}
+              height={118}
+              style={{ marginTop: "3px" }}
+            />
+          );
+        } else {
           if (params.value) {
-            return <Check color='primary' />;
+            return <Check color="primary" />;
           } else {
-            return <Clear color='primary' />;
+            return <Clear color="primary" />;
           }
         }
       },
@@ -447,7 +434,7 @@ export default function Table(props) {
       sortable: true,
       filter: "agSetColumnFilter",
       filterParams: { buttons: ["reset"] },
-      cellRenderer: cellrander
+      cellRenderer: cellrander,
     },
 
     {
@@ -456,7 +443,7 @@ export default function Table(props) {
       sortable: true,
       filter: "agSetColumnFilter",
       excelMode: "windows",
-      cellRenderer: cellrander
+      cellRenderer: cellrander,
     },
 
     {
@@ -465,7 +452,7 @@ export default function Table(props) {
       sortable: true,
       filter: "agSetColumnFilter",
       excelMode: "windows",
-      cellRenderer: cellrander
+      cellRenderer: cellrander,
     },
 
     {
@@ -474,7 +461,7 @@ export default function Table(props) {
       sortable: true,
       filter: "agSetColumnFilter",
       excelMode: "windows",
-      cellRenderer: cellrander
+      cellRenderer: cellrander,
     },
 
     {
@@ -483,7 +470,7 @@ export default function Table(props) {
       sortable: true,
       filter: "agSetColumnFilter",
       excelMode: "windows",
-      cellRenderer: cellrander
+      cellRenderer: cellrander,
     },
 
     {
@@ -492,7 +479,7 @@ export default function Table(props) {
       sortable: true,
       filter: "agSetColumnFilter",
       excelMode: "windows",
-      cellRenderer: cellrander
+      cellRenderer: cellrander,
     },
 
     {
@@ -501,7 +488,7 @@ export default function Table(props) {
       sortable: true,
       filter: "agSetColumnFilter",
       excelMode: "windows",
-      cellRenderer: cellrander
+      cellRenderer: cellrander,
     },
 
     {
@@ -510,7 +497,7 @@ export default function Table(props) {
       sortable: true,
       filter: "agSetColumnFilter",
       excelMode: "windows",
-      cellRenderer: cellrander
+      cellRenderer: cellrander,
     },
 
     {
@@ -519,7 +506,7 @@ export default function Table(props) {
       sortable: true,
       filter: "agSetColumnFilter",
       excelMode: "windows",
-      cellRenderer: cellrander
+      cellRenderer: cellrander,
     },
 
     {
@@ -528,10 +515,26 @@ export default function Table(props) {
       sortable: true,
       filter: "agSetColumnFilter",
       excelMode: "windows",
-      cellRenderer: cellrander
+      cellRenderer: cellrander,
     },
   ]);
+ 
+  useEffect(() => {
+    if (gridApi) {
+      var dateFilterComponent = gridApi.api.getFilterInstance("Notification");
+      dateFilterComponent.setModel({
+        type: getFilterType(),
+        inRange: true,
+        dateFrom: startDate,
+        dateTo: endDate,
+      });
+      gridApi.api.onFilterChanged();
+    }
+  }, [startDate, endDate]);
 
+  const onGridReady = useCallback((params) => {
+    setGridApi(params);
+  }, []);
 
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
 
@@ -542,7 +545,7 @@ export default function Table(props) {
       flex: 1,
       minWidth: 70,
       resizable: true,
-      menuTabs: ['filterMenuTab', 'generalMenuTab'],
+      menuTabs: ["filterMenuTab", "generalMenuTab"],
     };
   }, []);
 
@@ -562,19 +565,19 @@ export default function Table(props) {
     return {
       toolPanels: [
         {
-          id: 'filters',
-          labelDefault: 'Filters',
-          labelKey: 'filters',
-          iconKey: 'filter',
-          toolPanel: 'agFiltersToolPanel',
+          id: "filters",
+          labelDefault: "Filters",
+          labelKey: "filters",
+          iconKey: "filter",
+          toolPanel: "agFiltersToolPanel",
         },
         {
-          id: 'columns',
-          labelDefault: 'Columns',
-          labelKey: 'columns',
-          iconKey: 'columns',
-          toolPanel: 'agColumnsToolPanel',
-        }
+          id: "columns",
+          labelDefault: "Columns",
+          labelKey: "columns",
+          iconKey: "columns",
+          toolPanel: "agColumnsToolPanel",
+        },
       ],
     };
   }, []);
@@ -585,55 +588,75 @@ export default function Table(props) {
     );
   }, []);
 
-  const [isCollapsed, setisCollapsed] = useState(true)
+  const [isCollapsed, setisCollapsed] = useState(true);
 
   return (
-    <div style={{ containerStyle }} className='themeContainer'>
+    <div style={{ containerStyle }} className="themeContainer">
       <Button onClick={() => setisCollapsed(!isCollapsed)}>
-        {!isCollapsed ?
-          <ExpandMore /> : <ExpandLess />
-        }
+        {!isCollapsed ? <ExpandMore /> : <ExpandLess />}
       </Button>
-      {/* <div className={`row my-auto p-2 ${isCollapsed? null : 'd-none'}`}>
+      <div className={`row gy-3 my-auto p-2 ${isCollapsed ? null : "d-none"}`}>
+        <div className="col-md-6 col-lg-4 my-auto">
+          <TextField
+            id="filter-text-box"
+            label="Search..."
+            variant="outlined"
+            size="small"
+            // className="btn_theme"
+            type="search"
+            onInput={onFilterTextBoxChanged}
+          />
+        </div>
+        <div className="col-md-6 col-lg-4 my-auto">
+          <div className="d-flex w-100">
+            <button
+              className="btn theme_text btn_theme ms-md-auto ms-sm-0 mx-lg-auto"
+              onClick={() => {
+                if (gridApi) {
+                  for (let i in columnDefs) {
+                    console.log(columnDefs[i].field);
+                    gridApi.api
+                      .getFilterInstance(columnDefs[i].field)
+                      .setModel(null);
+                    gridApi.api.onFilterChanged();
+                  }
+                }
+              }}
+            >
+              Reset Filters
+            </button>
+          </div>
+        </div>
         <div className="col-md-6 col-lg-4 my-auto">
           <div className="row my-auto g-3">
-            <input type="date" className="col-md-6 btn_theme my-1 p-2" onChange={(e) => setStartDate(e.target.value)} />
-            <input type="date" className="col-md-6 btn_theme my-1 p-2" onChange={(e) => setEndDate(e.target.value)} />
-          </div>
-        </div>
-        <div className="col-md-6 col-lg-4 my-auto">
-          <button className="btn theme_text btn_theme" onClick={() => {
-            if (gridApi) {
-              for (let i in columnDefs) {
-                console.log(columnDefs[i].field);
-                gridApi.api.getFilterInstance(columnDefs[i].field).setModel(null);
-                gridApi.api.onFilterChanged();
-              }
-            }
-          }}>Reset Filters</button>
-        </div>
-        <div className="col-md-6 col-lg-4 my-auto">
-          <div className={`ms-auto ${classes.search}`}>
-            <div className={classes.searchIcon}>
-              <Search />
+            <div className="col-md-6 my-1 d-inline-flex">
+              <p className="my-auto text-white me-1"> From: </p>
+              <input
+                type="date"
+                onChange={(e) => setStartDate(e.target.value)}
+                className=" p-2 btn_theme"
+              />
             </div>
-            <InputBase
-              placeholder="Filter..."
-              id="filter-text-box"
-              className={`${classes.inputRoot} ${classes.inputInput}`}
-              onInput={onFilterTextBoxChanged}
-            />
+            <div className="col-md-6 my-1 d-inline-flex">
+              <p className="my-auto text-white ms-2 me-3"> To: </p>
+              <input
+                type="date"
+                onChange={(e) => setEndDate(e.target.value)}
+                className=" p-2 btn_theme"
+              />
+            </div>
           </div>
         </div>
-      </div> */}
+      </div>
 
-      <div className="d-flex w-100 p-3">
+      {/* <div className="d-flex w-100 p-3">
         <div className='ms-0'>
           From: <input type="date" onChange={(e) => setStartDate(e.target.value)} />
           To: <input type="date" onChange={(e) => setEndDate(e.target.value)} />
         </div>
         <Button variant="contained" size="small"
           onClick={() => {
+            console.log(gridApi);
             if (gridApi) {
               for (let i in columnDefs) {
                 console.log(columnDefs[i].field);
@@ -653,14 +676,14 @@ export default function Table(props) {
             onInput={onFilterTextBoxChanged}
           />
         </div>
-      </div>
+      </div> */}
       <div
         className="ag-theme-alpine"
         style={{ height: "75vh", width: "100%", gridStyle }}
       >
         <AgGridReact
           ref={gridRef}
-          rowData={rowData}
+          rowData={props.Data}
           columnDefs={columnDefs}
           defaultColDef={defaultColDef}
           sideBar={sideBar}

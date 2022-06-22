@@ -4,7 +4,7 @@ import TableComponent from '../../Components/TableComponent'
 function Outstanding(props) {
     return (
         <>
-            {props.Outstanding.length>0 &&<TableComponent Data ={props.Outstanding}/>}
+            <TableComponent Data ={props.Outstanding}/>
         </>
     )
 }

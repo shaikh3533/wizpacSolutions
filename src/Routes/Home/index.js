@@ -9,13 +9,14 @@ import Box from '@material-ui/core/Box';
 import Outstanding from './Outstanding';
 import InProcess from './InProcess';
 import GetData from '../../API/GetData';
+const data = require("../../outstanding_data.json")
 
 
 export default function Index(props) {
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
 
-  const [OutstandingDataArray, setOutstandingDataArray] = useState([])
+  const [OutstandingDataArray, setOutstandingDataArray] = useState(data)
   const [InProcessDataArray, setInProcessDataArray] = useState([])
   useEffect(() => {
 
@@ -24,22 +25,23 @@ export default function Index(props) {
       for (let i in res) {
         res[i].sNo = Number(i) + 1;
       }
-      console.log({ res })
+ 
       setOutstandingDataArray(res);
     })
   }, [])
 
-  useEffect(() => {
-
-    GetData.OutstandingData().then(res => {
-      res = res.data.data;
-      for (let i in res) {
-        res[i].sNo = Number(i) + 2;
-      }
-      console.log({ res })
-      setInProcessDataArray(res);
-    })
-  }, [])
+  // setTimeout(
+  // useEffect(() => {
+    
+  //   GetData.OutstandingData().then(res => {
+  //     res = res.data.data;
+  //     for (let i in res) {
+  //       res[i].sNo = Number(i) + 2;
+  //     }
+  //     console.log({ res })
+  //     setInProcessDataArray(res);
+  //   }, [])
+  // }), 5000)
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
