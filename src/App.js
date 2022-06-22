@@ -1,24 +1,71 @@
-import logo from './logo.svg';
+import React, { useState } from 'react'
 import './App.css';
+import SideBar from './Components/SideBar'
+import 'bootstrap/dist/css/bootstrap.min.css';
+import Home from './Routes/Home'
+import Ratings from './Routes/Ratings'
+import InputData from './Routes/InputData'
+import {
+  BrowserRouter,
+  Route,
+  Routes,
+} from "react-router-dom";
+import axios from 'axios';
+import {
+  makeStyles,
+} from "@material-ui/core";
 
+
+
+const useStyles = makeStyles((theme) => ({
+
+
+  containerWidth:
+  {
+    width: `calc(100% - 240px)`,
+    marginTop: '85px',
+    top: '85px'
+  },
+}))
 function App() {
+
+  const [open, setOpen] = useState(false);
+  const handleDrawerOpen = () => {
+    setOpen(true);
+  };
+
+  const handleDrawerClose = () => {
+    setOpen(false);
+  };
+
+  if (typeof window !== 'undefined') {
+    // Perform localStorage action
+    const item = localStorage.getItem('token')
+
+    axios.defaults.headers.common['Authorization'] = `Bearer ${item}`;
+  }
+  const classes = useStyles();
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <BrowserRouter>
+        <div style={{ display: 'flex' }}>
+
+          <SideBar
+            handleDrawerOpen={handleDrawerOpen}
+            handleDrawerClose={handleDrawerClose}
+            open={open}
+          />
+          <div className={`${classes.containerWidth}`} style={{ flexGrow: 1 }}>
+            <Routes>
+              <Route path="/" element={<Home open={open}/>} />
+              <Route path="/Ratings" element={<Ratings />} />
+              <Route path="/InputData" element={<InputData />} />
+            </Routes>
+          </div>
+        </div>
+      </BrowserRouter>
+    </>
   );
 }
 
