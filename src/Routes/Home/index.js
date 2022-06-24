@@ -12,6 +12,7 @@ import GetData from '../../API/GetData';
 const data = require("../../outstanding_data.json")
 
 
+
 export default function Index(props) {
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
@@ -25,8 +26,8 @@ export default function Index(props) {
       for (let i in res) {
         res[i].sNo = Number(i) + 1;
       }
- 
-      setOutstandingDataArray(res);
+      setOutstandingDataArray(res)
+
     })
   }, [])
 
