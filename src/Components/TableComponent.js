@@ -166,6 +166,7 @@ export default function TableComponent(props) {
 
     {
       headerName: "Sector",
+      hide: props.isResponsive ? false : true,
       field: "Industry",
       minWidth: 130,
       maxWidth: 130,
@@ -284,10 +285,11 @@ export default function TableComponent(props) {
       excelMode: "windows",
       cellRenderer: cellrander,
     },
-
+    
     {
       headerName: "Notification",
       field: "Notification",
+      minWidth: 130,
       // hide: true,
       sortable: true,
       filter: "agDateColumnFilter",
@@ -313,7 +315,7 @@ export default function TableComponent(props) {
           if (cellDate < filterLocalDateAtMidnight) {
             return -1;
           }
-
+          
           if (cellDate > filterLocalDateAtMidnight) {
             return 1;
           }
@@ -339,6 +341,7 @@ export default function TableComponent(props) {
     {
       field: "Dissemination",
       // hide: true,
+      minWidth: 135,
       sortable: true,
       filter: "agDateColumnFilter",
       excelMode: "windows",
@@ -372,6 +375,7 @@ export default function TableComponent(props) {
       cellRenderer: fullDate,
     },
     {
+      headerName: "PR",
       field: "pr",
       // hide: true,
       sortable: true,
@@ -718,61 +722,75 @@ export default function TableComponent(props) {
 
   return (
     <div style={{ containerStyle }} className="themeContainer">
-      <Button onClick={() => setisCollapsed(!isCollapsed)}>
-        {!isCollapsed ? <ExpandMore /> : <ExpandLess />}
-      </Button>
-      <div className={`row gy-3 my-auto p-2 ${isCollapsed ? null : "d-none"}`}>
-        <div className="col-md-6 col-lg-4 my-auto">
-          <TextField
-            id="filter-text-box"
-            label="Search..."
-            variant="outlined"
-            size="small"
-            // className="btn_theme"
-            type="search"
-            onInput={onFilterTextBoxChanged}
-          />
-        </div>
-        <div className="col-md-6 col-lg-4 my-auto">
-          <div className="d-flex w-100">
-            <button
-              className="btn theme_text btn_theme ms-md-auto ms-sm-0 mx-lg-auto"
-              onClick={() => {
-                if (gridApi) {
-                  for (let i in columnDefs) {
-                    console.log(columnDefs[i].field);
-                    gridApi.api
-                      .getFilterInstance(columnDefs[i].field)
-                      .setModel(null);
-                    gridApi.api.onFilterChanged();
+      <div className='row'>
+        <div className={`row gy-3 my-auto p-1 ${isCollapsed ? null : "d-none"}`}>
+          <div className="col-md-8 col-lg-6 my-auto">
+            <div className="row my-auto g-3">
+              <div className="col-md-2 my-1">
+                <Button onClick={() => setisCollapsed(!isCollapsed)}>
+                  {!isCollapsed ? <ExpandMore /> : <ExpandLess />}
+                </Button>
+              </div>
+              <div className="col-md-4 my-1 d-inline-flex">
+                <p className="my-auto theme_text me-1"> From: </p>
+                <input
+                  type="date"
+                  onChange={(e) => setStartDate(e.target.value)}
+                  className="px-2 btn_theme"
+                />
+              </div>
+              <div className="col-md-4 my-1 d-inline-flex">
+                <p className="my-auto theme_text ms-2 me-3"> To: </p>
+                <input
+                  type="date"
+                  onChange={(e) => setEndDate(e.target.value)}
+                  className="px-2 btn_theme"
+                />
+              </div>
+            </div>
+          </div>
+
+          <div className="col-md-2 col-lg-3 my-auto">
+            <div className="d-flex w-100">
+              <button
+                className="btn theme_text bg-white ms-md-auto ms-sm-0 mx-lg-auto"
+                onClick={() => {
+                  if (gridApi) {
+                    for (let i in columnDefs) {
+                      console.log(columnDefs[i].field);
+                      gridApi.api
+                        .getFilterInstance(columnDefs[i].field)
+                        .setModel(null);
+                      gridApi.api.onFilterChanged();
+                    }
                   }
-                }
-              }}
-            >
-              Reset Filters
-            </button>
-          </div>
-        </div>
-        <div className="col-md-6 col-lg-4 my-auto">
-          <div className="row my-auto g-3">
-            <div className="col-md-6 my-1 d-inline-flex">
-              <p className="my-auto text-white me-1"> From: </p>
-              <input
-                type="date"
-                onChange={(e) => setStartDate(e.target.value)}
-                className=" p-2 btn_theme"
-              />
-            </div>
-            <div className="col-md-6 my-1 d-inline-flex">
-              <p className="my-auto text-white ms-2 me-3"> To: </p>
-              <input
-                type="date"
-                onChange={(e) => setEndDate(e.target.value)}
-                className=" p-2 btn_theme"
-              />
+                }}
+              >
+                Reset Filters
+              </button>
             </div>
           </div>
+          <div className="col-md-2 col-lg-3 my-auto ">
+            <input
+              class="form-control mr-sm-2"
+              type="search"
+              placeholder="Search..."
+              aria-label="Search"
+              onInput={onFilterTextBoxChanged}
+              id="filter-text-box" />
+            {/* <TextField
+              id="filter-text-box"
+              label="Search..."
+              variant="outlined"
+              size="small"
+              type="search"
+              onInput={onFilterTextBoxChanged}
+            /> */}
+          </div>
         </div>
+        <Button onClick={() => setisCollapsed(!isCollapsed)} className={!isCollapsed ? null : "d-none"}>
+          {!isCollapsed ? <ExpandMore /> : <ExpandLess />}
+        </Button>
       </div>
       <div
         className="ag-theme-alpine"
@@ -783,8 +801,8 @@ export default function TableComponent(props) {
           rowData={props.Data}
           columnDefs={columnDefs}
           defaultColDef={defaultColDef}
-          sideBar={sideBar}
-          masterDetail={true}
+          sideBar={props.isResponsive ? sideBar : null}
+          masterDetail={props.isResponsive ? true : null}
           detailCellRenderer={detailCellRenderer}
           // onFirstDataRendered={headerHeightSetter}
           // onColumnResized={headerHeightSetter}

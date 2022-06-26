@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import './App.css';
 import SideBar from './Components/SideBar'
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -23,16 +23,26 @@ const useStyles = makeStyles((theme) => ({
   containerWidth:
   {
     width: `calc(100% - 240px)`,
-    marginTop: '85px',
-    top: '85px'
+    marginTop: '72px',
+    top: '72px'
   },
 }))
 function App() {
 
+
+
   const [open, setOpen] = useState(false);
+  const [isResponsive, setisResponsive] = useState(true);
   const handleDrawerOpen = () => {
     setOpen(true);
   };
+
+  useEffect(() => {
+    const screenWidth = window.screen.width
+    if (screenWidth < 770) {
+      setisResponsive(false)
+    }
+  }, [])
 
   const handleDrawerClose = () => {
     setOpen(false);
@@ -58,7 +68,7 @@ function App() {
           />
           <div className={`${classes.containerWidth}`} style={{ flexGrow: 1 }}>
             <Routes>
-              <Route path="/" element={<Home open={open}/>} />
+              <Route path="/" element={<Home open={open} isResponsive={isResponsive} />} />
               <Route path="/Ratings" element={<Ratings />} />
               <Route path="/InputData" element={<InputData />} />
             </Routes>

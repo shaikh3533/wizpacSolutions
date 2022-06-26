@@ -22,7 +22,8 @@ code {
 }
 
 ::-webkit-scrollbar {
-  width: 0.4rem;
+  width: 0.2rem;
+  height: 0.2rem;
 }
 
 /* Track */
@@ -53,11 +54,13 @@ code {
 }
 
 .btn_theme {
-  border: 2px solid rgb(28, 60, 86) !important;
+  border: 1px solid rgb(28, 60, 86) !important;
 }
 
+/* Tab buttons */
+
 .MuiTab-textColorInherit {
-  min-width: 60px !important;
+  min-width: 80px !important;
 }
 
 .MuiTab-root {

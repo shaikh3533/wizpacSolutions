@@ -33,7 +33,7 @@ export default function Index(props) {
 
   // setTimeout(
   // useEffect(() => {
-    
+
   //   GetData.OutstandingData().then(res => {
   //     res = res.data.data;
   //     for (let i in res) {
@@ -80,7 +80,7 @@ export default function Index(props) {
       </AppBar>
       <div className='container'>
         <TabPanel value={value} index={0}>
-          <Outstanding Outstanding={OutstandingDataArray} />
+          <Outstanding Outstanding={OutstandingDataArray} isResponsive={props.isResponsive} />
         </TabPanel>
         <TabPanel value={value} index={1}>
           <InProcess InProcess={InProcessDataArray} />
@@ -163,7 +163,7 @@ const useStyles = makeStyles((theme) => ({
     width: '100%'
   },
   topMargin: {
-    top: '80px',
+    top: '69px',
   },
   leftMargin: {
     width: `calc(100% - ${240}px)`,
