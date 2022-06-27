@@ -121,6 +121,15 @@ a {
   }
 }
 
+@media (max-width: 770px){
+.makeStyles-drawerClose-9 {
+  width: 0px !important
+}
+.makeStyles-left-28{
+  width: 100% !important;
+}
+}
+
 
 .dropbtn {
   background-color: #3498DB;
@@ -178,3 +187,7 @@ a {
   padding: 0 !important;
   color: red !important;
 } */
+
+.form-control{
+  padding: 0.2rem 0.75rem !important;
+}
