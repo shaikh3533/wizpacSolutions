@@ -104,7 +104,7 @@ export default function TableComponent(props) {
     if (width < 770) {
       return null;
     } else {
-      return 170;
+      return 135;
     }
   };
   const responsiveColumnPin = () => {
@@ -249,6 +249,7 @@ export default function TableComponent(props) {
 
     {
       headerName: "Sector",
+      hide: props.isResponsive ? false : true,
       field: "Industry",
       minWidth: 130,
       hide: sectorHide(),
@@ -258,7 +259,7 @@ export default function TableComponent(props) {
       excelMode: "windows",
       tooltipField: "Industry",
       cellRenderer: cellrander,
-      // pinned: responsiveColumnPin(),
+      pinned: responsiveColumnPin(),
     },
     {
       headerName: "Rating Type",
@@ -377,11 +378,12 @@ export default function TableComponent(props) {
       excelMode: "windows",
       cellRenderer: cellrander,
     },
-
+    
     {
       headerName: "Notification",
       hide: columnHide(),
       field: "Notification",
+      minWidth: 130,
       // hide: true,
       sortable: true,
       filter: "agDateColumnFilter",
@@ -407,7 +409,7 @@ export default function TableComponent(props) {
           if (cellDate < filterLocalDateAtMidnight) {
             return -1;
           }
-
+          
           if (cellDate > filterLocalDateAtMidnight) {
             return 1;
           }
@@ -433,6 +435,7 @@ export default function TableComponent(props) {
     {
       headerName: "Dissemination",
       field: "Dissemination",
+      minWidth: 130,
       hide: columnHide(),
       sortable: true,
       filter: "agDateColumnFilter",
@@ -932,62 +935,6 @@ export default function TableComponent(props) {
           {!isCollapsed ? <ExpandMore /> : <ExpandLess />}
         </Button>
       </div>
-      {/* <Button onClick={() => setisCollapsed(!isCollapsed)}>
-        {!isCollapsed ? <ExpandMore /> : <ExpandLess />}
-      </Button>
-      <div className={`row gy-3 my-auto p-2 ${isCollapsed ? null : "d-none"}`}>
-        <div className="col-md-6 col-lg-4 my-auto">
-          <TextField
-            id="filter-text-box"
-            label="Search..."
-            variant="outlined"
-            size="small"
-            // className="btn_theme"
-            type="search"
-            onInput={onFilterTextBoxChanged}
-          />
-        </div>
-        <div className="col-md-6 col-lg-4 my-auto">
-          <div className="d-flex w-100">
-            <button
-              className="btn theme_text btn_theme ms-md-auto ms-sm-0 mx-lg-auto"
-              onClick={() => {
-                if (gridApi) {
-                  for (let i in columnDefs) {
-                    console.log(columnDefs[i].field);
-                    gridApi.api
-                      .getFilterInstance(columnDefs[i].field)
-                      .setModel(null);
-                    gridApi.api.onFilterChanged();
-                  }
-                }
-              }}
-            >
-              Reset Filters
-            </button>
-          </div>
-        </div>
-        <div className="col-md-6 col-lg-4 my-auto">
-          <div className="row my-auto g-3">
-            <div className="col-md-6 my-1 d-inline-flex">
-              <p className="my-auto text-white me-1"> From: </p>
-              <input
-                type="date"
-                onChange={(e) => setStartDate(e.target.value)}
-                className=" p-2 btn_theme"
-              />
-            </div>
-            <div className="col-md-6 my-1 d-inline-flex">
-              <p className="my-auto text-white ms-2 me-3"> To: </p>
-              <input
-                type="date"
-                onChange={(e) => setEndDate(e.target.value)}
-                className=" p-2 btn_theme"
-              />
-            </div>
-          </div>
-        </div>
-      </div> */}
       <div
         className="ag-theme-alpine"
         style={{ height: "75vh", width: "100%", gridStyle }}
@@ -1010,9 +957,10 @@ export default function TableComponent(props) {
           onGridReady={onGridReady}
         />
       </div>
-    </div>
+      </div>
   );
 }
+
 function headerHeightGetter() {
   var columnHeaderTexts = [
     ...document.querySelectorAll(".ag-header-cell-text"),
