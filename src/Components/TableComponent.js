@@ -887,7 +887,9 @@ export default function TableComponent(props) {
  }
 
   return (
+
     <div style={{ containerStyle }} className="themeContainer">
+      
       {/* <div className="row">
         <div className={`row ${isCollapsed ? null : "d-none"}`}>
           <div className="col-lg-8 col-md-6 col-6">
@@ -963,27 +965,29 @@ export default function TableComponent(props) {
           {!isCollapsed ? <ExpandMore /> : <ExpandLess />}
         </Button>
       </div> */}
-      
+      <center>
         <Box className='p-1'>
-        <Fab color="neutral" aria-label="Date" variant="extended" className="ms-2 mb-1">
+        <Fab color="neutral" aria-label="Date" variant="extended" className=" mb-1">
           <CalendarMonth onClick={onChangeDate} />
-          <div className={`p-2 ${date ? 'd-inline-flex' : 'd-none'}`}>
+          <div className={`p-1 ${date ? 'd-inline-flex' : 'd-none'}`}>
             <div className="m-1">
-              <p className="theme_text me-1 my-auto d-sm-block d-lg-none"> From </p>
+              {/* <p className="theme_text me-1 my-auto"> From </p> */}
               <input
                 type="date"
                 id="startDate"
                 onChange={(e) => setStartDate(e.target.value)}
-                className="px-2 btn_theme"
+                className="px-1 btn_theme"
+                style={width < 400 ? {width: 125}: null}
               />
             </div>
             <div className="m-1">
-              <p className="theme_text me-1 my-auto d-sm-block d-lg-none"> To </p>
+              {/* <p className="theme_text me-1 my-auto"> To </p> */}
               <input
                 type="date"
                 id="endDate"
                 onChange={(e) => setEndDate(e.target.value)}
-                className="px-2 btn_theme"
+                className="px-1 btn_theme"
+                style={width < 400 ? {width: 125}: null}
               />
             </div>
           </div>
@@ -1026,6 +1030,7 @@ export default function TableComponent(props) {
           Reset
         </Fab>
       </Box>
+      </center>
       <div
         className="ag-theme-alpine"
         style={{ height: "75vh", width: "100%", gridStyle }}
