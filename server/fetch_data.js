@@ -14,7 +14,7 @@ setInterval(async ()=>{
         i = Number(i)
         data[i].sNo = "empty"
     }
-    for(let i = 0; i <=10; i++){
+    for(let i = 0; i <=15; i++){
         arr.push(data[i])
     }
     fs.writeFileSync("../src/outstanding_data.json", JSON.stringify(arr))
@@ -23,7 +23,7 @@ setInterval(async ()=>{
         console.log(error);
     }
     
-}, 500000)
+}, 5000000)
 
 
     
