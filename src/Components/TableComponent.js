@@ -29,7 +29,7 @@ import {
 } from "@material-ui/icons";
 import { Button, InputBase, TextField } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core";
-import { Table, TableCell, TableHead, TableRow } from "@mui/material";
+import { CircularProgress, Table, TableCell, TableHead, TableRow } from "@mui/material";
 
 const useStyles = makeStyles((theme) => ({
   search: {
@@ -81,6 +81,42 @@ ModuleRegistry.registerModules([
 ]);
 
 export default function TableComponent(props) {
+
+  useEffect(() => {
+    if (gridApi) {
+      var dateFilterComponent = gridApi.api.getFilterInstance("Notification");
+      dateFilterComponent.setModel({
+        type: getFilterType(),
+        inRange: true,
+        dateFrom: startDate,
+        dateTo: endDate,
+      });
+      gridApi.api.onFilterChanged();
+    }
+
+  }, [startDate, endDate]);
+
+  const [responsive, setresponsive] = useState(true)
+
+  // var responsiveIf = () => {
+  //   if (props.isResponsive === true) {
+  //     setresponsive(true)
+  //   }
+  //   else {
+  //     setresponsive(false)
+  //   }
+  // }
+
+  useEffect(() => {
+    if (props.isResponsive == true) {
+      setresponsive(false)
+    }
+  }, [])
+
+  const onGridReady = useCallback((params) => {
+    setGridApi(params);
+  }, []);
+
   const gridRef = useRef();
   const [gridApi, setGridApi] = useState();
   const [startDate, setStartDate] = useState("");
@@ -127,14 +163,16 @@ export default function TableComponent(props) {
   };
   const cellrandered = (params) => {
     if (params.value === "empty") {
-      return <img src="https://www.ag-grid.com/example-assets/loading.gif" />;
+      return <span class="loader"></span>
+      // <CircularProgress size={20} color="inherit" />
     } else {
       return params.value;
     }
   };
-  const [columnDefs, setColumnData] = useState([
+
+  const [columnDefs, setcolumnDefs] = useState([
     {
-      headerName: "",
+      hide: responsive,
       maxWidth: 30,
       field: "sNo",
       pinned: "left",
@@ -252,7 +290,7 @@ export default function TableComponent(props) {
       headerName: "RW",
       field: "rw",
       // minWidth: 85,
-      minWidth: 74,
+      minWidth: 75,
       sortable: true,
       filter: "agSetColumnFilter",
       excelMode: "windows",
@@ -285,7 +323,7 @@ export default function TableComponent(props) {
       excelMode: "windows",
       cellRenderer: cellrander,
     },
-    
+
     {
       headerName: "Notification",
       field: "Notification",
@@ -315,7 +353,7 @@ export default function TableComponent(props) {
           if (cellDate < filterLocalDateAtMidnight) {
             return -1;
           }
-          
+
           if (cellDate > filterLocalDateAtMidnight) {
             return 1;
           }
@@ -549,23 +587,6 @@ export default function TableComponent(props) {
     },
   ]);
 
-  useEffect(() => {
-    if (gridApi) {
-      var dateFilterComponent = gridApi.api.getFilterInstance("Notification");
-      dateFilterComponent.setModel({
-        type: getFilterType(),
-        inRange: true,
-        dateFrom: startDate,
-        dateTo: endDate,
-      });
-      gridApi.api.onFilterChanged();
-    }
-  }, [startDate, endDate]);
-
-  const onGridReady = useCallback((params) => {
-    setGridApi(params);
-  }, []);
-
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
 
   const containerStyle = useMemo(() => ({ width: "100%", height: "100%" }), []);
@@ -620,12 +641,12 @@ export default function TableComponent(props) {
 
   const [isCollapsed, setisCollapsed] = useState(true);
 
-  const headerHeightSetter = () => {
-    var padding = 20;
-    var height = headerHeightGetter() + padding;
-    gridApi.setHeaderHeight(height);
-    gridApi.resetRowHeights();
-  };
+  // const headerHeightSetter = () => {
+  //   var padding = 20;
+  //   var height = headerHeightGetter() + padding;
+  //   gridApi.setHeaderHeight(height);
+  //   gridApi.resetRowHeights();
+  // };
   const DetailCellRenderer = (params) => (
     <h1 style={{ padding: "20px" }}>
       <Table className="overflow-scroll">
@@ -722,55 +743,41 @@ export default function TableComponent(props) {
 
   return (
     <div style={{ containerStyle }} className="themeContainer">
-      <div className='row'>
-        <div className={`row gy-3 my-auto p-1 ${isCollapsed ? null : "d-none"}`}>
-          <div className="col-md-8 col-lg-6 my-auto">
-            <div className="row my-auto g-3">
-              <div className="col-md-2 my-1">
-                <Button onClick={() => setisCollapsed(!isCollapsed)}>
-                  {!isCollapsed ? <ExpandMore /> : <ExpandLess />}
-                </Button>
-              </div>
-              <div className="col-md-4 my-1 d-inline-flex">
-                <p className="my-auto theme_text me-1"> From: </p>
-                <input
-                  type="date"
-                  onChange={(e) => setStartDate(e.target.value)}
-                  className="px-2 btn_theme"
-                />
-              </div>
-              <div className="col-md-4 my-1 d-inline-flex">
-                <p className="my-auto theme_text ms-2 me-3"> To: </p>
-                <input
-                  type="date"
-                  onChange={(e) => setEndDate(e.target.value)}
-                  className="px-2 btn_theme"
-                />
-              </div>
-            </div>
+      <div class="d-flex">
+          <div class="">
+            <Button onClick={() => setisCollapsed(!isCollapsed)}>
+              {!isCollapsed ? <ExpandMore /> : <ExpandLess />}
+            </Button>
           </div>
+        <div class="d-flex justify-content-between">
+          <div class="">
+            <p className="my-auto theme_text me-1"> From: </p>
+            <input
+              type="date"
+              onChange={(e) => setStartDate(e.target.value)}
+              className="px-2 btn_theme"
+            />
 
-          <div className="col-md-2 col-lg-3 my-auto">
-            <div className="d-flex w-100">
-              <button
-                className="btn theme_text bg-white ms-md-auto ms-sm-0 mx-lg-auto"
-                onClick={() => {
-                  if (gridApi) {
-                    for (let i in columnDefs) {
-                      console.log(columnDefs[i].field);
-                      gridApi.api
-                        .getFilterInstance(columnDefs[i].field)
-                        .setModel(null);
-                      gridApi.api.onFilterChanged();
-                    }
-                  }
-                }}
-              >
-                Reset Filters
-              </button>
-            </div>
+            <p className="my-auto theme_text ms-2 me-3"> To: </p>
+            <input
+              type="date"
+              onChange={(e) => setEndDate(e.target.value)}
+              className="px-2 btn_theme"
+            />
           </div>
-          <div className="col-md-2 col-lg-3 my-auto ">
+          <div class="">
+            <Button variant="contained" size="small"
+              onClick={() => {
+                if (gridApi) {
+                  for (let i in columnDefs) {
+                    console.log(columnDefs[i].field);
+                    gridApi.api.getFilterInstance(columnDefs[i].field).setModel(null);
+                    gridApi.api.onFilterChanged();
+                  }
+                }
+              }}>Reset Filters</Button>
+          </div>
+          <div class="">
             <input
               class="form-control mr-sm-2"
               type="search"
@@ -778,19 +785,8 @@ export default function TableComponent(props) {
               aria-label="Search"
               onInput={onFilterTextBoxChanged}
               id="filter-text-box" />
-            {/* <TextField
-              id="filter-text-box"
-              label="Search..."
-              variant="outlined"
-              size="small"
-              type="search"
-              onInput={onFilterTextBoxChanged}
-            /> */}
           </div>
         </div>
-        <Button onClick={() => setisCollapsed(!isCollapsed)} className={!isCollapsed ? null : "d-none"}>
-          {!isCollapsed ? <ExpandMore /> : <ExpandLess />}
-        </Button>
       </div>
       <div
         className="ag-theme-alpine"
@@ -802,7 +798,8 @@ export default function TableComponent(props) {
           columnDefs={columnDefs}
           defaultColDef={defaultColDef}
           sideBar={props.isResponsive ? sideBar : null}
-          masterDetail={props.isResponsive ? true : null}
+          masterDetail={true}
+          pivotPanelShow={false}
           detailCellRenderer={detailCellRenderer}
           // onFirstDataRendered={headerHeightSetter}
           // onColumnResized={headerHeightSetter}
