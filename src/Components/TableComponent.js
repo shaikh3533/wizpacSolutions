@@ -5,6 +5,7 @@ import React, {
   useCallback,
   useRef,
 } from "react";
+// import $ from "jquery";
 import Skeleton from "@mui/material/Skeleton";
 import moment from "moment";
 import { AgGridReact } from "ag-grid-react";
@@ -19,17 +20,23 @@ import { NavLink } from "react-router-dom";
 import "ag-grid-enterprise";
 import "./TableComponent.css";
 import {
+  Add,
   Check,
   Clear,
   Event,
   ExpandLess,
   ExpandMore,
+  Filter,
+  Home,
   Link,
   Search,
 } from "@material-ui/icons";
 import { Button, InputBase, TextField } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core";
-import { CircularProgress, Table, TableCell, TableHead, TableRow } from "@mui/material";
+import { Box, Table, TableCell, TableHead, TableRow } from "@mui/material";
+import { style } from "@mui/system";
+import Fab from '@mui/material/Fab';
+import { CalendarMonth, FilterAltOff } from "@mui/icons-material";
 
 const useStyles = makeStyles((theme) => ({
   search: {
@@ -80,9 +87,31 @@ ModuleRegistry.registerModules([
   FiltersToolPanelModule,
 ]);
 
+function useWindowSize() {
+  const [size, setsize] = useState([window.innerHeight, window.innerWidth]);
+  useEffect(() => {
+    const handleResize = () => {
+      setsize([window.innerHeight, window.innerWidth]);
+    };
+    window.addEventListener("resize", handleResize);
+  }, []);
+  return size;
+}
+
 export default function TableComponent(props) {
 
+
+  const [responsive, setresponsive] = useState(true)
+
+
+  const gridRef = useRef();
+  const [gridApi, setGridApi] = useState();
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
+  const [height, width] = useWindowSize();
+
   useEffect(() => {
+    console.log(gridApi, 'grid')
     if (gridApi) {
       var dateFilterComponent = gridApi.api.getFilterInstance("Notification");
       dateFilterComponent.setModel({
@@ -96,55 +125,97 @@ export default function TableComponent(props) {
 
   }, [startDate, endDate]);
 
-  const [responsive, setresponsive] = useState(true)
-
-  // var responsiveIf = () => {
-  //   if (props.isResponsive === true) {
-  //     setresponsive(true)
-  //   }
-  //   else {
-  //     setresponsive(false)
-  //   }
-  // }
-
-  useEffect(() => {
-    if (props.isResponsive == true) {
-      setresponsive(false)
-    }
-  }, [])
-
   const onGridReady = useCallback((params) => {
     setGridApi(params);
   }, []);
 
-  const gridRef = useRef();
-  const [gridApi, setGridApi] = useState();
-  const [startDate, setStartDate] = useState("");
-  const [endDate, setEndDate] = useState("");
+  const responsiveColumns = () => {
+    if (width < 770) {
+      return null;
+    } else {
+      return 135;
+    }
+  };
+  const responsiveColumnPin = () => {
+    if (width < 770) {
+      return null;
+    } else {
+      return "left";
+    }
+  };
+  const detailShow = () => {
+    if (width < 770) {
+      return false;
+    } else {
+      return true;
+    }
+  };
+
+  const columnHide = () => {
+    if (width < 770) {
+      return true;
+    } else {
+      return false;
+    }
+  };
+  const sectorHide = () => {
+    if (width > 500) {
+      return false;
+    } else {
+      return true;
+    }
+  };
+
+  function innerDissemDate(params) {
+    if (params.data.Dissemination == null) {
+      return "-";
+    } else {
+      const date = new Date(params.data.Dissemination);
+      const yyyy = date.getFullYear();
+      const yy = yyyy.toString();
+      const y = yy.slice(2, 4);
+      let mm = date.toLocaleString("default", { month: "short" });
+      let dd = date.getDate();
+      if (dd < 10) dd = "0" + dd;
+      return dd + "-" + mm + "-" + y;
+    }
+  }
+
+  function yes(params) {
+    if (params.data.rw === "YES") {
+      return "Yes";
+    } else if (params.data.rw === "NO" || params.data.rw === "-") {
+      return "-";
+    }
+  }
+
+  function innerNotiDate(params) {
+    if (params.data.Notification == null) {
+      return "-";
+    } else {
+      const date = new Date(params.data.Notification);
+      const yyyy = date.getFullYear();
+      const yy = yyyy.toString();
+      const y = yy.slice(2, 4);
+      let mm = date.toLocaleString("default", { month: "short" });
+      let dd = date.getDate();
+      if (dd < 10) dd = "0" + dd;
+      return dd + "-" + mm + "-" + y;
+    }
+  }
 
   function fullDate(params) {
-    if (params.value === "empty") {
-      return (
-        <Skeleton
-          variant="rectangular"
-          width={120}
-          height={18}
-          style={{ marginTop: "3px" }}
-        />
-      );
+    if (params.value == null) {
+      return "-";
     } else {
-      if (params.value == null) {
-        return "-";
-      } else {
-        const date = new Date(params.value);
-        const yyyy = date.getFullYear();
-        const yy = yyyy.toString();
-        const y = yy.slice(2, 4);
-        let mm = date.toLocaleString("default", { month: "short" });
-        let dd = date.getDate();
-        if (dd < 10) dd = "0" + dd;
-        return dd + "-" + mm + "-" + y;
-      }
+      const date = new Date(params.value);
+      const yyyy = date.getFullYear();
+      const yy = yyyy.toString();
+      const y = yy.slice(2, 4);
+      let mm = date.toLocaleString("default", { month: "short" });
+      let dd = date.getDate();
+      if (dd < 10) dd = "0" + dd;
+      return dd + "-" + mm + "-" + y;
     }
   }
   const cellrander = (params) => {
@@ -169,14 +240,15 @@ export default function TableComponent(props) {
       return params.value;
     }
   };
-
-  const [columnDefs, setcolumnDefs] = useState([
+  const [columnDefs, setcolumndefs] = useState([
     {
-      hide: responsive,
       maxWidth: 30,
       field: "sNo",
-      pinned: "left",
-      cellRenderer: 'agGroupCellRenderer',
+      filter: true,
+      menuTabs: false,
+      pinned: responsiveColumnPin(),
+      hide: detailShow(),
+      cellRenderer: "agGroupCellRenderer",
     },
     {
       headerName: "S.No",
@@ -184,39 +256,42 @@ export default function TableComponent(props) {
       // minWidth: 66,
       field: "sNo",
       sortable: true,
+      filter: true,
+      menuTabs: false,
       // filter: "agSetColumnFilter",
       menuTabs: false,
       cellRenderer: cellrandered,
-      pinned: "left",
+      pinned: responsiveColumnPin(),
     },
     {
       headerName: "Opinion",
-      minWidth: 170,
-      maxWidth: 170,
+      minWidth: responsiveColumns(),
+      maxWidth: responsiveColumns(),
       field: "Entity",
       sortable: true,
       filter: "agSetColumnFilter",
       excelMode: "windows",
       cellRenderer: cellrander,
       tooltipField: "Entity",
-      pinned: "left",
+      pinned: responsiveColumnPin(),
     },
 
     {
       headerName: "Sector",
-      hide: props.isResponsive ? false : true,
       field: "Industry",
       minWidth: 130,
+      hide: sectorHide(),
       maxWidth: 130,
       sortable: true,
       filter: "agSetColumnFilter",
       excelMode: "windows",
       tooltipField: "Industry",
       cellRenderer: cellrander,
-      pinned: "left",
+      pinned: responsiveColumnPin(),
     },
     {
       headerName: "Rating Type",
+      hide: columnHide(),
       field: "RatingScale",
       minWidth: 100,
       sortable: true,
@@ -240,6 +315,7 @@ export default function TableComponent(props) {
     },
     {
       headerName: "Team",
+      hide: columnHide(),
       field: "managerName",
       minWidth: 87,
       sortable: true,
@@ -250,6 +326,7 @@ export default function TableComponent(props) {
 
     {
       headerName: "Analyst",
+      hide: columnHide(),
       field: "pacraAnalyst",
       minWidth: 99,
       sortable: true,
@@ -260,6 +337,7 @@ export default function TableComponent(props) {
 
     {
       headerName: "Action",
+      hide: columnHide(),
       field: "RatingAction",
       minWidth: 93,
       sortable: true,
@@ -269,6 +347,7 @@ export default function TableComponent(props) {
     },
     {
       headerName: "R|LT",
+      hide: columnHide(),
       field: "RatingLT",
       minWidth: 79,
       sortable: true,
@@ -278,6 +357,7 @@ export default function TableComponent(props) {
     },
     {
       headerName: "R|ST",
+      hide: columnHide(),
       field: "RatingST",
       minWidth: 81,
       sortable: true,
@@ -288,6 +368,7 @@ export default function TableComponent(props) {
 
     {
       headerName: "RW",
+      hide: columnHide(),
       field: "rw",
       // minWidth: 85,
       minWidth: 75,
@@ -305,6 +386,7 @@ export default function TableComponent(props) {
 
     {
       headerName: "CF",
+      hide: columnHide(),
       field: "cf",
       minWidth: 75,
       sortable: true,
@@ -314,6 +396,7 @@ export default function TableComponent(props) {
     },
     {
       headerName: "O|L",
+      hide: columnHide(),
       field: "Outlook",
       minWidth: 85,
       sortable: true,
@@ -326,6 +409,7 @@ export default function TableComponent(props) {
 
     {
       headerName: "Notification",
+      hide: sectorHide(),
       field: "Notification",
       minWidth: 130,
       // hide: true,
@@ -377,9 +461,10 @@ export default function TableComponent(props) {
     },
 
     {
+      headerName: "Dissemination",
       field: "Dissemination",
-      // hide: true,
-      minWidth: 135,
+      minWidth: 150,
+      hide: columnHide(),
       sortable: true,
       filter: "agDateColumnFilter",
       excelMode: "windows",
@@ -415,14 +500,14 @@ export default function TableComponent(props) {
     {
       headerName: "PR",
       field: "pr",
-      // hide: true,
+      hide: columnHide(),
       sortable: true,
       filter: "agSetColumnFilter",
       excelMode: "windows",
       quickFilterText: "string",
       cellRenderer: (params) => {
         if (params.value) {
-          return <Check color="primary" />;
+          return <Check style={{ size: "20 20" }} color="primary" />;
         } else {
           return <Clear color="primary" />;
         }
@@ -431,6 +516,7 @@ export default function TableComponent(props) {
 
     {
       headerName: "RR",
+      hide: columnHide(),
       field: "sr",
       sortable: true,
       filter: "agSetColumnFilter",
@@ -457,13 +543,14 @@ export default function TableComponent(props) {
 
     {
       headerName: "H",
+      hide: columnHide(),
       field: "Id",
       // hide: true,
       sortable: true,
       filter: "agSetColumnFilter",
       cellRenderer: function (params) {
         return (
-          <NavLink to={`/${params.value}`}>
+          <NavLink to={`https://209.97.168.200/pacrawizpackv3/public/admin/pacraWork/${params.value}`} target="_blank">
             <Event color="primary" />
           </NavLink>
         );
@@ -472,6 +559,7 @@ export default function TableComponent(props) {
     },
     {
       headerName: "SP",
+      hide: columnHide(),
       field: "shl",
       // hide: true,
       sortable: true,
@@ -639,7 +727,7 @@ export default function TableComponent(props) {
     );
   }, []);
 
-  const [isCollapsed, setisCollapsed] = useState(true);
+  const [isCollapsed, setisCollapsed] = useState(false);
 
   // const headerHeightSetter = () => {
   //   var padding = 20;
@@ -650,52 +738,85 @@ export default function TableComponent(props) {
   const DetailCellRenderer = (params) => (
     <h1 style={{ padding: "20px" }}>
       <Table className="overflow-scroll">
+        {width < 500 ? (
+          <TableRow>
+            <TableCell variant="head" className="fw-bolder">
+              Sector
+            </TableCell>
+            <TableCell>{params.data.Industry}</TableCell>
+          </TableRow>
+        ) : null}
         <TableRow>
-          <TableCell variant="head">Rating Type</TableCell>
+          <TableCell variant="head" className="fw-bolder">
+            Rating Type
+          </TableCell>
           <TableCell>{params.data.RatingScale}</TableCell>
         </TableRow>
         <TableRow>
-          <TableCell variant="head"> Team</TableCell>
+          <TableCell variant="head" className="fw-bolder">
+            {" "}
+            Team
+          </TableCell>
           <TableCell>{params.data.managerName}</TableCell>
         </TableRow>
         <TableRow>
-          <TableCell variant="head">Analyst</TableCell>
+          <TableCell variant="head" className="fw-bolder">
+            Analyst
+          </TableCell>
           <TableCell>{params.data.pacraAnalyst}</TableCell>
         </TableRow>
         <TableRow>
-          <TableCell variant="head">Action</TableCell>
+          <TableCell variant="head" className="fw-bolder">
+            Action
+          </TableCell>
           <TableCell>{params.data.RatingAction}</TableCell>
         </TableRow>
         <TableRow>
-          <TableCell variant="head">R|LT</TableCell>
+          <TableCell variant="head" className="fw-bolder">
+            R|LT
+          </TableCell>
           <TableCell>{params.data.RatingLT}</TableCell>
         </TableRow>
         <TableRow>
-          <TableCell variant="head">R|ST</TableCell>
+          <TableCell variant="head" className="fw-bolder">
+            R|ST
+          </TableCell>
           <TableCell>{params.data.RatingST}</TableCell>
         </TableRow>
         <TableRow>
-          <TableCell variant="head">RW</TableCell>
-          <TableCell>{params.data.rw}</TableCell>
+          <TableCell variant="head" className="fw-bolder">
+            RW
+          </TableCell>
+          <TableCell>{yes(params)}</TableCell>
         </TableRow>
         <TableRow>
-          <TableCell variant="head">CF</TableCell>
+          <TableCell variant="head" className="fw-bolder">
+            CF
+          </TableCell>
           <TableCell>{params.data.cf}</TableCell>
         </TableRow>
         <TableRow>
-          <TableCell variant="head">Outlook</TableCell>
+          <TableCell variant="head" className="fw-bolder">
+            Outlook
+          </TableCell>
           <TableCell>{params.data.Outlook}</TableCell>
         </TableRow>
         <TableRow>
-          <TableCell variant="head">Notification</TableCell>
-          <TableCell>{params.data.Notification}</TableCell>
+          <TableCell variant="head" className="fw-bolder">
+            Notification
+          </TableCell>
+          <TableCell>{innerNotiDate(params)}</TableCell>
         </TableRow>
         <TableRow>
-          <TableCell variant="head">Dissemination</TableCell>
-          <TableCell>{params.data.Dissemination}</TableCell>
+          <TableCell variant="head" className="fw-bolder">
+            Dissemination
+          </TableCell>
+          <TableCell>{innerDissemDate(params)}</TableCell>
         </TableRow>
         <TableRow>
-          <TableCell variant="head">pr</TableCell>
+          <TableCell variant="head" className="fw-bolder">
+            PR
+          </TableCell>
           <TableCell>
             {params.data.pr ? (
               <Check color="primary" />
@@ -705,7 +826,9 @@ export default function TableComponent(props) {
           </TableCell>
         </TableRow>
         <TableRow>
-          <TableCell variant="head">RR</TableCell>
+          <TableCell variant="head" className="fw-bolder">
+            RR
+          </TableCell>
           <TableCell>
             {params.data.sr ? (
               <Check color="primary" />
@@ -715,17 +838,21 @@ export default function TableComponent(props) {
           </TableCell>
         </TableRow>
         <TableRow>
-          <TableCell variant="head">H</TableCell>
+          <TableCell variant="head" className="fw-bolder">
+            H
+          </TableCell>
           <TableCell>
             {
-              <NavLink to={`/${params.data.Id}`}>
+              <NavLink to={`https://209.97.168.200/pacrawizpackv3/public/admin/pacraWork/${params.data.Id}`}>
                 <Event color="primary" />
               </NavLink>
             }
           </TableCell>
         </TableRow>
         <TableRow>
-          <TableCell variant="head">SP</TableCell>
+          <TableCell variant="head" className="fw-bolder">
+            SP
+          </TableCell>
           <TableCell>
             {params.data.shl ? (
               <Check color="primary" />
@@ -741,53 +868,150 @@ export default function TableComponent(props) {
     return DetailCellRenderer;
   }, []);
 
+  const responsiveTab = width > 770;
+
+  const [search, setSearch] = useState(false)
+  const [date, setDate] = useState(false)
+
+  const onChangeDate = () => {
+    setDate(!date)
+    setSearch(false)
+  }
+  const onChangeSearch = () => {
+    setSearch(!search)
+    setDate(false)
+  }
+
+
+
   return (
     <div style={{ containerStyle }} className="themeContainer">
-      <div class="d-flex">
-          <div class="">
-            <Button onClick={() => setisCollapsed(!isCollapsed)}>
-              {!isCollapsed ? <ExpandMore /> : <ExpandLess />}
-            </Button>
+      {/* <div className="row">
+        <div className={`row ${isCollapsed ? null : "d-none"}`}>
+          <div className="col-lg-8 col-md-6 col-6">
+            <div className="row">
+              <div className="col-2">
+                <Button onClick={() => setisCollapsed(!isCollapsed)}>
+                  {!isCollapsed ? <ExpandMore /> : <ExpandLess />}
+                </Button>
+              </div>
+              <div className="col-md-10">
+                <div className="row">
+                  <div className="col-6 d-inline-flex">
+                    <p className=" theme_text me-1 my-auto d-sm-none d-lg-block"> First Date </p>
+                    <p className=" theme_text me-1 my-auto d-sm-block d-lg-none"> From </p>
+                    <input
+                      type="date"
+                      onChange={(e) => setStartDate(e.target.value)}
+                      className="px-2 btn_theme"
+                    />
+                  </div>
+                  <div className="col-6 d-inline-flex">
+                    <p className=" theme_text me-1 my-auto d-sm-none d-lg-block"> Last Date </p>
+                    <p className=" theme_text me-1 my-auto d-sm-block d-lg-none"> To </p>
+                    <input
+                      type="date"
+                      onChange={(e) => setEndDate(e.target.value)}
+                      className="px-2 btn_theme"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
-        <div class="d-flex justify-content-between">
-          <div class="">
-            <p className="my-auto theme_text me-1"> From: </p>
-            <input
-              type="date"
-              onChange={(e) => setStartDate(e.target.value)}
-              className="px-2 btn_theme"
-            />
-
-            <p className="my-auto theme_text ms-2 me-3"> To: </p>
-            <input
-              type="date"
-              onChange={(e) => setEndDate(e.target.value)}
-              className="px-2 btn_theme"
-            />
+          <div className="col-lg-4 col-md-6 col-6 my-auto">
+            <div className="row">
+              <div className="col-8">
+                <input
+                  className="form-control"
+                  type="search"
+                  placeholder="Search..."
+                  aria-label="Search"
+                  onInput={onFilterTextBoxChanged}
+                  id="filter-text-box"
+                />
+              </div>
+              <div className="col-4 my-auto">
+                <Button
+                  variant="contained"
+                  size="small"
+                  className="ms-2"
+                  onClick={() => {
+                    if (gridApi) {
+                      for (let i in columnDefs) {
+                        console.log(columnDefs[i].field);
+                        gridApi.api
+                          .getFilterInstance(columnDefs[i].field)
+                          .setModel(null);
+                        gridApi.api.onFilterChanged();
+                      }
+                    }
+                  }}
+                >
+                  Reset Filters
+                </Button>
+              </div>
+            </div>
           </div>
-          <div class="">
-            <Button variant="contained" size="small"
-              onClick={() => {
-                if (gridApi) {
-                  for (let i in columnDefs) {
-                    console.log(columnDefs[i].field);
-                    gridApi.api.getFilterInstance(columnDefs[i].field).setModel(null);
-                    gridApi.api.onFilterChanged();
-                  }
-                }
-              }}>Reset Filters</Button>
+        </div>
+        <Button
+          onClick={() => setisCollapsed(!isCollapsed)}
+          className={!isCollapsed ? null : "d-none"}
+        >
+          {!isCollapsed ? <ExpandMore /> : <ExpandLess />}
+        </Button>
+      </div> */}
+      <Box className='p-1'>
+        <Fab color="neutral" aria-label="Date" variant="extended" className="ms-2 mb-1">
+          <CalendarMonth onClick={onChangeDate} />
+          <div className={`p-2 ${date ? 'd-inline-flex' : 'd-none'}`}>
+            <div className="m-1">
+              <p className="theme_text me-1 my-auto d-sm-block d-lg-none"> From </p>
+              <input
+                type="date"
+                onChange={(e) => setStartDate(e.target.value)}
+                className="px-2 btn_theme"
+              />
+            </div>
+            <div className="m-1">
+              <p className="theme_text me-1 my-auto d-sm-block d-lg-none"> To </p>
+              <input
+                type="date"
+                onChange={(e) => setEndDate(e.target.value)}
+                className="px-2 btn_theme"
+              />
+            </div>
           </div>
-          <div class="">
+        </Fab>
+        <Fab color="neutral" aria-label="edit" variant="extended" className="ms-2 mb-1">
+          <Search onClick={onChangeSearch} />
+          <div className={`px-2 ${search ? 'd-block' : 'd-none'}`}>
             <input
-              class="form-control mr-sm-2"
+              className="form-control"
               type="search"
               placeholder="Search..."
               aria-label="Search"
               onInput={onFilterTextBoxChanged}
-              id="filter-text-box" />
+              id="filter-text-box"
+            />
           </div>
-        </div>
-      </div>
+        </Fab>
+        <Fab color="neutral" variant="extended" className="ms-2"
+          onClick={() => {
+            if (gridApi) {
+              for (let i in columnDefs) {
+                console.log(columnDefs[i].field);
+                gridApi.api
+                  .getFilterInstance(columnDefs[i].field)
+                  .setModel(null);
+                gridApi.api.onFilterChanged();
+              }
+            }
+          }}>
+          <FilterAltOff sx={{ mr: 1 }} />
+          Reset
+        </Fab>
+      </Box>
       <div
         className="ag-theme-alpine"
         style={{ height: "75vh", width: "100%", gridStyle }}
@@ -796,10 +1020,12 @@ export default function TableComponent(props) {
           ref={gridRef}
           rowData={props.Data}
           columnDefs={columnDefs}
+          animateRows={true}
+          suppressColumnMoveAnimation={true}
+          suppressAggFuncInHeader={true}
           defaultColDef={defaultColDef}
-          sideBar={props.isResponsive ? sideBar : null}
+          sideBar={responsiveTab ? sideBar : null}
           masterDetail={true}
-          pivotPanelShow={false}
           detailCellRenderer={detailCellRenderer}
           // onFirstDataRendered={headerHeightSetter}
           // onColumnResized={headerHeightSetter}
@@ -808,9 +1034,10 @@ export default function TableComponent(props) {
           onGridReady={onGridReady}
         />
       </div>
-    </div>
+    </div >
   );
 }
+
 function headerHeightGetter() {
   var columnHeaderTexts = [
     ...document.querySelectorAll(".ag-header-cell-text"),

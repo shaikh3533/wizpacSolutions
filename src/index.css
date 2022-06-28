@@ -126,6 +126,16 @@ a {
   }
 } */
 
+@media (max-width: 770px) {
+  .makeStyles-drawerClose-9 {
+    width: 0px !important
+  }
+
+  .makeStyles-left-28 {
+    width: 100% !important;
+  }
+}
+
 
 .dropbtn {
   background-color: #3498DB;
@@ -213,4 +223,15 @@ a {
   100% {
     transform: rotate(360deg);
   }
+
 }
+
+.form-control {
+  padding: 0.2rem 0.75rem !important;
+}
+
+/* .ag-header-cell-label {
+height: 100%;
+padding: 0 !important;
+color: red !important;
+} */
