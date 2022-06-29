@@ -184,7 +184,7 @@ export default function TableComponent(props) {
     },
     {
       headerName: "#",
-      maxWidth: 45,
+      maxWidth: 60,
       // minWidth: 66,
       field: "sNo",
       sortable: true,
