@@ -10,10 +10,21 @@ class GetData {
                 .catch(function (error) {
                     console.log(error);
                 });
-
+            
             return resp;
         };
         return res();
     };
+    InProcess = ()=>{
+        const res = async()=>{
+            const resp = await axios
+            .get("https://209.97.168.200/pacrawizpackv3/public/api/in-process")
+            .catch(function (error){
+                console.log(error);
+            });
+            return resp;
+        };
+        return res();
+    }
 }
 export default new GetData();

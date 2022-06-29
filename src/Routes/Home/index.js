@@ -32,16 +32,17 @@ export default function Index(props) {
   }, [])
 
   // setTimeout(
-  // useEffect(() => {
+  useEffect(() => {
 
-  //   GetData.OutstandingData().then(res => {
-  //     res = res.data.data;
-  //     for (let i in res) {
-  //       res[i].sNo = Number(i) + 2;
-  //     }
-  //     console.log({ res })
-  //     setInProcessDataArray(res);
-  //   }, [])
+    GetData.InProcess().then(res => {
+      console.log(res, "res");
+      res = res.data.data;
+      for (let i in res) {
+        res[i].sNo = Number(i) + 1;
+      }
+      setInProcessDataArray(res);
+  })
+    }, [])
   // }), 5000)
 
   const handleChange = (event, newValue) => {

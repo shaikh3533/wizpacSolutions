@@ -180,7 +180,9 @@ export default function TableComponent(props) {
       menuTabs: false,
       pinned: responsiveColumnPin(),
       hide: detailShow(),
-      cellRenderer: "agGroupCellRenderer",
+      cellRenderer: params=>{
+        props.screenWidth > 770 ? cellRenderer: params.colDefs.cellRenderer = 'agGroupCellRenderer'
+        }
     },
     {
       headerName: "#",
@@ -531,96 +533,7 @@ export default function TableComponent(props) {
         }
       },
       excelMode: "windows",
-    },
-    {
-      field: "recordid",
-      hide: true,
-      sortable: true,
-      filter: "agSetColumnFilter",
-      filterParams: { buttons: ["reset"] },
-      cellRenderer: cellrander,
-    },
-
-    {
-      field: "ratingTypeId",
-      hide: true,
-      sortable: true,
-      filter: "agSetColumnFilter",
-      excelMode: "windows",
-      cellRenderer: cellrander,
-    },
-
-    {
-      field: "title",
-      hide: true,
-      sortable: true,
-      filter: "agSetColumnFilter",
-      excelMode: "windows",
-      cellRenderer: cellrander,
-    },
-
-    {
-      field: "analyst",
-      hide: true,
-      sortable: true,
-      filter: "agSetColumnFilter",
-      excelMode: "windows",
-      cellRenderer: cellrander,
-    },
-
-    {
-      field: "ratingUpdateType",
-      hide: true,
-      sortable: true,
-      filter: "agSetColumnFilter",
-      excelMode: "windows",
-      cellRenderer: cellrander,
-    },
-
-    {
-      field: "user_id2",
-      hide: true,
-      sortable: true,
-      filter: "agSetColumnFilter",
-      excelMode: "windows",
-      cellRenderer: cellrander,
-    },
-
-    {
-      field: "lead_rc_id",
-      hide: true,
-      sortable: true,
-      filter: "agSetColumnFilter",
-      excelMode: "windows",
-      cellRenderer: cellrander,
-    },
-
-    {
-      field: "leadRcName",
-      hide: true,
-      sortable: true,
-      filter: "agSetColumnFilter",
-      excelMode: "windows",
-      cellRenderer: cellrander,
-    },
-
-    {
-      field: "user_id3",
-      hide: true,
-      sortable: true,
-      filter: "agSetColumnFilter",
-      excelMode: "windows",
-      cellRenderer: cellrander,
-    },
-
-    {
-      field: "user_id1",
-      hide: true,
-      sortable: true,
-      filter: "agSetColumnFilter",
-      excelMode: "windows",
-      cellRenderer: cellrander,
-    },
+    }
   ];
 
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
