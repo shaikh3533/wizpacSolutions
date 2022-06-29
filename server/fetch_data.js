@@ -23,7 +23,7 @@ setInterval(async ()=>{
         console.log(error);
     }
     
-}, 5000000)
+}, 99000000)
 
 
     
