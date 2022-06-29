@@ -454,9 +454,9 @@ export default function TableComponent(props) {
       quickFilterText: "string",
       cellRenderer: (params) => {
         if (params.value) {
-          return <Check style={{ size: "20 20" }} color="primary" />;
+          return <Check style={{ size: "20 20" }}  className='theme_text' />;
         } else {
-          return <Clear color="primary" />;
+          return <Clear  className='theme_text' />;
         }
       },
     },
@@ -480,9 +480,9 @@ export default function TableComponent(props) {
           );
         } else {
           if (params.value) {
-            return <Check color="primary" />;
+            return <Check  className='theme_text' />;
           } else {
-            return <Clear color="primary" />;
+            return <Clear  className='theme_text' />;
           }
         }
       },
@@ -501,7 +501,7 @@ export default function TableComponent(props) {
             to={`https://209.97.168.200/pacrawizpackv3/public/admin/pacraWork/${params.value}`}
             target="_blank"
           >
-            <Event color="primary" />
+            <Event  className='theme_text' />
           </NavLink>
         );
       },
@@ -526,9 +526,9 @@ export default function TableComponent(props) {
           );
         } else {
           if (params.value) {
-            return <Check color="primary" />;
+            return <Check  className='theme_text' />;
           } else {
-            return <Clear color="primary" />;
+            return <Clear  className='theme_text' />;
           }
         }
       },
@@ -561,7 +561,7 @@ export default function TableComponent(props) {
     );
   }, []);
 
-  const DetailCellRenderer = (params) => (
+  const MobViewRender = (params) => (
     <h1 style={{ padding: "20px" }}>
       <Table className="overflow-scroll">
         {props.screenWidth < 500 ? (
@@ -647,9 +647,9 @@ export default function TableComponent(props) {
           </TableCell>
           <TableCell>
             {params.data.pr ? (
-              <Check color="primary" />
+              <Check  className='theme_text' />
             ) : (
-              <Clear color="primary" />
+              <Clear  className='theme_text' />
             )}
           </TableCell>
         </TableRow>
@@ -659,9 +659,9 @@ export default function TableComponent(props) {
           </TableCell>
           <TableCell>
             {params.data.sr ? (
-              <Check color="primary" />
+              <Check  className='theme_text' />
             ) : (
-              <Clear color="primary" />
+              <Clear  className='theme_text' />
             )}
           </TableCell>
         </TableRow>
@@ -674,7 +674,7 @@ export default function TableComponent(props) {
               <NavLink
                 to={`https://209.97.168.200/pacrawizpackv3/public/admin/pacraWork/${params.data.Id}`}
               >
-                <Event color="primary" />
+                <Event  className='theme_text' />
               </NavLink>
             }
           </TableCell>
@@ -685,9 +685,9 @@ export default function TableComponent(props) {
           </TableCell>
           <TableCell>
             {params.data.shl ? (
-              <Check color="primary" />
+              <Check  className='theme_text' />
             ) : (
-              <Clear color="primary" />
+              <Clear  className='theme_text' />
             )}
           </TableCell>
         </TableRow>
@@ -695,7 +695,7 @@ export default function TableComponent(props) {
     </h1>
   );
   const detailCellRenderer = useMemo(() => {
-    return DetailCellRenderer;
+    return MobViewRender;
   }, []);
 
   const [search, setSearch] = useState(false);
@@ -815,7 +815,7 @@ export default function TableComponent(props) {
             variant="extended"
             className=" mb-1"
           >
-            <CalendarMonth onClick={onChangeDate} />
+            <CalendarMonth onClick={onChangeDate} className='theme_text' />
             <div className={`p-1 ${date ? "d-inline-flex" : "d-none"}`}>
               <div className="m-1">
                 {/* <p className="theme_text me-1 my-auto"> From </p> */}
@@ -845,7 +845,7 @@ export default function TableComponent(props) {
             variant="extended"
             className="ms-2 mb-1"
           >
-            <Search onClick={onChangeSearch} />
+            <Search onClick={onChangeSearch}  className='theme_text'/>
             <div className={`px-2 ${search ? "d-block" : "d-none"}`}>
               <input
                 className="form-control"
@@ -874,7 +874,7 @@ export default function TableComponent(props) {
               }
             }}
           >
-            <FilterAltOff sx={{ mr: 1 }} />
+            <FilterAltOff sx={{ mr: 1 }}  className='theme_text' />
             Reset
           </Fab>
         </Box>
