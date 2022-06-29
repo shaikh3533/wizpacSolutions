@@ -5,7 +5,6 @@ import React, {
   useCallback,
   useRef,
 } from "react";
-// import $ from "jquery";
 import Skeleton from "@mui/material/Skeleton";
 import moment from "moment";
 import { AgGridReact } from "ag-grid-react";
@@ -19,66 +18,11 @@ import { FiltersToolPanelModule } from "@ag-grid-enterprise/filter-tool-panel";
 import { NavLink } from "react-router-dom";
 import "ag-grid-enterprise";
 import "./TableComponent.css";
-import {
-  Add,
-  Check,
-  Clear,
-  Event,
-  ExpandLess,
-  ExpandMore,
-  Filter,
-  Home,
-  Link,
-  Search,
-} from "@material-ui/icons";
-import { Button, InputBase, TextField } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core";
-import { Box, Table, TableCell, TableHead, TableRow } from "@mui/material";
-import { style } from "@mui/system";
-import Fab from '@mui/material/Fab';
+import { Check, Clear, Event, Search } from "@material-ui/icons";
+import { Box, Table, TableCell, TableRow } from "@mui/material";
+import Fab from "@mui/material/Fab";
 import { CalendarMonth, FilterAltOff } from "@mui/icons-material";
 
-const useStyles = makeStyles((theme) => ({
-  search: {
-    position: "relative",
-    // borderRadius: theme.shape.borderRadius,
-    // backgroundColor: (theme.palette.common.white, 0.15),
-    // '&:hover': {
-    //   backgroundColor: (theme.palette.common.white, 0.25),
-    // },
-    // marginLeft: theme.spacing(2),
-    // marginRight: 0,
-    width: "100%",
-    // [theme.breakpoints.up('sm')]: {
-    //   marginRight: theme.spacing(3),
-    //   width: 'auto',
-    // },
-  },
-  searchIcon: {
-    padding: theme.spacing(0, 2),
-    height: "100%",
-    position: "absolute",
-    color: "#204162",
-    pointerEvents: "none",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  inputRoot: {
-    color: "#204162",
-  },
-  inputInput: {
-    padding: theme.spacing(1, 1, 1, 0),
-    // vertical padding + font size from searchIcon
-    paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
-    transition: theme.transitions.create("width"),
-    color: "#204162",
-    width: "100%",
-    [theme.breakpoints.up("md")]: {
-      width: "20ch",
-    },
-  },
-}));
 
 ModuleRegistry.registerModules([
   ClientSideRowModelModule,
@@ -87,31 +31,15 @@ ModuleRegistry.registerModules([
   FiltersToolPanelModule,
 ]);
 
-function useWindowSize() {
-  const [size, setsize] = useState([window.innerHeight, window.innerWidth]);
-  useEffect(() => {
-    const handleResize = () => {
-      setsize([window.innerHeight, window.innerWidth]);
-    };
-    window.addEventListener("resize", handleResize);
-  }, []);
-  return size;
-}
-
 export default function TableComponent(props) {
-
-
-  const [responsive, setresponsive] = useState(true)
-
-
   const gridRef = useRef();
   const [gridApi, setGridApi] = useState();
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
-  const [height, width] = useWindowSize();
+ 
 
   useEffect(() => {
-    console.log(gridApi, 'grid')
+    console.log(gridApi, "grid");
     if (gridApi) {
       var dateFilterComponent = gridApi.api.getFilterInstance("Notification");
       dateFilterComponent.setModel({
@@ -122,7 +50,6 @@ export default function TableComponent(props) {
       });
       gridApi.api.onFilterChanged();
     }
-
   }, [startDate, endDate]);
 
   const onGridReady = useCallback((params) => {
@@ -130,21 +57,21 @@ export default function TableComponent(props) {
   }, []);
 
   const responsiveColumns = () => {
-    if (width < 770) {
+    if (props.screenWidth < 770) {
       return null;
     } else {
       return 135;
     }
   };
   const responsiveColumnPin = () => {
-    if (width < 770) {
+    if (props.screenWidth < 770) {
       return null;
     } else {
       return "left";
     }
   };
   const detailShow = () => {
-    if (width < 770) {
+    if (props.screenWidth < 770) {
       return false;
     } else {
       return true;
@@ -152,14 +79,14 @@ export default function TableComponent(props) {
   };
 
   const columnHide = () => {
-    if (width < 770) {
+    if (props.screenWidth < 770) {
       return true;
     } else {
       return false;
     }
   };
   const sectorHide = () => {
-    if (width > 500) {
+    if (props.screenWidth > 500) {
       return false;
     } else {
       return true;
@@ -234,7 +161,7 @@ export default function TableComponent(props) {
   };
   const cellrandered = (params) => {
     if (params.value === "empty") {
-      return <span class="loader"></span>
+      return <span class="loader"></span>;
       // <CircularProgress size={20} color="inherit" />
     } else {
       return params.value;
@@ -257,7 +184,6 @@ export default function TableComponent(props) {
       field: "sNo",
       sortable: true,
       filter: true,
-      menuTabs: false,
       // filter: "agSetColumnFilter",
       menuTabs: false,
       cellRenderer: cellrandered,
@@ -481,7 +407,7 @@ export default function TableComponent(props) {
             Number(dateParts[0])
           );
 
-          if (filterLocalDateAtMidnight.getTime() == cellDate.getTime()) {
+          if (filterLocalDateAtMidnight.getTime() === cellDate.getTime()) {
             return 0;
           }
 
@@ -550,7 +476,10 @@ export default function TableComponent(props) {
       filter: "agSetColumnFilter",
       cellRenderer: function (params) {
         return (
-          <NavLink to={`https://209.97.168.200/pacrawizpackv3/public/admin/pacraWork/${params.value}`} target="_blank">
+          <NavLink
+            to={`https://209.97.168.200/pacrawizpackv3/public/admin/pacraWork/${params.value}`}
+            target="_blank"
+          >
             <Event color="primary" />
           </NavLink>
         );
@@ -673,7 +602,7 @@ export default function TableComponent(props) {
       excelMode: "windows",
       cellRenderer: cellrander,
     },
-  ]
+  ];
 
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
 
@@ -692,15 +621,7 @@ export default function TableComponent(props) {
     if (startDate !== "" && endDate !== "") {
       return "inRange";
     }
-    // else if(startDate !== ""){
-    //   return ("Equal" || "greaterThan");
-    // }
-    // else if(endDate !==""){
-    //   return "lessThan";
-    // }
   };
-
-  
 
   const onFilterTextBoxChanged = useCallback(() => {
     gridRef.current.api.setQuickFilter(
@@ -708,18 +629,10 @@ export default function TableComponent(props) {
     );
   }, []);
 
-  const [isCollapsed, setisCollapsed] = useState(false);
-
-  // const headerHeightSetter = () => {
-  //   var padding = 20;
-  //   var height = headerHeightGetter() + padding;
-  //   gridApi.setHeaderHeight(height);
-  //   gridApi.resetRowHeights();
-  // };
   const DetailCellRenderer = (params) => (
     <h1 style={{ padding: "20px" }}>
       <Table className="overflow-scroll">
-        {width < 500 ? (
+        {props.screenWidth < 500 ? (
           <TableRow>
             <TableCell variant="head" className="fw-bolder">
               Sector
@@ -782,14 +695,14 @@ export default function TableComponent(props) {
           </TableCell>
           <TableCell>{params.data.Outlook}</TableCell>
         </TableRow>
-        {width < 500 ? (
-        <TableRow>
-          <TableCell variant="head" className="fw-bolder">
-            Notification
-          </TableCell>
-          <TableCell>{innerNotiDate(params)}</TableCell>
-        </TableRow>
-         ) : null}
+        {props.screenWidth < 500 ? (
+          <TableRow>
+            <TableCell variant="head" className="fw-bolder">
+              Notification
+            </TableCell>
+            <TableCell>{innerNotiDate(params)}</TableCell>
+          </TableRow>
+        ) : null}
         <TableRow>
           <TableCell variant="head" className="fw-bolder">
             Dissemination
@@ -826,7 +739,9 @@ export default function TableComponent(props) {
           </TableCell>
           <TableCell>
             {
-              <NavLink to={`https://209.97.168.200/pacrawizpackv3/public/admin/pacraWork/${params.data.Id}`}>
+              <NavLink
+                to={`https://209.97.168.200/pacrawizpackv3/public/admin/pacraWork/${params.data.Id}`}
+              >
                 <Event color="primary" />
               </NavLink>
             }
@@ -851,45 +766,40 @@ export default function TableComponent(props) {
     return DetailCellRenderer;
   }, []);
 
-  const responsiveTab = width > 770;
-
-  const [search, setSearch] = useState(false)
-  const [date, setDate] = useState(false)
+  const [search, setSearch] = useState(false);
+  const [date, setDate] = useState(false);
 
   const onChangeDate = () => {
-    setDate(!date)
-    setSearch(false)
-  }
+    setDate(!date);
+    setSearch(false);
+  };
   const onChangeSearch = () => {
-    setSearch(!search)
-    setDate(false)
-  }
- const sidebar = ()=>{
-    
-      return {
-        toolPanels: [
-          {
-            id: "filters",
-            labelDefault: "Filters",
-            labelKey: "filters",
-            iconKey: "filter",
-            toolPanel: "agFiltersToolPanel",
-          },
-          {
-            id: "columns",
-            labelDefault: "Columns",
-            labelKey: "columns",
-            iconKey: "columns",
-            toolPanel: "agColumnsToolPanel",
-          },
-        ],
-      }
- }
+    setSearch(!search);
+    setDate(false);
+  };
+  const sidebar = () => {
+    return {
+      toolPanels: [
+        {
+          id: "filters",
+          labelDefault: "Filters",
+          labelKey: "filters",
+          iconKey: "filter",
+          toolPanel: "agFiltersToolPanel",
+        },
+        {
+          id: "columns",
+          labelDefault: "Columns",
+          labelKey: "columns",
+          iconKey: "columns",
+          toolPanel: "agColumnsToolPanel",
+        },
+      ],
+    };
+  };
 
   return (
-
     <div style={{ containerStyle }} className="themeContainer">
-      
       {/* <div className="row">
         <div className={`row ${isCollapsed ? null : "d-none"}`}>
           <div className="col-lg-8 col-md-6 col-6">
@@ -966,70 +876,82 @@ export default function TableComponent(props) {
         </Button>
       </div> */}
       <center>
-        <Box className='p-1'>
-        <Fab color="neutral" aria-label="Date" variant="extended" className=" mb-1">
-          <CalendarMonth onClick={onChangeDate} />
-          <div className={`p-1 ${date ? 'd-inline-flex' : 'd-none'}`}>
-            <div className="m-1">
-              {/* <p className="theme_text me-1 my-auto"> From </p> */}
+        <Box className="p-1">
+          <Fab
+            color="neutral"
+            aria-label="Date"
+            variant="extended"
+            className=" mb-1"
+          >
+            <CalendarMonth onClick={onChangeDate} />
+            <div className={`p-1 ${date ? "d-inline-flex" : "d-none"}`}>
+              <div className="m-1">
+                {/* <p className="theme_text me-1 my-auto"> From </p> */}
+                <input
+                  type="date"
+                  id="startDate"
+                  onChange={(e) => setStartDate(e.target.value)}
+                  className="px-1 btn_theme"
+                  style={props.screenWidth < 400 ? { width: 125 } : null}
+                />
+              </div>
+              <div className="m-1">
+                {/* <p className="theme_text me-1 my-auto"> To </p> */}
+                <input
+                  type="date"
+                  id="endDate"
+                  onChange={(e) => setEndDate(e.target.value)}
+                  className="px-1 btn_theme"
+                  style={props.screenWidth < 400 ? { width: 125 } : null}
+                />
+              </div>
+            </div>
+          </Fab>
+          <Fab
+            color="neutral"
+            aria-label="edit"
+            variant="extended"
+            className="ms-2 mb-1"
+          >
+            <Search onClick={onChangeSearch} />
+            <div className={`px-2 ${search ? "d-block" : "d-none"}`}>
               <input
-                type="date"
-                id="startDate"
-                onChange={(e) => setStartDate(e.target.value)}
-                className="px-1 btn_theme"
-                style={width < 400 ? {width: 125}: null}
+                className="form-control"
+                type="search"
+                placeholder="Search..."
+                aria-label="Search"
+                onInput={onFilterTextBoxChanged}
+                id="filter-text-box"
               />
             </div>
-            <div className="m-1">
-              {/* <p className="theme_text me-1 my-auto"> To </p> */}
-              <input
-                type="date"
-                id="endDate"
-                onChange={(e) => setEndDate(e.target.value)}
-                className="px-1 btn_theme"
-                style={width < 400 ? {width: 125}: null}
-              />
-            </div>
-          </div>
-        </Fab>
-        <Fab color="neutral" aria-label="edit" variant="extended" className="ms-2 mb-1">
-          <Search onClick={onChangeSearch} />
-          <div className={`px-2 ${search ? 'd-block' : 'd-none'}`}>
-            <input
-              className="form-control"
-              type="search"
-              placeholder="Search..."
-              aria-label="Search"
-              onInput={onFilterTextBoxChanged}
-              id="filter-text-box"
-            />
-          </div>
-        </Fab>
-        <Fab color="neutral" variant="extended" className="ms-2"
-          onClick={() => {
-            if (gridApi) {
-              for (let i in columnDefs) {
-                gridApi.api
-                  .getFilterInstance(columnDefs[i].field)
-                  .setModel(null);
-                gridApi.api.onFilterChanged();
-                gridRef.current.api.setQuickFilter("")
-                document.getElementById("filter-text-box").value = ""
-                if(document.getElementById("startDate").value !== ""){
-
-                  document.getElementById("startDate").value = ""
-                }
-                if(document.getElementById("endDate").value !== ""){
-
-                  document.getElementById("endDate").value = ""
+          </Fab>
+          <Fab
+            color="neutral"
+            variant="extended"
+            className="ms-2"
+            onClick={() => {
+              if (gridApi) {
+                for (let i in columnDefs) {
+                  gridApi.api
+                    .getFilterInstance(columnDefs[i].field)
+                    .setModel(null);
+                  gridApi.api.onFilterChanged();
+                  gridRef.current.api.setQuickFilter("");
+                  document.getElementById("filter-text-box").value = "";
+                  if (document.getElementById("startDate").value !== "") {
+                    document.getElementById("startDate").value = "";
+                  }
+                  if (document.getElementById("endDate").value !== "") {
+                    document.getElementById("endDate").value = "";
+                  }
                 }
               }
-            }
-          }}>
-          <FilterAltOff sx={{ mr: 1 }} />
-          Reset
-        </Fab>
-      </Box>
+            }}
+          >
+            <FilterAltOff sx={{ mr: 1 }} />
+            Reset
+          </Fab>
+        </Box>
       </center>
       <div
         className="ag-theme-alpine"
@@ -1043,7 +965,7 @@ export default function TableComponent(props) {
           suppressColumnMoveAnimation={true}
           suppressAggFuncInHeader={true}
           defaultColDef={defaultColDef}
-          sideBar = {width < 770 ? 'hide' : sidebar()}
+          sideBar={props.screenWidth < 770 ? "hide" : sidebar()}
           masterDetail={true}
           detailCellRenderer={detailCellRenderer}
           // onFirstDataRendered={headerHeightSetter}
@@ -1053,18 +975,6 @@ export default function TableComponent(props) {
           onGridReady={onGridReady}
         />
       </div>
-    </div >
+    </div>
   );
-}
-
-function headerHeightGetter() {
-  var columnHeaderTexts = [
-    ...document.querySelectorAll(".ag-header-cell-text"),
-  ];
-  var clientHeights = columnHeaderTexts.map(
-    (headerText) => headerText.clientHeight
-  );
-  var tallestHeaderTextHeight = Math.max(...clientHeights);
-
-  return tallestHeaderTextHeight;
 }

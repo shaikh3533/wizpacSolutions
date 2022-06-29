@@ -11,7 +11,6 @@ import {
     useTheme,
     CssBaseline,
     Drawer,
-    Typography,
 } from "@material-ui/core";
 import IconButton from '@material-ui/core/IconButton';
 import {
@@ -21,7 +20,6 @@ import {
     Dashboard,
     Home,
     Star,
-    TableView
 } from "@material-ui/icons";
 import AppBarr from './AppBarr';
 import { Link } from 'react-router-dom';
@@ -133,16 +131,6 @@ export default function SideBar(props) {
     const [isOpened, setisOpened] = useState(false)
     const classes = useStyles();
     const theme = useTheme();
-
-    const gridText = () => {
-        return (
-            <Typography className={classes.listItem}>
-                Grid <ListItemIcon>{props.open ?
-                    <ExpandMoreIcon /> : <ExpandLessIcon />
-                }</ListItemIcon>
-            </Typography>
-        )
-    }
 
 
     return (

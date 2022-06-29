@@ -80,7 +80,7 @@ export default function Index(props) {
       </AppBar>
       <div className='container'>
         <TabPanel value={value} index={0}>
-          <Outstanding Outstanding={OutstandingDataArray} isResponsive={props.isResponsive} />
+          <Outstanding Outstanding={OutstandingDataArray} screenWidth={props.screenWidth} />
         </TabPanel>
         <TabPanel value={value} index={1}>
           <InProcess InProcess={InProcessDataArray} />

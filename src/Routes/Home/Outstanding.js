@@ -4,7 +4,7 @@ import TableComponent from '../../Components/TableComponent'
 function Outstanding(props) {
     return (
         <>
-            <TableComponent Data ={props.Outstanding} isResponsive={props.isResponsive}/>
+            <TableComponent Data ={props.Outstanding} screenWidth={props.screenWidth}/>
         </>
     )
 }
