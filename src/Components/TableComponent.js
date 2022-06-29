@@ -180,9 +180,7 @@ export default function TableComponent(props) {
       menuTabs: false,
       pinned: responsiveColumnPin(),
       hide: detailShow(),
-      cellRenderer: params=>{
-        props.screenWidth > 770 ? cellRenderer: params.colDefs.cellRenderer = 'agGroupCellRenderer'
-        }
+      cellRenderer: 'agGroupCellRenderer'
     },
     {
       headerName: "#",
