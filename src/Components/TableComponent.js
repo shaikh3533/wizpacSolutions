@@ -23,7 +23,6 @@ import { Box, Table, TableCell, TableRow } from "@mui/material";
 import Fab from "@mui/material/Fab";
 import { CalendarMonth, FilterAltOff } from "@mui/icons-material";
 
-
 ModuleRegistry.registerModules([
   ClientSideRowModelModule,
   SetFilterModule,
@@ -36,13 +35,19 @@ export default function TableComponent(props) {
   const [gridApi, setGridApi] = useState();
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
- 
 
   useEffect(() => {
     console.log(gridApi, "grid");
     if (gridApi) {
       var dateFilterComponent = gridApi.api.getFilterInstance("Notification");
       dateFilterComponent.setModel({
+        type: getFilterType(),
+        inRange: true,
+        dateFrom: startDate,
+        dateTo: endDate,
+      });
+      var dateFilterComponent1 = gridApi.api.getFilterInstance("Dissemination");
+      dateFilterComponent1.setModel({
         type: getFilterType(),
         inRange: true,
         dateFrom: startDate,
@@ -60,7 +65,7 @@ export default function TableComponent(props) {
     if (props.screenWidth < 770) {
       return null;
     } else {
-      return 135;
+      return 180;
     }
   };
   const responsiveColumnPin = () => {
@@ -178,13 +183,27 @@ export default function TableComponent(props) {
       cellRenderer: "agGroupCellRenderer",
     },
     {
-      headerName: "S.No",
-      maxWidth: 75,
+      headerName: "#",
+      maxWidth: 60,
       // minWidth: 66,
       field: "sNo",
       sortable: true,
       filter: true,
       // filter: "agSetColumnFilter",
+      headerComponentParams: {
+        template:
+          '<div class="ag-cell-label-container" role="presentation">' +
+          '  <span ref="eMenu" class="ag-header-icon ag-header-cell-menu-button"></span>' +
+          '  <div ref="eLabel" class="ag-header-cell-label" role="presentation">' +
+          '    <span ref="eSortOrder" class="ag-header-icon ag-sort-order"></span>' +
+          '    <span ref="eSortAsc" class="ag-header-icon ag-sort-ascending-icon"></span>' +
+          '    <span ref="eSortDesc" class="ag-header-icon ag-sort-descending-icon"></span>' +
+          '    <span ref="eSortNone" class="ag-header-icon ag-sort-none-icon"></span>' +
+          '    <span ref="eText" class="ag-header-cell-text" role="columnheader" style="white-space: normal;"></span>' +
+          '    <span ref="eFilter" class="ag-header-icon ag-filter-icon"></span>' +
+          "  </div>" +
+          "</div>",
+      },
       menuTabs: false,
       cellRenderer: cellrandered,
       pinned: responsiveColumnPin(),
@@ -321,10 +340,10 @@ export default function TableComponent(props) {
       cellRenderer: cellrander,
     },
     {
-      headerName: "O|L",
+      headerName: "OutLook",
       hide: columnHide(),
       field: "Outlook",
-      minWidth: 85,
+      minWidth: 115,
       sortable: true,
       filter: "agSetColumnFilter",
       tooltipField: "Outlook",
@@ -938,12 +957,6 @@ export default function TableComponent(props) {
                   gridApi.api.onFilterChanged();
                   gridRef.current.api.setQuickFilter("");
                   document.getElementById("filter-text-box").value = "";
-                  if (document.getElementById("startDate").value !== "") {
-                    document.getElementById("startDate").value = "";
-                  }
-                  if (document.getElementById("endDate").value !== "") {
-                    document.getElementById("endDate").value = "";
-                  }
                 }
               }
             }}
