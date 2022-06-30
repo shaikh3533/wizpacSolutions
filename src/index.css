@@ -109,9 +109,12 @@ a {
   margin: 0px auto 0px auto
 }
 
-.ag-watermark-text{
+.ag-watermark-text,
+.ag-theme-alpine [class^=ag-], .ag-theme-alpine [class^=ag-]:after, .ag-theme-alpine [class^=ag-]:before, .ag-theme-alpine [class^=ag-]:focus{
   opacity: 0 !important;
 }
+/* .ag-theme-alpine [class^=ag-], .ag-theme-alpine [class^=ag-]:after, .ag-theme-alpine [class^=ag-]:before, .ag-theme-alpine [class^=ag-]:focus */
+
 
 /* .dropdown-btn {
   padding: 6px 8px 6px 16px;
