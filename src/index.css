@@ -109,14 +109,12 @@ a {
   margin: 0px auto 0px auto
 }
 
-.ag-theme-alpine{
-  opacity: 1;
+.ag-watermark-text
+{
+/* .ag-theme-alpine [class^=ag-]:before */
+opacity: 0 !important;
 }
 
-.ag-watermark-text,
-.ag-theme-alpine [class^=ag-]:before{
-  opacity: 0 !important;
-}
 /* .ag-theme-alpine [class^=ag-], .ag-theme-alpine [class^=ag-]:after, .ag-theme-alpine [class^=ag-]:before, .ag-theme-alpine [class^=ag-]:focus */
 
 
