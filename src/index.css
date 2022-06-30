@@ -263,6 +263,10 @@ a {
   padding: 0.2rem 0.75rem !important;
 }
 
+.ag-theme-alpine .ag-rtl .ag-side-bar-left .ag-selected .ag-side-button-button, .ag-theme-alpine .ag-ltr .ag-side-bar-right .ag-selected .ag-side-button-button{
+  border-left-color: transparent!important;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset !important;
+}
 
 /* .ag-header-cell-label {
 height: 100%;
@@ -273,3 +277,10 @@ color: red !important;
 /* .animation{
   
 } */
+
+.onHover{
+  display: none;
+}
+.hover:hover .onHover{
+  display: block;
+}

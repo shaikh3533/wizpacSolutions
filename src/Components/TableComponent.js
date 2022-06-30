@@ -18,10 +18,18 @@ import { FiltersToolPanelModule } from "@ag-grid-enterprise/filter-tool-panel";
 import { NavLink } from "react-router-dom";
 import "ag-grid-enterprise";
 import "./TableComponent.css";
-import { Check, Clear, Event, Search } from "@material-ui/icons";
+import {
+  Check,
+  Clear,
+  Event,
+  Filter,
+  Filter1,
+  Search,
+} from "@material-ui/icons";
 import { Box, Table, TableCell, TableRow } from "@mui/material";
 import Fab from "@mui/material/Fab";
-import { CalendarMonth, FilterAltOff } from "@mui/icons-material";
+import { CalendarMonth, FilterAlt, FilterAltOff } from "@mui/icons-material";
+import { Component } from "ag-grid-enterprise";
 
 ModuleRegistry.registerModules([
   ClientSideRowModelModule,
@@ -180,8 +188,11 @@ export default function TableComponent(props) {
       menuTabs: false,
       pinned: responsiveColumnPin(),
       hide: detailShow(),
-      cellRenderer: 'agGroupCellRenderer'
+      cellRenderer: "agGroupCellRenderer",
+      suppressColumnsToolPanel: true,
+      suppressFiltersToolPanel: true,
     },
+
     {
       headerName: "#",
       maxWidth: 50,
@@ -204,6 +215,7 @@ export default function TableComponent(props) {
           "  </div>" +
           "</div>",
       },
+      suppressFiltersToolPanel: true,
       menuTabs: false,
       cellRenderer: cellrandered,
       pinned: responsiveColumnPin(),
@@ -340,7 +352,7 @@ export default function TableComponent(props) {
       cellRenderer: cellrander,
     },
     {
-      headerName: "OutLook",
+      headerName: "Outlook",
       hide: columnHide(),
       field: "Outlook",
       minWidth: 100,
@@ -531,7 +543,7 @@ export default function TableComponent(props) {
         }
       },
       excelMode: "windows",
-    }
+    },
   ];
 
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
@@ -708,24 +720,55 @@ export default function TableComponent(props) {
     setDate(false);
   };
   const sidebar = () => {
-    return {
-      toolPanels: [
-        {
-          id: "filters",
-          labelDefault: "Filters",
-          labelKey: "filters",
-          iconKey: "filter",
-          toolPanel: "agFiltersToolPanel",
-        },
-        {
-          id: "columns",
-          labelDefault: "Columns",
-          labelKey: "columns",
-          iconKey: "columns",
-          toolPanel: "agColumnsToolPanel",
-        },
-      ],
-    };
+    if (filterstate == true) {
+      return {
+        toolPanels: [
+          {
+            id: "filters",
+            labelDefault: "Filters",
+            labelKey: "filters",
+            iconKey: "filter",
+            toolPanel: "agFiltersToolPanel",
+          },
+          {
+            id: "columns",
+            labelDefault: "Columns",
+            labelKey: "columns",
+            iconKey: "columns",
+            toolPanel: "agColumnsToolPanel",
+            toolPanelParams: {
+              suppressRowGroups: true,
+              suppressValues: true,
+            },
+          },
+        ],
+        defaultToolPanel: "filters",
+      };
+    } else {
+      return "hide";
+    }
+  };
+  const [filterstate, setfilterState] = useState(false);
+  const filterview = () => {
+    setfilterState(!filterstate);
+  };
+  const mobileSidebar = () => {
+    if (filterstate == true) {
+      return {
+        toolPanels: [
+          {
+            id: "filters",
+            labelDefault: "Filters",
+            labelKey: "filters",
+            iconKey: "filter",
+            toolPanel: "agFiltersToolPanel",
+          },
+        ],
+        defaultToolPanel: "filters",
+      };
+    } else {
+      return "hide";
+    }
   };
 
   return (
@@ -738,7 +781,7 @@ export default function TableComponent(props) {
             variant="extended"
             className=" mb-1"
           >
-            <CalendarMonth onClick={onChangeDate} className='theme_text' />
+            <CalendarMonth onClick={onChangeDate} className="theme_text" />
             <div className={`p-1 ${date ? "d-inline-flex" : "d-none"}`}>
               <div className="m-1">
                 {/* <p className="theme_text me-1 my-auto"> From </p> */}
@@ -783,7 +826,16 @@ export default function TableComponent(props) {
           <Fab
             color="neutral"
             variant="extended"
-            className="ms-2"
+            className="ms-2 hover"
+            onClick={filterview}
+          >
+            <FilterAlt sx={{ mr: 1 }} className="theme_text" />
+            <div className="onHover"> More Filters</div>
+          </Fab>
+          <Fab
+            color="neutral"
+            variant="extended"
+            className="ms-2 hover"
             onClick={() => {
               if (gridApi) {
                 for (let i in columnDefs) {
@@ -797,10 +849,15 @@ export default function TableComponent(props) {
               }
             }}
           >
-            <FilterAltOff sx={{ mr: 1 }} className='theme_text' />
-            Reset
+            <FilterAltOff sx={{ mr: 1 }} className="theme_text" />
+            <div className="onHover">Reset</div>
           </Fab>
         </Box>
+        {/* {props.screenWidth < 770 ? (
+          <div>
+            <button onClick={filterview}>Filter</button>
+          </div>
+        ) : null} */}
       </center>
       <div
         className="ag-theme-alpine"
@@ -814,7 +871,7 @@ export default function TableComponent(props) {
           suppressColumnMoveAnimation={true}
           suppressAggFuncInHeader={true}
           defaultColDef={defaultColDef}
-          sideBar={props.screenWidth < 770 ? "hide" : sidebar()}
+          sideBar={props.screenWidth < 770 ? mobileSidebar() : sidebar()}
           masterDetail={true}
           detailCellRenderer={detailCellRenderer}
           // onFirstDataRendered={headerHeightSetter}
