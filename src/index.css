@@ -109,6 +109,10 @@ a {
   margin: 0px auto 0px auto
 }
 
+.ag-theme-alpine{
+  opacity: 1;
+}
+
 .ag-watermark-text,
 .ag-theme-alpine [class^=ag-]:before{
   opacity: 0 !important;
