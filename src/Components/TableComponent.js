@@ -15,8 +15,8 @@ import { ClientSideRowModelModule } from "@ag-grid-community/client-side-row-mod
 import { SetFilterModule } from "@ag-grid-enterprise/set-filter";
 import { MenuModule } from "@ag-grid-enterprise/menu";
 import { FiltersToolPanelModule } from "@ag-grid-enterprise/filter-tool-panel";
-import { NavLink } from "react-router-dom";
 import "ag-grid-enterprise";
+import { NavLink } from "react-router-dom";
 import "./TableComponent.css";
 import {
   Check,
@@ -29,7 +29,7 @@ import {
 import { Box, Table, TableCell, TableRow } from "@mui/material";
 import Fab from "@mui/material/Fab";
 import { CalendarMonth, FilterAlt, FilterAltOff } from "@mui/icons-material";
-import { Component } from "ag-grid-enterprise";
+
 
 ModuleRegistry.registerModules([
   ClientSideRowModelModule,
