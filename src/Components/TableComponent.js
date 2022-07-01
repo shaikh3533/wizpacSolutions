@@ -73,7 +73,7 @@ export default function TableComponent(props) {
     if (props.screenWidth < 770) {
       return null;
     } else {
-      return 180;
+      return 210;
     }
   };
   const responsiveColumnPin = () => {
@@ -195,7 +195,7 @@ export default function TableComponent(props) {
 
     {
       headerName: "#",
-      maxWidth: 60,
+      maxWidth: 50,
       // minWidth: 66,
       field: "sNo",
       sortable: true,
@@ -274,7 +274,7 @@ export default function TableComponent(props) {
       headerName: "Team",
       hide: columnHide(),
       field: "managerName",
-      minWidth: 87,
+      minWidth: 85,
       sortable: true,
       filter: "agSetColumnFilter",
       excelMode: "windows",
@@ -285,7 +285,7 @@ export default function TableComponent(props) {
       headerName: "Analyst",
       hide: columnHide(),
       field: "pacraAnalyst",
-      minWidth: 99,
+      minWidth: 94,
       sortable: true,
       filter: "agSetColumnFilter",
       excelMode: "windows",
@@ -296,7 +296,7 @@ export default function TableComponent(props) {
       headerName: "Action",
       hide: columnHide(),
       field: "RatingAction",
-      minWidth: 93,
+      minWidth: 90,
       sortable: true,
       filter: "agSetColumnFilter",
       excelMode: "windows",
@@ -306,7 +306,7 @@ export default function TableComponent(props) {
       headerName: "R|LT",
       hide: columnHide(),
       field: "RatingLT",
-      minWidth: 79,
+      minWidth: 73,
       sortable: true,
       filter: "agSetColumnFilter",
       excelMode: "windows",
@@ -316,7 +316,7 @@ export default function TableComponent(props) {
       headerName: "R|ST",
       hide: columnHide(),
       field: "RatingST",
-      minWidth: 81,
+      minWidth: 74,
       sortable: true,
       filter: "agSetColumnFilter",
       excelMode: "windows",
@@ -328,7 +328,7 @@ export default function TableComponent(props) {
       hide: columnHide(),
       field: "rw",
       // minWidth: 85,
-      minWidth: 75,
+      minWidth: 65,
       sortable: true,
       filter: "agSetColumnFilter",
       excelMode: "windows",
@@ -345,7 +345,7 @@ export default function TableComponent(props) {
       headerName: "CF",
       hide: columnHide(),
       field: "cf",
-      minWidth: 75,
+      minWidth: 65,
       sortable: true,
       filter: "agSetColumnFilter",
       excelMode: "windows",
@@ -355,7 +355,7 @@ export default function TableComponent(props) {
       headerName: "Outlook",
       hide: columnHide(),
       field: "Outlook",
-      minWidth: 115,
+      minWidth: 100,
       sortable: true,
       filter: "agSetColumnFilter",
       tooltipField: "Outlook",
@@ -368,7 +368,7 @@ export default function TableComponent(props) {
       headerName: "Notification",
       hide: sectorHide(),
       field: "Notification",
-      minWidth: 130,
+      minWidth: 115,
       // hide: true,
       sortable: true,
       filter: "agDateColumnFilter",
@@ -420,7 +420,7 @@ export default function TableComponent(props) {
     {
       headerName: "Dissemination",
       field: "Dissemination",
-      minWidth: 150,
+      minWidth: 125,
       hide: columnHide(),
       sortable: true,
       filter: "agDateColumnFilter",
@@ -464,9 +464,9 @@ export default function TableComponent(props) {
       quickFilterText: "string",
       cellRenderer: (params) => {
         if (params.value) {
-          return <Check style={{ size: "20 20" }} className="theme_text" />;
+          return <Check style={{ size: "20 20" }} className='theme_text' />;
         } else {
-          return <Clear className="theme_text" />;
+          return <Clear className='theme_text' />;
         }
       },
     },
@@ -490,9 +490,9 @@ export default function TableComponent(props) {
           );
         } else {
           if (params.value) {
-            return <Check className="theme_text" />;
+            return <Check className='theme_text' />;
           } else {
-            return <Clear className="theme_text" />;
+            return <Clear className='theme_text' />;
           }
         }
       },
@@ -511,7 +511,7 @@ export default function TableComponent(props) {
             to={`https://209.97.168.200/pacrawizpackv3/public/admin/pacraWork/${params.value}`}
             target="_blank"
           >
-            <Event className="theme_text" />
+            <Event className='theme_text' />
           </NavLink>
         );
       },
@@ -536,9 +536,9 @@ export default function TableComponent(props) {
           );
         } else {
           if (params.value) {
-            return <Check className="theme_text" />;
+            return <Check className='theme_text' />;
           } else {
-            return <Clear className="theme_text" />;
+            return <Clear className='theme_text' />;
           }
         }
       },
@@ -657,9 +657,9 @@ export default function TableComponent(props) {
           </TableCell>
           <TableCell>
             {params.data.pr ? (
-              <Check className="theme_text" />
+              <Check className='theme_text' />
             ) : (
-              <Clear className="theme_text" />
+              <Clear className='theme_text' />
             )}
           </TableCell>
         </TableRow>
@@ -669,9 +669,9 @@ export default function TableComponent(props) {
           </TableCell>
           <TableCell>
             {params.data.sr ? (
-              <Check className="theme_text" />
+              <Check className='theme_text' />
             ) : (
-              <Clear className="theme_text" />
+              <Clear className='theme_text' />
             )}
           </TableCell>
         </TableRow>
@@ -684,7 +684,7 @@ export default function TableComponent(props) {
               <NavLink
                 to={`https://209.97.168.200/pacrawizpackv3/public/admin/pacraWork/${params.data.Id}`}
               >
-                <Event className="theme_text" />
+                <Event className='theme_text' />
               </NavLink>
             }
           </TableCell>
@@ -695,9 +695,9 @@ export default function TableComponent(props) {
           </TableCell>
           <TableCell>
             {params.data.shl ? (
-              <Check className="theme_text" />
+              <Check className='theme_text' />
             ) : (
-              <Clear className="theme_text" />
+              <Clear className='theme_text' />
             )}
           </TableCell>
         </TableRow>
@@ -773,81 +773,6 @@ export default function TableComponent(props) {
 
   return (
     <div style={{ containerStyle }} className="themeContainer">
-      {/* <div className="row">
-        <div className={`row ${isCollapsed ? null : "d-none"}`}>
-          <div className="col-lg-8 col-md-6 col-6">
-            <div className="row">
-              <div className="col-2">
-                <Button onClick={() => setisCollapsed(!isCollapsed)}>
-                  {!isCollapsed ? <ExpandMore /> : <ExpandLess />}
-                </Button>
-              </div>
-              <div className="col-md-10">
-                <div className="row">
-                  <div className="col-6 d-inline-flex">
-                    <p className=" theme_text me-1 my-auto d-sm-none d-lg-block"> First Date </p>
-                    <p className=" theme_text me-1 my-auto d-sm-block d-lg-none"> From </p>
-                    <input
-                      type="date"
-                      onChange={(e) => setStartDate(e.target.value)}
-                      className="px-2 btn_theme"
-                    />
-                  </div>
-                  <div className="col-6 d-inline-flex">
-                    <p className=" theme_text me-1 my-auto d-sm-none d-lg-block"> Last Date </p>
-                    <p className=" theme_text me-1 my-auto d-sm-block d-lg-none"> To </p>
-                    <input
-                      type="date"
-                      onChange={(e) => setEndDate(e.target.value)}
-                      className="px-2 btn_theme"
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="col-lg-4 col-md-6 col-6 my-auto">
-            <div className="row">
-              <div className="col-8">
-                <input
-                  className="form-control"
-                  type="search"
-                  placeholder="Search..."
-                  aria-label="Search"
-                  onInput={onFilterTextBoxChanged}
-                  id="filter-text-box"
-                />
-              </div>
-              <div className="col-4 my-auto">
-                <Button
-                  variant="contained"
-                  size="small"
-                  className="ms-2"
-                  onClick={() => {
-                    if (gridApi) {
-                      for (let i in columnDefs) {
-                        console.log(columnDefs[i].field);
-                        gridApi.api
-                          .getFilterInstance(columnDefs[i].field)
-                          .setModel(null);
-                        gridApi.api.onFilterChanged();
-                      }
-                    }
-                  }}
-                >
-                  Reset Filters
-                </Button>
-              </div>
-            </div>
-          </div>
-        </div>
-        <Button
-          onClick={() => setisCollapsed(!isCollapsed)}
-          className={!isCollapsed ? null : "d-none"}
-        >
-          {!isCollapsed ? <ExpandMore /> : <ExpandLess />}
-        </Button>
-      </div> */}
       <center>
         <Box className="p-1">
           <Fab
@@ -886,7 +811,7 @@ export default function TableComponent(props) {
             variant="extended"
             className="ms-2 mb-1"
           >
-            <Search onClick={onChangeSearch} className="theme_text" />
+            <Search onClick={onChangeSearch} className='theme_text' />
             <div className={`px-2 ${search ? "d-block" : "d-none"}`}>
               <input
                 className="form-control"

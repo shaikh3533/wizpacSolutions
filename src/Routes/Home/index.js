@@ -53,7 +53,7 @@ export default function Index(props) {
     <div className={classes.root}>
       {console.log(props.open)}
       <AppBar position="fixed" className={` ${classes.topMargin} ${props.open ? classes.leftMargin : classes.left}`} color="default">
-        <div className='container'>
+        {/* <div className='container'> */}
           <Tabs
             value={value}
             onChange={handleChange}
@@ -77,7 +77,7 @@ export default function Index(props) {
             <Tab label="Address Book" {...a11yProps(11)} />
             <Tab label="Pvt Ratings" {...a11yProps(12)} />
           </Tabs>
-        </div>
+        {/* </div> */}
       </AppBar>
       <div className='container'>
         <TabPanel value={value} index={0}>
@@ -138,7 +138,7 @@ function TabPanel(props) {
       className='mt-5 card'
     >
       {value === index && (
-        <Box p={3}>
+        <Box>
           <Typography>{children}</Typography>
         </Box>
       )}
@@ -170,7 +170,7 @@ const useStyles = makeStyles((theme) => ({
     width: `calc(100% - ${240}px)`,
   },
   left: {
-    width: `calc(100% - ${60}px)`,
+    width: `calc(100% - ${74}px)`,
   }
 }));
 

@@ -194,7 +194,7 @@ export default function AppBarr(props) {
               null
             }
           </div>
-          <div className={classes.search}>
+          {/* <div className={classes.search}>
             <div className={classes.searchIcon}>
               <SearchIcon />
             </div>
@@ -206,10 +206,10 @@ export default function AppBarr(props) {
               }}
               inputProps={{ 'aria-label': 'search' }}
             />
-          </div>
+          </div> */}
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
-            <IconButton aria-label="show 4 new mails" color="inherit">
+            {/* <IconButton aria-label="show 4 new mails" color="inherit">
               <Badge badgeContent={4} color="secondary">
                 <MailIcon className={classes.themeColor} />
               </Badge>
@@ -218,7 +218,7 @@ export default function AppBarr(props) {
               <Badge badgeContent={17} color="secondary">
                 <NotificationsIcon className={classes.themeColor} />
               </Badge>
-            </IconButton>
+            </IconButton> */}
             <IconButton
               edge="end"
               aria-label="account of current user"
