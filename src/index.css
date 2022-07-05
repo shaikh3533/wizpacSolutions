@@ -69,8 +69,8 @@ code {
   max-height: 220px !important;
 }
 
-.negative_margin{
-  margin-top: -2.8rem!important;
+.negative_margin {
+  margin-top: -2.8rem !important;
 }
 
 .theme_text {
@@ -165,8 +165,10 @@ a {
 } */
 
 
-@media (max-width: 770px) {
-  .makeStyles-drawerClose-10 {
+/* @media (max-width: 770px) {
+
+  .makeStyles-drawerClose-10,
+  .jss10, .responsiveSideBar {
     width: 0px !important
   }
 
@@ -177,7 +179,7 @@ a {
   .makeStyles-left-16 {
     width: 100% !important;
   }
-}
+} */
 
 /* .makeStyles-left-28 {
   width: calc(100% - 77px);

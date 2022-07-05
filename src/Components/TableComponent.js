@@ -773,7 +773,7 @@ export default function TableComponent(props) {
 
   return (
     <div style={{ containerStyle }} className="themeContainer">
-      <Box className="p-1 filterTabs text-center">
+      <Box className="p-1 my-1 my-md-0 filterTabs text-center">
         <Fab
           color="transparent"
           aria-label="Date"

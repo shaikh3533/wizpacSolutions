@@ -77,7 +77,7 @@ const useStyles = makeStyles((theme) => ({
         }),
         background: "#E8E8E8",
         overflowX: 'hidden',
-        width: theme.spacing(7) + 1,
+        width: '0px',
         [theme.breakpoints.up('sm')]: {
             width: theme.spacing(9) + 1,
         },
