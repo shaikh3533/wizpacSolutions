@@ -128,7 +128,7 @@ const listItems = [
 ];
 
 export default function SideBar(props) {
-    const [isOpened, setisOpened] = useState(false)
+    const [isOpened, setisOpened] = useState(true)
     const classes = useStyles();
     const theme = useTheme();
 
@@ -218,14 +218,14 @@ export default function SideBar(props) {
                                     </Link>
                                 ))}
                             </List>
-                            <Link to='/InputData'>
+                            {/* <Link to='/InputData'>
                                 <ListItem className={classes.listItem} button >
                                     <ListItemIcon className={classes.listItem}>
                                         <ContactMail />
                                     </ListItemIcon>
                                     <ListItemText primary='Input Data' />
                                 </ListItem>
-                            </Link>
+                            </Link> */}
                         </List>
                     </div>
                 </List >

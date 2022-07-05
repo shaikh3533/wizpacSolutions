@@ -773,95 +773,101 @@ export default function TableComponent(props) {
 
   return (
     <div style={{ containerStyle }} className="themeContainer">
-      <center>
-        <Box className="p-1">
-          <Fab
-            color="neutral"
-            aria-label="Date"
-            variant="extended"
-            className=" mb-1"
-          >
+      <Box className="p-1 filterTabs text-center">
+        <Fab
+          color="transparent"
+          aria-label="Date"
+          variant="extended"
+          className=" mb-1"
+        >
+          {date ?
+            <Clear onClick={onChangeDate} className="theme_text" />
+            :
             <CalendarMonth onClick={onChangeDate} className="theme_text" />
-            <div className={`p-1 ${date ? "d-inline-flex" : "d-none"}`}>
-              <div className="m-1">
-                {/* <p className="theme_text me-1 my-auto"> From </p> */}
-                <input
-                  type="date"
-                  id="startDate"
-                  onChange={(e) => setStartDate(e.target.value)}
-                  className="px-1 btn_theme"
-                  style={props.screenWidth < 400 ? { width: 125 } : null}
-                />
-              </div>
-              <div className="m-1">
-                {/* <p className="theme_text me-1 my-auto"> To </p> */}
-                <input
-                  type="date"
-                  id="endDate"
-                  onChange={(e) => setEndDate(e.target.value)}
-                  className="px-1 btn_theme"
-                  style={props.screenWidth < 400 ? { width: 125 } : null}
-                />
-              </div>
-            </div>
-          </Fab>
-          <Fab
-            color="neutral"
-            aria-label="edit"
-            variant="extended"
-            className="ms-2 mb-1"
-          >
-            <Search onClick={onChangeSearch} className='theme_text' />
-            <div className={`px-2 ${search ? "d-block" : "d-none"}`}>
+          }
+          <div className={`p-1 ${date ? "d-inline-flex" : "d-none"}`}>
+            <div className="m-1">
+              {/* <p className="theme_text me-1 my-auto"> From </p> */}
               <input
-                className="form-control"
-                type="search"
-                placeholder="Search..."
-                aria-label="Search"
-                onInput={onFilterTextBoxChanged}
-                id="filter-text-box"
+                type="date"
+                id="startDate"
+                onChange={(e) => setStartDate(e.target.value)}
+                className="px-1 btn_theme"
+                style={props.screenWidth < 400 ? { width: 125 } : null}
               />
             </div>
-          </Fab>
-          <Fab
-            color="neutral"
-            variant="extended"
-            className="ms-2 hover"
-            onClick={filterview}
-          >
-            <FilterAlt sx={{ mr: 1 }} className="theme_text" />
-            <div className="onHover"> More Filters</div>
-          </Fab>
-          <Fab
-            color="neutral"
-            variant="extended"
-            className="ms-2 hover"
-            onClick={() => {
-              if (gridApi) {
-                for (let i in columnDefs) {
-                  gridApi.api
-                    .getFilterInstance(columnDefs[i].field)
-                    .setModel(null);
-                  gridApi.api.onFilterChanged();
-                  gridRef.current.api.setQuickFilter("");
-                  document.getElementById("filter-text-box").value = "";
-                }
+            <div className="m-1">
+              {/* <p className="theme_text me-1 my-auto"> To </p> */}
+              <input
+                type="date"
+                id="endDate"
+                onChange={(e) => setEndDate(e.target.value)}
+                className="px-1 btn_theme"
+                style={props.screenWidth < 400 ? { width: 125 } : null}
+              />
+            </div>
+          </div>
+        </Fab>
+        <Fab
+          color="transparent"
+          aria-label="edit"
+          variant="extended"
+          className="ms-2 mb-1"
+        >
+           {search ?
+            <Clear onClick={onChangeSearch} className="theme_text" />
+            :
+            <Search onClick={onChangeSearch} className="theme_text" />
+          }
+          <div className={`px-2 ${search ? "d-block" : "d-none"}`}>
+            <input
+              className="form-control"
+              type="search"
+              placeholder="Search..."
+              aria-label="Search"
+              onInput={onFilterTextBoxChanged}
+              id="filter-text-box"
+            />
+          </div>
+        </Fab>
+        <Fab
+          color="transparent"
+          variant="extended"
+          className="ms-2 hover"
+          onClick={filterview}
+        >
+          <FilterAlt sx={{ mr: 1 }} className="theme_text" />
+          <div className="onHover"> More Filters</div>
+        </Fab>
+        <Fab
+          color="transparent"
+          variant="extended"
+          className="ms-2 hover"
+          onClick={() => {
+            if (gridApi) {
+              for (let i in columnDefs) {
+                gridApi.api
+                  .getFilterInstance(columnDefs[i].field)
+                  .setModel(null);
+                gridApi.api.onFilterChanged();
+                gridRef.current.api.setQuickFilter("");
+                document.getElementById("filter-text-box").value = "";
               }
-            }}
-          >
-            <FilterAltOff sx={{ mr: 1 }} className="theme_text" />
-            <div className="onHover">Reset</div>
-          </Fab>
-        </Box>
-        {/* {props.screenWidth < 770 ? (
+            }
+          }}
+        >
+          <FilterAltOff sx={{ mr: 1 }} className="theme_text" />
+          <div className="onHover">Reset</div>
+        </Fab>
+      </Box>
+      {/* {props.screenWidth < 770 ? (
           <div>
             <button onClick={filterview}>Filter</button>
           </div>
         ) : null} */}
-      </center>
       <div
         className="ag-theme-alpine"
-        style={{ height: "75vh", width: "100%", gridStyle }}
+        style={{ height: `calc(100vh - 148px)`, width: "100%", gridStyle }}
       >
         <AgGridReact
           ref={gridRef}
@@ -874,6 +880,7 @@ export default function TableComponent(props) {
           sideBar={props.screenWidth < 770 ? mobileSidebar() : sidebar()}
           masterDetail={true}
           detailCellRenderer={detailCellRenderer}
+          // statusBar={statusBaro}
           // onFirstDataRendered={headerHeightSetter}
           // onColumnResized={headerHeightSetter}
           // overlayLoadingTemplate={'<span class="ag-overlay-loading-center">Please wait while your rows are loading</span>'}
