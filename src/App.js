@@ -13,12 +13,12 @@ import { makeStyles } from "@material-ui/core";
 const useStyles = makeStyles((theme) => ({
   containerWidth: {
     width: `calc(100% - 240px)`,
-    marginTop: "138px",
+    marginTop: "142px",
     top: "72px",
   },
   containerWidthResponsive: {
     width: `calc(100% - 240px)`,
-    marginTop: "50px",
+    marginTop: "52px",
     top: "72px",
   },
 }));
