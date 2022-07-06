@@ -290,6 +290,7 @@ a {
 .ag-theme-alpine .ag-ltr .ag-side-bar-right .ag-selected .ag-side-button-button {
   border-left-color: transparent !important;
   box-shadow: #000078 0px 30px 60px -12px inset, #12151d4d 0px 18px 36px -18px inset !important;
+  color: white !important;
 }
 
 /* .ag-header-cell-label {
