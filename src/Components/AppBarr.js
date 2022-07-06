@@ -32,9 +32,8 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   img: {
-    width: '70px',
-    height: '70px',
-    padding: '10px'
+    width: '45px',
+    height: '45px',
   },
   sectionDesktop: {
     display: 'none',
@@ -103,22 +102,22 @@ export default function AppBarr(props) {
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
     >
-      <MenuItem>
+      {/* <MenuItem>
         <IconButton aria-label="show 4 new mails">
           <Badge badgeContent={4} color="secondary">
             <MailIcon className={classes.themeColor} />
           </Badge>
         </IconButton>
         <p className={classes.themeColor}>Messages</p>
-      </MenuItem>
-      <MenuItem>
+      </MenuItem> */}
+      {/* <MenuItem>
         <IconButton aria-label="show 11 new notifications">
           <Badge badgeContent={11} color="secondary">
             <NotificationsIcon className={classes.themeColor} />
           </Badge>
         </IconButton>
         <p className={classes.themeColor}>Notifications</p>
-      </MenuItem>
+      </MenuItem> */}
       <MenuItem onClick={handleProfileMenuOpen}>
         <IconButton
           aria-label="account of current user"
@@ -142,7 +141,7 @@ export default function AppBarr(props) {
             onClick={props.SideNavOpen}
             onClose={props.SideNavClose}
             edge="start"
-            className={`${classes.menuButton} ${props.clasName}`}
+            className={`${classes.menuButton} mx-0 ${props.clasName}`}
             aria-label="open drawer">
             <MenuIcon />
           </IconButton>

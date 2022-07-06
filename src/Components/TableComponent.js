@@ -773,7 +773,7 @@ export default function TableComponent(props) {
 
   return (
     <div style={{ containerStyle }} className="themeContainer">
-      <Box className="p-1 my-1 my-md-0 filterTabs text-center">
+      <Box className="p-1 mt-1 my-md-0 filterTabs text-end text-md-center">
         <Fab
           color="transparent"
           aria-label="Date"
@@ -814,7 +814,7 @@ export default function TableComponent(props) {
           variant="extended"
           className="ms-2 mb-1"
         >
-           {search ?
+          {search ?
             <Clear onClick={onChangeSearch} className="theme_text" />
             :
             <Search onClick={onChangeSearch} className="theme_text" />
@@ -866,8 +866,8 @@ export default function TableComponent(props) {
           </div>
         ) : null} */}
       <div
-        className="ag-theme-alpine"
-        style={{ height: `calc(100vh - 148px)`, width: "100%", gridStyle }}
+        className={`ag-theme-alpine ${props.screenWidth > 770 ? 'height_' : 'heightresponsive'}`}
+        style={{ width: "100%", gridStyle }}
       >
         <AgGridReact
           ref={gridRef}
@@ -888,6 +888,6 @@ export default function TableComponent(props) {
           onGridReady={onGridReady}
         />
       </div>
-    </div>
+    </div >
   );
 }

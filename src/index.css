@@ -61,6 +61,14 @@ code {
   overflow-y: hidden !important;
 }
 
+.height_ {
+  height: calc(100vh - 151px);
+}
+
+.heightresponsive {
+  height: calc(100vh - 100px);
+}
+
 .height_TabsBar {
   max-height: 0px !important;
 }
@@ -70,7 +78,7 @@ code {
 }
 
 .negative_margin {
-  margin-top: -2.8rem !important;
+  margin-top: -2.5rem !important;
 }
 
 .theme_text {
@@ -308,9 +316,13 @@ color: red !important;
 }
 
 .css-lntp72-MuiButtonBase-root-MuiFab-root {
-  min-width: 40px !important;
+  min-width: 35px !important;
   padding: 0 8px !important;
-  height: 40px !important;
+  height: 35px !important;
   /* background-color: transparent !important; */
   /* box-shadow: none !important; */
+}
+
+.MuiTabs-flexContainerVertical {
+  width: 200px;
 }
