@@ -93,7 +93,7 @@ export default function Index(props) {
                 color="transparent"
                 aria-label="edit"
                 variant="extended"
-                className="ms-2"
+                className="ms-2 fabCustom "
               >
                 <MoreVertIcon  {...bindTrigger(popupState)} />
               </Fab>

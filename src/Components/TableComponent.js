@@ -778,7 +778,7 @@ export default function TableComponent(props) {
           color="transparent"
           aria-label="Date"
           variant="extended"
-          className=" mb-1"
+          className="fabCustom mb-1"
         >
           {date ?
             <Clear onClick={onChangeDate} className="theme_text" />
@@ -812,7 +812,7 @@ export default function TableComponent(props) {
           color="transparent"
           aria-label="edit"
           variant="extended"
-          className="ms-2 mb-1"
+          className="ms-2 mb-1 fabCustom"
         >
           {search ?
             <Clear onClick={onChangeSearch} className="theme_text" />
@@ -833,7 +833,7 @@ export default function TableComponent(props) {
         <Fab
           color="transparent"
           variant="extended"
-          className="ms-2 hover"
+          className="ms-2 hover fabCustom"
           onClick={filterview}
         >
           <FilterAlt sx={{ mr: 1 }} className="theme_text" />
@@ -842,7 +842,7 @@ export default function TableComponent(props) {
         <Fab
           color="transparent"
           variant="extended"
-          className="ms-2 hover"
+          className="ms-2 hover fabCustom"
           onClick={() => {
             if (gridApi) {
               for (let i in columnDefs) {
