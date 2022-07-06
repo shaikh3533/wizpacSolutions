@@ -573,89 +573,89 @@ export default function TableComponent(props) {
 
   const MobViewRender = (params) => (
     <h1 style={{ padding: "20px" }}>
-      <Table className="overflow-scroll">
+      <Table className="overflow-scroll responsiveTableFonts">
         {props.screenWidth < 500 ? (
           <TableRow>
-            <TableCell variant="head" className="fw-bolder">
+            <TableCell variant="head" className="fw-bolder responsiveTableFonts py-1">
               Sector
             </TableCell>
-            <TableCell>{params.data.Industry}</TableCell>
+            <TableCell className="responsiveTableFonts py-1">{params.data.Industry}</TableCell>
           </TableRow>
         ) : null}
         <TableRow>
-          <TableCell variant="head" className="fw-bolder">
+          <TableCell variant="head" className="fw-bolder responsiveTableFonts py-1">
             Rating Type
           </TableCell>
-          <TableCell>{params.data.RatingScale}</TableCell>
+          <TableCell className="responsiveTableFonts py-1">{params.data.RatingScale}</TableCell>
         </TableRow>
         <TableRow>
-          <TableCell variant="head" className="fw-bolder">
+          <TableCell variant="head" className="fw-bolder responsiveTableFonts py-1">
             {" "}
             Team
           </TableCell>
-          <TableCell>{params.data.managerName}</TableCell>
+          <TableCell className="responsiveTableFonts py-1">{params.data.managerName}</TableCell>
         </TableRow>
         <TableRow>
-          <TableCell variant="head" className="fw-bolder">
+          <TableCell variant="head" className="fw-bolder responsiveTableFonts py-1">
             Analyst
           </TableCell>
-          <TableCell>{params.data.pacraAnalyst}</TableCell>
+          <TableCell className="responsiveTableFonts py-1">{params.data.pacraAnalyst}</TableCell>
         </TableRow>
         <TableRow>
-          <TableCell variant="head" className="fw-bolder">
+          <TableCell variant="head" className="fw-bolder responsiveTableFonts py-1">
             Action
           </TableCell>
-          <TableCell>{params.data.RatingAction}</TableCell>
+          <TableCell className="responsiveTableFonts py-1">{params.data.RatingAction}</TableCell>
         </TableRow>
         <TableRow>
-          <TableCell variant="head" className="fw-bolder">
+          <TableCell variant="head" className="fw-bolder responsiveTableFonts py-1">
             R|LT
           </TableCell>
-          <TableCell>{params.data.RatingLT}</TableCell>
+          <TableCell className="responsiveTableFonts py-1">{params.data.RatingLT}</TableCell>
         </TableRow>
         <TableRow>
-          <TableCell variant="head" className="fw-bolder">
+          <TableCell variant="head" className="fw-bolder responsiveTableFonts py-1">
             R|ST
           </TableCell>
-          <TableCell>{params.data.RatingST}</TableCell>
+          <TableCell className="responsiveTableFonts py-1">{params.data.RatingST}</TableCell>
         </TableRow>
         <TableRow>
-          <TableCell variant="head" className="fw-bolder">
+          <TableCell variant="head" className="fw-bolder responsiveTableFonts py-1">
             RW
           </TableCell>
-          <TableCell>{yes(params)}</TableCell>
+          <TableCell className="responsiveTableFonts py-1">{yes(params)}</TableCell>
         </TableRow>
         <TableRow>
-          <TableCell variant="head" className="fw-bolder">
+          <TableCell variant="head" className="fw-bolder responsiveTableFonts py-1">
             CF
           </TableCell>
-          <TableCell>{params.data.cf}</TableCell>
+          <TableCell className="responsiveTableFonts py-1">{params.data.cf}</TableCell>
         </TableRow>
         <TableRow>
-          <TableCell variant="head" className="fw-bolder">
+          <TableCell variant="head" className="fw-bolder responsiveTableFonts py-1">
             Outlook
           </TableCell>
-          <TableCell>{params.data.Outlook}</TableCell>
+          <TableCell className="responsiveTableFonts py-1">{params.data.Outlook}</TableCell>
         </TableRow>
         {props.screenWidth < 500 ? (
           <TableRow>
-            <TableCell variant="head" className="fw-bolder">
+            <TableCell variant="head" className="fw-bolder responsiveTableFonts py-1">
               Notification
             </TableCell>
-            <TableCell>{innerNotiDate(params)}</TableCell>
+            <TableCell className="responsiveTableFonts py-1">{innerNotiDate(params)}</TableCell>
           </TableRow>
         ) : null}
         <TableRow>
-          <TableCell variant="head" className="fw-bolder">
+          <TableCell variant="head" className="fw-bolder responsiveTableFonts py-1">
             Dissemination
           </TableCell>
-          <TableCell>{innerDissemDate(params)}</TableCell>
+          <TableCell className="responsiveTableFonts py-1">{innerDissemDate(params)}</TableCell>
         </TableRow>
         <TableRow>
-          <TableCell variant="head" className="fw-bolder">
+          <TableCell variant="head" className="fw-bolder responsiveTableFonts py-1">
             PR
           </TableCell>
-          <TableCell>
+          <TableCell className="responsiveTableFonts py-1">
             {params.data.pr ? (
               <Check className='theme_text' />
             ) : (
@@ -664,10 +664,10 @@ export default function TableComponent(props) {
           </TableCell>
         </TableRow>
         <TableRow>
-          <TableCell variant="head" className="fw-bolder">
+          <TableCell variant="head" className="fw-bolder responsiveTableFonts py-1">
             RR
           </TableCell>
-          <TableCell>
+          <TableCell className="responsiveTableFonts py-1">
             {params.data.sr ? (
               <Check className='theme_text' />
             ) : (
@@ -676,10 +676,10 @@ export default function TableComponent(props) {
           </TableCell>
         </TableRow>
         <TableRow>
-          <TableCell variant="head" className="fw-bolder">
+          <TableCell variant="head" className="fw-bolder responsiveTableFonts py-1">
             H
           </TableCell>
-          <TableCell>
+          <TableCell className="responsiveTableFonts py-1">
             {
               <NavLink
                 to={`https://209.97.168.200/pacrawizpackv3/public/admin/pacraWork/${params.data.Id}`}
@@ -690,10 +690,10 @@ export default function TableComponent(props) {
           </TableCell>
         </TableRow>
         <TableRow>
-          <TableCell variant="head" className="fw-bolder">
+          <TableCell variant="head" className="fw-bolder responsiveTableFonts py-1">
             SP
           </TableCell>
-          <TableCell>
+          <TableCell className="responsiveTableFonts py-1">
             {params.data.shl ? (
               <Check className='theme_text' />
             ) : (
