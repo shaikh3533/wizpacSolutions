@@ -23,6 +23,7 @@ export default function Index(props) {
 
     GetData.OutstandingData().then(res => {
       res = res.data.data;
+      console.log(res, "this is res");
       for (let i in res) {
         res[i].sNo = Number(i) + 1;
       }
@@ -39,6 +40,58 @@ export default function Index(props) {
       res = res.data.data;
       for (let i in res) {
         res[i].sNo = Number(i) + 1;
+        const date = ()=>{
+          var date1 = new Date();
+          var date2 = new Date(res[i].Initiationdays);
+          var Difference_In_Time = date1.getTime() - date2.getTime() ;
+          var Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
+          res[i].initaldays = Math.floor(Difference_In_Days)
+        }
+        date();
+        const stage = ()=>{
+          if(res[i].ppl_date == null && res[i].rc_meeting_date !== null){
+            res[i].stage = "RC"
+            res[i].stage_date = res[i].rc_meeting_date
+            var date1 = new Date();
+            var date2 = new Date(res[i].rc_meeting_date);
+            var Difference_In_Time = date1.getTime() - date2.getTime() ;
+            var Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
+            res[i].stagedays = Math.floor(Difference_In_Days)
+          }
+          if(res[i].ppl_date !== null && res[i].rc_meeting_date == null){
+            res[i].stage = "PPL"
+            res[i].stage_date = res[i].ppl_date
+            var date1 = new Date();
+            var date2 = new Date(res[i].ppl_date);
+            var Difference_In_Time = date1.getTime() - date2.getTime() ;
+            var Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
+            res[i].stagedays = Math.floor(Difference_In_Days)
+          }
+          if(res[i].ppl_date !== null && res[i].rc_meeting_date !== null){
+            res[i].stage = "PPL"
+            res[i].stage_date = res[i].ppl_date
+            var date1 = new Date();
+            var date2 = new Date(res[i].ppl_date);
+            var Difference_In_Time = date1.getTime() - date2.getTime() ;
+            var Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
+            res[i].stagedays = Math.floor(Difference_In_Days)
+          }
+          if(res[i].ppl_date == null && res[i].rc_meeting_date ==null && res[i].Initiation !== null){
+            res[i].stage = "Initiation"
+            res[i].stage_date = res[i].Initiation 
+            var date1 = new Date();
+            var date2 = new Date(res[i].Initiation);
+            var Difference_In_Time = date1.getTime() - date2.getTime() ;
+            var Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
+            res[i].stagedays = Math.floor(Difference_In_Days)
+          }
+          if(res[i].ppl_date == null && res[i].rc_meeting_date ==null && res[i].Initiation == null){
+            res[i].stage = "Not Captured"
+            res[i].stage_date = null
+            res[i].stagedays = null
+          }
+        }
+        stage();
       }
       setInProcessDataArray(res);
   })
@@ -84,7 +137,7 @@ export default function Index(props) {
           <Outstanding Outstanding={OutstandingDataArray} screenWidth={props.screenWidth} />
         </TabPanel>
         <TabPanel value={value} index={1}>
-          <InProcess InProcess={InProcessDataArray} />
+          <InProcess InProcess={InProcessDataArray} screenWidth={props.screenWidth} />
         </TabPanel>
         <TabPanel value={value} index={2}>
           Deadline
