@@ -343,5 +343,5 @@ color: red !important;
 .items_middle {
   align-items: center;
   display: flex;
-  height: 100vh;
+  min-height: 100vh;
 }
