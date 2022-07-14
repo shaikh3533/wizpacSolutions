@@ -3,7 +3,6 @@ import './Login.css'
 import logo from '../../Assets/Images/PACRA_logo.png'
 import { FormControl, IconButton, InputAdornment, InputLabel, OutlinedInput, TextField } from '@mui/material'
 import { Visibility, VisibilityOff } from '@material-ui/icons'
-import { LoginSharp } from '@mui/icons-material'
 import LoginIcon from '@mui/icons-material/Login';
 
 const index = (props) => {
