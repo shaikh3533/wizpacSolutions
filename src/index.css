@@ -333,6 +333,15 @@ color: red !important;
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen-Sans, Ubuntu, Cantarell, Helvetica Neue, sans-serif !important;
 }
 
-.ag-theme-alpine .ag-group-contracted, .ag-theme-alpine .ag-group-expanded, .ag-theme-alpine .ag-row-drag, .ag-theme-alpine .ag-selection-checkbox{
+.ag-theme-alpine .ag-group-contracted,
+.ag-theme-alpine .ag-group-expanded,
+.ag-theme-alpine .ag-row-drag,
+.ag-theme-alpine .ag-selection-checkbox {
   color: #000078 !important;
+}
+
+.items_middle {
+  align-items: center;
+  display: flex;
+  height: 100vh;
 }
