@@ -345,3 +345,7 @@ color: red !important;
   display: flex;
   min-height: 100vh;
 }
+
+.theme_bg {
+  background: #000078;
+}
