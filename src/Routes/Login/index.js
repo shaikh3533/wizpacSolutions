@@ -17,7 +17,7 @@ const index = (props) => {
     return (
         <body className='themeContainer items_middle'>
             <div className='row w-100 mx-auto justify-content-center'>
-                <form className='d-none d-md-block shadow_2 col-md-5 col-lg-4 theme_bgl'>
+                <form className='d-none d-md-block shadow_2 col-md-5 col-lg-4 theme_bg'>
                     <Imageslider />
                 </form>
                 <form onSubmit={props.login} className='col-12 min_height shadow_1 col-md-5 col-lg-4'>
