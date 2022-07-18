@@ -9,10 +9,16 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import axios from "axios";
 import { makeStyles } from "@material-ui/core";
 
+
 const useStyles = makeStyles((theme) => ({
   containerWidth: {
     width: `calc(100% - 240px)`,
-    marginTop: "72px",
+    marginTop: "142px",
+    top: "72px",
+  },
+  containerWidthResponsive: {
+    width: `calc(100% - 240px)`,
+    marginTop: "52px",
     top: "72px",
   },
 }));
@@ -22,7 +28,7 @@ function App() {
   const handleDrawerOpen = () => {
     setOpen(true);
   };
-  
+
   function useWindowSize() {
     const [size, setsize] = useState([window.innerWidth]);
     useEffect(() => {
@@ -63,7 +69,7 @@ function App() {
             handleDrawerClose={handleDrawerClose}
             open={open}
           />
-          <div className={`${classes.containerWidth}`} style={{ flexGrow: 1 }}>
+          <div className={`${screenWidth > 770 ? classes.containerWidth : classes.containerWidthResponsive}`} style={{ flexGrow: 1 }}>
             <Routes>
               <Route
                 path="/"

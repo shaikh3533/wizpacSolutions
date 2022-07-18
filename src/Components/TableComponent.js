@@ -5,8 +5,6 @@ import React, {
   useCallback,
   useRef,
 } from "react";
-import Skeleton from "@mui/material/Skeleton";
-import moment from "moment";
 import { AgGridReact } from "ag-grid-react";
 import "ag-grid-community/dist/styles/ag-grid.css";
 import "ag-grid-community/dist/styles/ag-theme-alpine.css";
@@ -16,17 +14,11 @@ import { SetFilterModule } from "@ag-grid-enterprise/set-filter";
 import { MenuModule } from "@ag-grid-enterprise/menu";
 import { FiltersToolPanelModule } from "@ag-grid-enterprise/filter-tool-panel";
 import "ag-grid-enterprise";
-import { NavLink } from "react-router-dom";
 import "./TableComponent.css";
 import {
-  Check,
-  Clear,
-  Event,
-  Filter,
-  Filter1,
   Search,
 } from "@material-ui/icons";
-import { Box, Table, TableCell, TableRow } from "@mui/material";
+import { Box} from "@mui/material";
 import Fab from "@mui/material/Fab";
 import { CalendarMonth, FilterAlt, FilterAltOff } from "@mui/icons-material";
 
@@ -176,7 +168,7 @@ export default function TableComponent(props) {
       return "hide";
     }
   };
-  
+
   return (
     <div style={{ containerStyle }} className="themeContainer">
       <center>
@@ -270,7 +262,7 @@ export default function TableComponent(props) {
       </center>
       <div
         className="ag-theme-alpine"
-        style={{ height: "70vh", width: "100%", gridStyle }}
+        style={{ height: "75vh", width: "100%", gridStyle }}
       >
         <AgGridReact
           ref={gridRef}

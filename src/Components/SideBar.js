@@ -77,7 +77,7 @@ const useStyles = makeStyles((theme) => ({
         }),
         background: "#E8E8E8",
         overflowX: 'hidden',
-        width: theme.spacing(7) + 1,
+        width: '0px',
         [theme.breakpoints.up('sm')]: {
             width: theme.spacing(9) + 1,
         },
@@ -128,7 +128,7 @@ const listItems = [
 ];
 
 export default function SideBar(props) {
-    const [isOpened, setisOpened] = useState(false)
+    const [isOpened, setisOpened] = useState(true)
     const classes = useStyles();
     const theme = useTheme();
 
@@ -218,14 +218,14 @@ export default function SideBar(props) {
                                     </Link>
                                 ))}
                             </List>
-                            <Link to='/InputData'>
+                            {/* <Link to='/InputData'>
                                 <ListItem className={classes.listItem} button >
                                     <ListItemIcon className={classes.listItem}>
                                         <ContactMail />
                                     </ListItemIcon>
                                     <ListItemText primary='Input Data' />
                                 </ListItem>
-                            </Link>
+                            </Link> */}
                         </List>
                     </div>
                 </List >

@@ -13,17 +13,24 @@ code {
     monospace;
 }
 
+/* Scrollbar */
+::-webkit-scrollbar {
+  border: 0;
+  height: 10px;
+}
+
 /* for scroll bar */
 .ScrollBar {
   padding-right: 2.0rem;
   height: 30.0rem;
   overflow-y: auto;
   overflow-x: hidden;
+  transition: all .8s ease-in-out;
 }
 
 ::-webkit-scrollbar {
-  width: 0.2rem;
-  height: 0.2rem;
+  width: 0.4rem;
+  height: 0.4rem;
 }
 
 
@@ -37,7 +44,7 @@ code {
 /* Handle */
 
 ::-webkit-scrollbar-thumb {
-  background: #204162;
+  background: #000078;
   border-radius: 1.0rem;
 }
 
@@ -45,8 +52,30 @@ code {
   background-color: #c2c5c8 !important;
 }
 
+.MuiToolbar-regular {
+  max-height: 50px !important;
+  min-height: 50px !important;
+}
+
+.filterTabs {
+  max-height: 52px !important;
+  overflow-y: hidden !important;
+}
+
+.height_TabsBar {
+  max-height: 0px !important;
+}
+
+.width_TabsBar {
+  max-height: 220px !important;
+}
+
+.negative_margin {
+  margin-top: -2.8rem !important;
+}
+
 .theme_text {
-  color: #204162 !important;
+  color: #000078 !important;
 }
 
 .row {
@@ -55,7 +84,7 @@ code {
 }
 
 .btn_theme {
-  border: 1px solid rgb(28, 60, 86) !important;
+  border: 1px solid #000078 !important;
 }
 
 /* Tab buttons */
@@ -82,8 +111,8 @@ a {
 
 .MuiTab-textColorInherit.Mui-selected,
 .activeClass {
-  box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset !important;
-  color: rgb(19, 0, 97) !important;
+  box-shadow: #32325d40 0px 30px 60px -12px inset, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset !important;
+  color: #130061 !important;
 }
 
 .ag-theme-alpine .ag-header-cell,
@@ -136,36 +165,22 @@ a {
   .dropdown-btn:hover
 } */
 
-.sidenav a:hover {
-  color: green;
-}
 
-/* 
-.dropdown-container {
-  display: none;
-  background-color: red;
-  padding-left: 8px;
-} */
+/* @media (max-width: 770px) {
 
-/* @media screen and (max-height: 450px) {
-  .sidenav {
-    padding-top: 15px;
-  }
-
-  .sidenav a {
-    font-size: 18px;
-  }
-} */
-
-@media (max-width: 770px) {
-  .makeStyles-drawerClose-9 {
+  .makeStyles-drawerClose-10,
+  .jss10, .responsiveSideBar {
     width: 0px !important
   }
 
   .makeStyles-left-28 {
     width: 100% !important;
   }
-}
+
+  .makeStyles-left-16 {
+    width: 100% !important;
+  }
+} */
 
 /* .makeStyles-left-28 {
   width: calc(100% - 77px);
@@ -182,7 +197,7 @@ a {
 
 .dropbtn:hover,
 .dropbtn:focus {
-  background-color: #2980B9;
+  background-color: #000078;
 }
 
 .dropdown {
@@ -245,7 +260,7 @@ a {
   width: 23px;
   height: 23px;
   border-radius: 50%;
-  border-bottom: 4px solid #204162;
+  border-bottom: 4px solid #000078;
   border-left: 4px solid transparent;
 }
 
@@ -264,9 +279,10 @@ a {
   padding: 0.2rem 0.75rem !important;
 }
 
-.ag-theme-alpine .ag-rtl .ag-side-bar-left .ag-selected .ag-side-button-button, .ag-theme-alpine .ag-ltr .ag-side-bar-right .ag-selected .ag-side-button-button{
-  border-left-color: transparent!important;
-  box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset !important;
+.ag-theme-alpine .ag-rtl .ag-side-bar-left .ag-selected .ag-side-button-button,
+.ag-theme-alpine .ag-ltr .ag-side-bar-right .ag-selected .ag-side-button-button {
+  border-left-color: transparent !important;
+  box-shadow: #000078 0px 30px 60px -12px inset, #12151d4d 0px 18px 36px -18px inset !important;
 }
 
 /* .ag-header-cell-label {
@@ -279,9 +295,10 @@ color: red !important;
   
 } */
 
-.onHover{
+.onHover {
   display: none;
 }
-.hover:hover .onHover{
+
+.hover:hover .onHover {
   display: block;
 }
