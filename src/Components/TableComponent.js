@@ -19,7 +19,7 @@ import {
   Clear,
   Search,
 } from "@material-ui/icons";
-import { Box} from "@mui/material";
+import { Box } from "@mui/material";
 import Fab from "@mui/material/Fab";
 import { CalendarMonth, FilterAlt, FilterAltOff } from "@mui/icons-material";
 
@@ -64,7 +64,7 @@ export default function TableComponent(props) {
   }, []);
 
 
-  
+
 
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
 
@@ -172,17 +172,17 @@ export default function TableComponent(props) {
   return (
     <div style={{ containerStyle }} className="themeContainer">
       <Box className="p-1 mt-1 my-md-0 filterTabs text-end text-md-center">
-      {props.datefilter? <>
-        <Fab
-          color="transparent"
-          aria-label="Date"
-          variant="extended"
-          className="fabCustom mb-1"
-        >
-          {date ?
-            <Clear onClick={onChangeDate} className="theme_text" />
-            :
-            <CalendarMonth onClick={onChangeDate} className="theme_text" />
+        {props.datefilter ? <>
+          <Fab
+            color="transparent"
+            aria-label="Date"
+            variant="extended"
+            className="fabCustom mb-1"
+          >
+            {date ?
+              <Clear onClick={onChangeDate} className="theme_text" />
+              :
+              <CalendarMonth onClick={onChangeDate} className="theme_text" />
             }
             <div className={`p-1 ${date ? "d-inline-flex" : "d-none"}`}>
               <div className="m-1">
@@ -207,57 +207,61 @@ export default function TableComponent(props) {
               </div>
             </div>
           </Fab>
-          </>:
+        </> :
           null}
-          <Fab
-            color="neutral"
-            aria-label="edit"
-            variant="extended"
-            className="ms-2 mb-1"
-          >
+        <Fab
+          color="neutral"
+          aria-label="edit"
+          variant="extended"
+          className="ms-2 fabCustom mb-1"
+        >
+          {search ?
+            <Clear onClick={onChangeSearch} className="theme_text" />
+            :
             <Search onClick={onChangeSearch} className='theme_text' />
-            <div className={`px-2 ${search ? "d-block" : "d-none"}`}>
-              <input
-                className="form-control"
-                type="search"
-                placeholder="Search..."
-                aria-label="Search"
-                onInput={onFilterTextBoxChanged}
-                id="filter-text-box"
-              />
-            </div>
-          </Fab>
-          <Fab
-            color="neutral"
-            variant="extended"
-            className="ms-2 hover"
-            onClick={filterview}
-          >
-            <FilterAlt sx={{ mr: 1 }} className="theme_text" />
-            <div className="onHover"> More Filters</div>
-          </Fab>
-          <Fab
-            color="neutral"
-            variant="extended"
-            className="ms-2 hover"
-            onClick={() => {
-              if (gridApi) {
-                for (let i in props.columnDefs) {
-                  gridApi.api
-                    .getFilterInstance(props.columnDefs[i].field)
-                    .setModel(null);
-                  gridApi.api.onFilterChanged();
-                  gridRef.current.api.setQuickFilter("");
-                  document.getElementById("filter-text-box").value = "";
-                }
+          }
+          <div className={`px-2 ${search ? "d-block" : "d-none"}`}>
+            <input
+              className="form-control"
+              type="search"
+              placeholder="Search..."
+              aria-label="Search"
+              onInput={onFilterTextBoxChanged}
+              id="filter-text-box"
+            />
+          </div>
+        </Fab>
+        <Fab
+          color="neutral"
+          variant="extended"
+          className="ms-2 fabCustom hover"
+          onClick={filterview}
+        >
+          <FilterAlt sx={{ mr: 1 }} className="theme_text" />
+          <div className="onHover"> More Filters</div>
+        </Fab>
+        <Fab
+          color="neutral"
+          variant="extended"
+          className="ms-2 fabCustom hover"
+          onClick={() => {
+            if (gridApi) {
+              for (let i in props.columnDefs) {
+                gridApi.api
+                  .getFilterInstance(props.columnDefs[i].field)
+                  .setModel(null);
+                gridApi.api.onFilterChanged();
+                gridRef.current.api.setQuickFilter("");
+                document.getElementById("filter-text-box").value = "";
               }
-            }}
-          >
-            <FilterAltOff sx={{ mr: 1 }} className="theme_text" />
-            <div className="onHover">Reset</div>
-          </Fab>
-        </Box>
-        {/* {props.screenWidth < 770 ? (
+            }
+          }}
+        >
+          <FilterAltOff sx={{ mr: 1 }} className="theme_text" />
+          <div className="onHover">Reset</div>
+        </Fab>
+      </Box>
+      {/* {props.screenWidth < 770 ? (
           <div>
             <button onClick={filterview}>Filter</button>
           </div>
@@ -277,13 +281,13 @@ export default function TableComponent(props) {
           sideBar={props.screenWidth < 770 ? mobileSidebar() : sidebar()}
           masterDetail={true}
           detailCellRenderer={detailCellRenderer}
-          statusBar = {statusBar}
+          statusBar={statusBar}
           // onFirstDataRendered={headerHeightSetter}
           // onColumnResized={headerHeightSetter}
           // overlayLoadingTemplate={'<span class="ag-overlay-loading-center">Please wait while your rows are loading</span>'}
           // overlayNoRowsTemplate={'<span class="ag-overlay-loading-center"><i className="fas fa-hourglass-half" style="color: blue; height: 0%"> Please wait while your data are loading </i> </span>'}
           onGridReady={onGridReady}
-        
+
 
         />
       </div>
