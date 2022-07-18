@@ -26,5 +26,17 @@ class GetData {
         };
         return res();
     }
+    UnFinished = ()=>{
+        const res = async()=>{
+            const resp = await axios
+            .get("https://209.97.168.200/pacrawizpackv3/public/api/un-finished")
+            .catch(function (error){
+                console.log(error);
+            });
+            return resp;
+        };
+        console.log(res(), "this is my res");
+        return res();
+    }
 }
 export default new GetData();

@@ -7,10 +7,15 @@ import "ag-grid-community/dist/styles/ag-theme-alpine.css";
 import "ag-grid-enterprise";
 import { NavLink } from "react-router-dom";
 import {
+    Check,
+    Clear,
     Event,
   } from "@material-ui/icons";
 import {Table, TableCell, TableRow } from "@mui/material";
-function InProcess(props) {
+function UnFinihed(props) {
+
+
+
     const responsiveColumns = () => {
         if (props.screenWidth < 770) {
           return null;
@@ -48,20 +53,6 @@ function InProcess(props) {
         }
       };
     
-      function innerDissemDate(params) {
-        if (params.data.Dissemination == null) {
-          return "-";
-        } else {
-          const date = new Date(params.data.Dissemination);
-          const yyyy = date.getFullYear();
-          const yy = yyyy.toString();
-          const y = yy.slice(2, 4);
-          let mm = date.toLocaleString("default", { month: "short" });
-          let dd = date.getDate();
-          if (dd < 10) dd = "0" + dd;
-          return dd + "-" + mm + "-" + y;
-        }
-      }
     
       function yes(params) {
         if (params.data.rw === "YES") {
@@ -71,11 +62,11 @@ function InProcess(props) {
         }
       }
     
-      function Initiationdate(params) {
-        if (params.data.Initiation == null) {
+      function innerNotiDate(params) {
+        if (params.data.Notification == null) {
           return "-";
         } else {
-          const date = new Date(params.data.Initiation);
+          const date = new Date(params.data.Notification);
           const yyyy = date.getFullYear();
           const yy = yyyy.toString();
           const y = yy.slice(2, 4);
@@ -85,38 +76,7 @@ function InProcess(props) {
           return dd + "-" + mm + "-" + y;
         }
       }
-      
-      function stage_date(params) {
-        if (params.data.stage_date == null) {
-          return "-";
-        } else {
-          const date = new Date(params.data.stage_date);
-          const yyyy = date.getFullYear();
-          const yy = yyyy.toString();
-          const y = yy.slice(2, 4);
-          let mm = date.toLocaleString("default", { month: "short" });
-          let dd = date.getDate();
-          if (dd < 10) dd = "0" + dd;
-          return dd + "-" + mm + "-" + y;
-        }
-      }
-
-      function prcdate(params) {
-        if (params.data.prcdate == null) {
-          return "-";
-        } else {
-          const date = new Date(params.data.prcdate);
-          const yyyy = date.getFullYear();
-          const yy = yyyy.toString();
-          const y = yy.slice(2, 4);
-          let mm = date.toLocaleString("default", { month: "short" });
-          let dd = date.getDate();
-          if (dd < 10) dd = "0" + dd;
-          return dd + "-" + mm + "-" + y;
-        }
-      }
-      
-      
+    
       function fullDate(params) {
         if (params.value == null) {
           return "-";
@@ -158,18 +118,18 @@ function InProcess(props) {
 
     const columnDefs = [
         {
-          headerName: "",
-          field: "sNo",
-          maxWidth: 30,
-          filter: true,
-          menuTabs: false,
-          pinned: responsiveColumnPin(),
-          hide: detailShow(),
-          cellRenderer: "agGroupCellRenderer",
-          suppressColumnsToolPanel: true,
-          suppressFiltersToolPanel: true,
-        },
-        {
+            headerName: "",
+            field: "sNo",
+            maxWidth: 30,
+            filter: true,
+            menuTabs: false,
+            pinned: responsiveColumnPin(),
+            hide: detailShow(),
+            cellRenderer: "agGroupCellRenderer",
+            suppressColumnsToolPanel: true,
+            suppressFiltersToolPanel: true,
+          },
+          {
             headerName: "#",
             maxWidth: 50,
             // minWidth: 66,
@@ -196,6 +156,7 @@ function InProcess(props) {
             cellRenderer: cellrandered,
             pinned: responsiveColumnPin(),
           },
+      
           {
             headerName: "Opinion",
             minWidth: responsiveColumns(),
@@ -204,6 +165,7 @@ function InProcess(props) {
             sortable: true,
             filter: "agSetColumnFilter",
             excelMode: "windows",
+            cellRenderer: cellrander,
             tooltipField: "Entity",
             pinned: responsiveColumnPin(),
           },
@@ -211,12 +173,13 @@ function InProcess(props) {
             headerName: "Sector",
             field: "Industry",
             minWidth: 130,
+            hide: sectorHide(),
             maxWidth: 130,
             sortable: true,
-            hide: sectorHide(),
             filter: "agSetColumnFilter",
             excelMode: "windows",
             tooltipField: "Industry",
+            cellRenderer: cellrander,
             pinned: responsiveColumnPin(),
           },
           {
@@ -241,6 +204,7 @@ function InProcess(props) {
                 "  </div>" +
                 "</div>",
             },
+            cellRenderer: cellrander,
           },
           {
             headerName: "Team",
@@ -250,6 +214,7 @@ function InProcess(props) {
             sortable: true,
             filter: "agSetColumnFilter",
             excelMode: "windows",
+            cellRenderer: cellrander,
           },
           {
             headerName: "Analyst",
@@ -259,7 +224,7 @@ function InProcess(props) {
             sortable: true,
             filter: "agSetColumnFilter",
             excelMode: "windows",
-
+            cellRenderer: cellrander,
           },
           {
             headerName: "Current Review",
@@ -285,227 +250,128 @@ function InProcess(props) {
             excelMode: "windows",
           },
           {
-            headerName: "Initiation Date",
-            hide: sectorHide(),
-            field: "Initiation",
-            minWidth: 115,
-            // hide: true,
-            sortable: true,
-            filter: "agDateColumnFilter",
-            excelMode: "windows",
-            cellRenderer: fullDate,
-            debounceMs: "DateFilter",
-            filterParams: {
-              filterOptions: ["equals", "lessThan", "greaterThan", "inRange"],
-              inRangeInclusive: true,
-              comparator: function (filterLocalDateAtMidnight, cellValue) {
-                var dateAsString = moment(cellValue).format("DD/MM/YYYY");
-                var dateParts = dateAsString.split("/");
-                var cellDate = new Date(
-                  Number(dateParts[2]),
-                  Number(dateParts[1]) - 1,
-                  Number(dateParts[0])
-                );
-      
-                if (filterLocalDateAtMidnight.getTime() === cellDate.getTime()) {
-                  return 0;
-                }
-      
-                if (cellDate < filterLocalDateAtMidnight) {
-                  return -1;
-                }
-      
-                if (cellDate > filterLocalDateAtMidnight) {
-                  return 1;
-                }
-              },
-              buttons: ["clear", "reset", "apply"],
-            },
-            headerComponentParams: {
-                template:
-                  '<div class="ag-cell-label-container" role="presentation">' +
-                  '  <span ref="eMenu" class="ag-header-icon ag-header-cell-menu-button"></span>' +
-                  '  <div ref="eLabel" class="ag-header-cell-label" role="presentation">' +
-                  '    <span ref="eSortOrder" class="ag-header-icon ag-sort-order"></span>' +
-                  '    <span ref="eSortAsc" class="ag-header-icon ag-sort-ascending-icon"></span>' +
-                  '    <span ref="eSortDesc" class="ag-header-icon ag-sort-descending-icon"></span>' +
-                  '    <span ref="eSortNone" class="ag-header-icon ag-sort-none-icon"></span>' +
-                  '    <span ref="eText" class="ag-header-cell-text" role="columnheader" style="white-space: normal;"></span>' +
-                  '    <span ref="eFilter" class="ag-header-icon ag-filter-icon"></span>' +
-                  "  </div>" +
-                  "</div>",
-              },
-          },
-          {
-            headerName: "Initiantion Days",
+            headerName: "Action",
             hide: columnHide(),
-            field : "initaldays",
-            minWidth: 110,
+            field: "RatingAction",
+            minWidth: 90,
             sortable: true,
             filter: "agSetColumnFilter",
             excelMode: "windows",
-            headerComponentParams: {
-                template:
-                  '<div class="ag-cell-label-container" role="presentation">' +
-                  '  <span ref="eMenu" class="ag-header-icon ag-header-cell-menu-button"></span>' +
-                  '  <div ref="eLabel" class="ag-header-cell-label" role="presentation">' +
-                  '    <span ref="eSortOrder" class="ag-header-icon ag-sort-order"></span>' +
-                  '    <span ref="eSortAsc" class="ag-header-icon ag-sort-ascending-icon"></span>' +
-                  '    <span ref="eSortDesc" class="ag-header-icon ag-sort-descending-icon"></span>' +
-                  '    <span ref="eSortNone" class="ag-header-icon ag-sort-none-icon"></span>' +
-                  '    <span ref="eText" class="ag-header-cell-text" role="columnheader" style="white-space: normal;"></span>' +
-                  '    <span ref="eFilter" class="ag-header-icon ag-filter-icon"></span>' +
-                  "  </div>" +
-                  "</div>",
-              },
-
+            cellRenderer: cellrander,
           },
           {
-            headerName: "Stage",
+            headerName: "R|LT",
             hide: columnHide(),
-            field : "stage",
-            minWidth: 94,
+            field: "RatingLT",
+            minWidth: 73,
             sortable: true,
             filter: "agSetColumnFilter",
             excelMode: "windows",
+            cellRenderer: cellrander,
           },
           {
-            headerName: "Stage Date",
+            headerName: "R|ST",
             hide: columnHide(),
-            field : "stage_date",
-            minWidth: 94,
-            sortable: true,
-            filter: "agDateColumnFilter",
-            cellRenderer: fullDate,
-            debounceMs: "DateFilter",
-            filterParams: {
-              filterOptions: ["equals", "lessThan", "greaterThan", "inRange"],
-              inRangeInclusive: true,
-              comparator: function (filterLocalDateAtMidnight, cellValue) {
-                var dateAsString = moment(cellValue).format("DD/MM/YYYY");
-                var dateParts = dateAsString.split("/");
-                var cellDate = new Date(
-                  Number(dateParts[2]),
-                  Number(dateParts[1]) - 1,
-                  Number(dateParts[0])
-                );
-      
-                if (filterLocalDateAtMidnight.getTime() === cellDate.getTime()) {
-                  return 0;
-                }
-      
-                if (cellDate < filterLocalDateAtMidnight) {
-                  return -1;
-                }
-      
-                if (cellDate > filterLocalDateAtMidnight) {
-                  return 1;
-                }
-              },
-              buttons: ["clear", "reset", "apply"],
-            },
-            excelMode: "windows",
-            headerComponentParams: {
-                template:
-                  '<div class="ag-cell-label-container" role="presentation">' +
-                  '  <span ref="eMenu" class="ag-header-icon ag-header-cell-menu-button"></span>' +
-                  '  <div ref="eLabel" class="ag-header-cell-label" role="presentation">' +
-                  '    <span ref="eSortOrder" class="ag-header-icon ag-sort-order"></span>' +
-                  '    <span ref="eSortAsc" class="ag-header-icon ag-sort-ascending-icon"></span>' +
-                  '    <span ref="eSortDesc" class="ag-header-icon ag-sort-descending-icon"></span>' +
-                  '    <span ref="eSortNone" class="ag-header-icon ag-sort-none-icon"></span>' +
-                  '    <span ref="eText" class="ag-header-cell-text" role="columnheader" style="white-space: normal;"></span>' +
-                  '    <span ref="eFilter" class="ag-header-icon ag-filter-icon"></span>' +
-                  "  </div>" +
-                  "</div>",
-              },
-
-
-          },
-          {
-            headerName: "Stage Days",
-            hide: columnHide(),
-            field : "stagedays",
-            minWidth: 94,
+            field: "RatingST",
+            minWidth: 74,
             sortable: true,
             filter: "agSetColumnFilter",
             excelMode: "windows",
-            headerComponentParams: {
-                template:
-                  '<div class="ag-cell-label-container" role="presentation">' +
-                  '  <span ref="eMenu" class="ag-header-icon ag-header-cell-menu-button"></span>' +
-                  '  <div ref="eLabel" class="ag-header-cell-label" role="presentation">' +
-                  '    <span ref="eSortOrder" class="ag-header-icon ag-sort-order"></span>' +
-                  '    <span ref="eSortAsc" class="ag-header-icon ag-sort-ascending-icon"></span>' +
-                  '    <span ref="eSortDesc" class="ag-header-icon ag-sort-descending-icon"></span>' +
-                  '    <span ref="eSortNone" class="ag-header-icon ag-sort-none-icon"></span>' +
-                  '    <span ref="eText" class="ag-header-cell-text" role="columnheader" style="white-space: normal;"></span>' +
-                  '    <span ref="eFilter" class="ag-header-icon ag-filter-icon"></span>' +
-                  "  </div>" +
-                  "</div>",
-              },
-            
+            cellRenderer: cellrander,
           },
           {
-            headerName: "Previous Date",
+            headerName: "RW",
             hide: columnHide(),
-            field: "prcdate",
-            minWidth: 115,
-            // hide: true,
+            field: "rw",
+            // minWidth: 85,
+            minWidth: 65,
             sortable: true,
-            filter: "agDateColumnFilter",
+            filter: "agSetColumnFilter",
             excelMode: "windows",
-            cellRenderer: fullDate,
-            debounceMs: "DateFilter",
-            filterParams: {
-              filterOptions: ["equals", "lessThan", "greaterThan", "inRange"],
-              inRangeInclusive: true,
-              comparator: function (filterLocalDateAtMidnight, cellValue) {
-                var dateAsString = moment(cellValue).format("DD/MM/YYYY");
-                var dateParts = dateAsString.split("/");
-                var cellDate = new Date(
-                  Number(dateParts[2]),
-                  Number(dateParts[1]) - 1,
-                  Number(dateParts[0])
-                );
-      
-                if (filterLocalDateAtMidnight.getTime() === cellDate.getTime()) {
-                  return 0;
-                }
-      
-                if (cellDate < filterLocalDateAtMidnight) {
-                  return -1;
-                }
-      
-                if (cellDate > filterLocalDateAtMidnight) {
-                  return 1;
-                }
-              },
-              buttons: ["clear", "reset", "apply"],
+            cellRenderer: (params) => {
+              if (params.value === "YES") {
+                return "Yes";
+              } else if (params.value === "NO" || params.value === "-") {
+                return "-";
+              }
             },
-            headerComponentParams: {
-                template:
-                  '<div class="ag-cell-label-container" role="presentation">' +
-                  '  <span ref="eMenu" class="ag-header-icon ag-header-cell-menu-button"></span>' +
-                  '  <div ref="eLabel" class="ag-header-cell-label" role="presentation">' +
-                  '    <span ref="eSortOrder" class="ag-header-icon ag-sort-order"></span>' +
-                  '    <span ref="eSortAsc" class="ag-header-icon ag-sort-ascending-icon"></span>' +
-                  '    <span ref="eSortDesc" class="ag-header-icon ag-sort-descending-icon"></span>' +
-                  '    <span ref="eSortNone" class="ag-header-icon ag-sort-none-icon"></span>' +
-                  '    <span ref="eText" class="ag-header-cell-text" role="columnheader" style="white-space: normal;"></span>' +
-                  '    <span ref="eFilter" class="ag-header-icon ag-filter-icon"></span>' +
-                  "  </div>" +
-                  "</div>",
-              },
           },
           {
-            headerName: "Days Deadlines",
+            headerName: "Outlook",
             hide: columnHide(),
-            field : "datetodeadlinerc",
+            field: "Outlook",
             minWidth: 100,
             sortable: true,
             filter: "agSetColumnFilter",
+            tooltipField: "Outlook",
+            headerTooltip: "Outlook",
             excelMode: "windows",
+            cellRenderer: cellrander,
+          },
+      
+          {
+            headerName: "Notification",
+            hide: sectorHide(),
+            field: "Notification",
+            minWidth: 115,
+            // hide: true,
+            sortable: true,
+            filter: "agDateColumnFilter",
+            excelMode: "windows",
+            cellRenderer: fullDate,
+            debounceMs: "DateFilter",
+            filterParams: {
+              filterOptions: ["equals", "lessThan", "greaterThan", "inRange"],
+              inRangeInclusive: true,
+              comparator: function (filterLocalDateAtMidnight, cellValue) {
+                var dateAsString = moment(cellValue).format("DD/MM/YYYY");
+                var dateParts = dateAsString.split("/");
+                var cellDate = new Date(
+                  Number(dateParts[2]),
+                  Number(dateParts[1]) - 1,
+                  Number(dateParts[0])
+                );
+      
+                if (filterLocalDateAtMidnight.getTime() === cellDate.getTime()) {
+                  return 0;
+                }
+      
+                if (cellDate < filterLocalDateAtMidnight) {
+                  return -1;
+                }
+      
+                if (cellDate > filterLocalDateAtMidnight) {
+                  return 1;
+                }
+              },
+              buttons: ["clear", "reset", "apply"],
+            },
+            headerComponentParams: {
+              template:
+                '<div class="ag-cell-label-container" role="presentation">' +
+                '  <span ref="eMenu" class="ag-header-icon ag-header-cell-menu-button"></span>' +
+                '  <div ref="eLabel" class="ag-header-cell-label" role="presentation">' +
+                '    <span ref="eSortOrder" class="ag-header-icon ag-sort-order"></span>' +
+                '    <span ref="eSortAsc" class="ag-header-icon ag-sort-ascending-icon"></span>' +
+                '    <span ref="eSortDesc" class="ag-header-icon ag-sort-descending-icon"></span>' +
+                '    <span ref="eSortNone" class="ag-header-icon ag-sort-none-icon"></span>' +
+                '    <span ref="eText" class="ag-header-cell-text" role="columnheader" style="white-space: normal;"></span>' +
+                '    <span ref="eFilter" class="ag-header-icon ag-filter-icon"></span>' +
+                "  </div>" +
+                "</div>",
+            },
+          },
+          {
+            headerName: "Days NL",
+            hide: columnHide(),
+            field: "daysNl",
+            minWidth: 85,
+            sortable: true,
+            filter: "agSetColumnFilter",
+            tooltipField: "Outlook",
+            headerTooltip: "Outlook",
+            excelMode: "windows",
+            cellRenderer: cellrander,
             headerComponentParams: {
                 template:
                   '<div class="ag-cell-label-container" role="presentation">' +
@@ -520,7 +386,6 @@ function InProcess(props) {
                   "  </div>" +
                   "</div>",
               },
-            
           },
           {
             headerName: "H",
@@ -540,8 +405,9 @@ function InProcess(props) {
               );
             },
             excelMode: "windows",
-          },
+          }
     ]
+
     const MobViewRender = (params) => (
         <h1 style={{ padding: "20px" }}>
           <Table className="overflow-scroll">
@@ -561,6 +427,7 @@ function InProcess(props) {
             </TableRow>
             <TableRow>
               <TableCell variant="head" className="fw-bolder">
+                {" "}
                 Team
               </TableCell>
               <TableCell>{params.data.managerName}</TableCell>
@@ -573,60 +440,55 @@ function InProcess(props) {
             </TableRow>
             <TableRow>
               <TableCell variant="head" className="fw-bolder">
+                Action
+              </TableCell>
+              <TableCell>{params.data.RatingAction}</TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell variant="head" className="fw-bolder">
                 Current Review
               </TableCell>
               <TableCell>{params.data.ratingUpdateType}</TableCell>
             </TableRow>
+            <TableRow> 
+              <TableCell variant="head" className="fw-bolder">
+                R|LT
+              </TableCell>
+              <TableCell>{params.data.RatingLT}</TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell variant="head" className="fw-bolder">
+                R|ST
+              </TableCell>
+              <TableCell>{params.data.RatingST}</TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell variant="head" className="fw-bolder">
+                RW
+              </TableCell>
+              <TableCell>{yes(params)}</TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell variant="head" className="fw-bolder">
+                Outlook
+              </TableCell>
+              <TableCell>{params.data.Outlook}</TableCell>
+            </TableRow>
             {props.screenWidth < 500 ? (
-            <TableRow>
-              <TableCell variant="head" className="fw-bolder">
-                Initiantion Date
-              </TableCell>
-              <TableCell>{Initiationdate(params)}</TableCell>
-            </TableRow>
+              <TableRow>
+                <TableCell variant="head" className="fw-bolder">
+                  Notification
+                </TableCell>
+                <TableCell>{innerNotiDate(params)}</TableCell>
+              </TableRow>
             ) : null}
-            <TableRow>
-              <TableCell variant="head" className="fw-bolder">
-                Initiantion Days
-              </TableCell>
-              <TableCell>{params.data.initaldays}</TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell variant="head" className="fw-bolder">
-                Stage
-              </TableCell>
-              <TableCell>{params.data.stage}</TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell variant="head" className="fw-bolder">
-                Stage Date
-              </TableCell>
-              <TableCell>{stage_date(params)}</TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell variant="head" className="fw-bolder">
-                Stage Days
-              </TableCell>
-              <TableCell>{params.data.stagedays}</TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell variant="head" className="fw-bolder">
-                Previous RC
-              </TableCell>
-              <TableCell>{prcdate(params)}</TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell variant="head" className="fw-bolder">
-                Days Deadline
-              </TableCell>
-              <TableCell>{params.data.datetodeadlinerc}</TableCell>
-            </TableRow>
+        
             <TableRow>
               <TableCell variant="head" className="fw-bolder">
                 H
               </TableCell>
               <TableCell>
-              {
+                {
                   <NavLink
                     to={`https://209.97.168.200/pacrawizpackv3/public/admin/pacraWork/${params.data.Id}`}
                   >
@@ -640,9 +502,9 @@ function InProcess(props) {
       );
 
     return (
-        <TableComponent Data ={props.InProcess} columnDefs={columnDefs}  
-        screenWidth={props.screenWidth} MobViewRender={MobViewRender} />
+        <TableComponent Data ={props.UnFinihed} screenWidth={props.screenWidth} columnDefs={columnDefs} MobViewRender={MobViewRender} />
     )
+
 }
 
-export default InProcess
+export default UnFinihed
