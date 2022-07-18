@@ -9,12 +9,12 @@ import Box from '@material-ui/core/Box';
 import Outstanding from './Outstanding';
 import InProcess from './InProcess';
 import UnFinihed from './UnFinished';
-import GetData from '../../API/GetData';
+import GetData from '../../../API/GetData';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { Fab } from '@mui/material';
 import { Popover } from '@material-ui/core';
 import PopupState, { bindTrigger, bindPopover } from 'material-ui-popup-state';
-const data = require("../../json files/outstanding_data.json")
+const data = require("../../Data/outstanding_data.json")
 
 
 

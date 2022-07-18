@@ -14,7 +14,6 @@ import { SetFilterModule } from "@ag-grid-enterprise/set-filter";
 import { MenuModule } from "@ag-grid-enterprise/menu";
 import { FiltersToolPanelModule } from "@ag-grid-enterprise/filter-tool-panel";
 import "ag-grid-enterprise";
-import "./TableComponent.css";
 import {
   Clear,
   Search,

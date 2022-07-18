@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
 import './Login.css'
-import logo from '../../Assets/Images/PACRA_logo.png'
+import logo from '../../../Assets/Images/PACRA_logo.png'
 import { FormControl, IconButton, InputAdornment, InputLabel, OutlinedInput, TextField } from '@mui/material'
 import { Visibility, VisibilityOff } from '@material-ui/icons'
 import LoginIcon from '@mui/icons-material/Login';
-import Imageslider from '../../Components/Imageslider'
+import Imageslider from '../../Atoms/Imageslider'
 
 const index = (props) => {
     const [isHidden, setisHidden] = useState(true)
@@ -21,7 +21,7 @@ const index = (props) => {
                     <Imageslider />
                 </form>
                 <form onSubmit={props.login} className='col-12 min_height shadow_1 col-md-5 col-lg-4'>
-                    <div className='my-auto mx-auto mx-md-5'>
+                    <div className='my-auto p-3 mx-auto mx-md-5'>
                         <div className='text-center'>
                             <img src={logo} className="logo_size mx-auto" />
                             <h3 className='my-2 mx-auto fw-bold theme_text'>Login Here</h3>

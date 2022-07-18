@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from "react";
 import "./App.css";
-import SideBar from "./Components/SideBar";
+import SideBar from "./Components/Atoms/SideBar";
 import "bootstrap/dist/css/bootstrap.min.css";
-import Home from "./Routes/Home";
-import Ratings from "./Routes/Ratings";
-import Login from "./Routes/Login";
-import InputData from "./Routes/InputData";
+import Home from "./Components/Routs/Home";
+import Ratings from "./Components/Routs/Ratings";
+import Login from "./Components/Routs/Login";
+import InputData from "./Components/Routs/InputData";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import axios from "axios";
 import { makeStyles } from "@material-ui/core";
-import RequireLogin from "./Components/RequireLogin";
+import RequireLogin from "./Components/Atoms/RequireLogin";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -55,7 +55,7 @@ function App() {
     return isLoggedin;
   }
 
-  const loginState = checkLogin();
+  var loginState = checkLogin();
 
   useEffect(() => {
     const screenWidth = window.screen.width;

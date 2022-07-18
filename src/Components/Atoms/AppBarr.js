@@ -8,7 +8,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 import MenuIcon from '@material-ui/icons/Menu';
 import AccountCircle from '@material-ui/icons/AccountCircle';
-import logo from '../Assets/Images/PACRA_logo.png'
+import logo from '../../Assets/Images/PACRA_logo.png'
 import MailIcon from '@material-ui/icons/Mail';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
@@ -135,7 +135,7 @@ export default function AppBarr(props) {
         >
           <AccountCircle className={classes.themeColor} />
         </IconButton>
-        <p className={classes.themeColor}>Profile</p>
+        <p className={`mb-0 ${classes.themeColor}`}>Profile</p>
       </MenuItem>
     </Menu>
   );

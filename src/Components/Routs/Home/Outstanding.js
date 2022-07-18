@@ -1,5 +1,5 @@
-import TableComponent from '../../Components/TableComponent'
 import React from "react";
+import TableComponent from '../../Atoms/TableComponent'
 import Skeleton from "@mui/material/Skeleton";
 import moment from "moment";
 import "ag-grid-community/dist/styles/ag-grid.css";
