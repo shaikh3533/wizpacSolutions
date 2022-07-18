@@ -4,10 +4,12 @@ import SideBar from "./Components/SideBar";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Home from "./Routes/Home";
 import Ratings from "./Routes/Ratings";
+import Login from "./Routes/Login";
 import InputData from "./Routes/InputData";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import axios from "axios";
 import { makeStyles } from "@material-ui/core";
+import RequireLogin from "./Components/RequireLogin";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -41,6 +43,20 @@ function App() {
   }
   const [screenWidth] = useWindowSize();
 
+
+  function checkLogin() {
+    const [isLoggedin, setisLoggedin] = useState(true);
+    useEffect(() => {
+      if (localStorage.getItem('token')) {
+        setisLoggedin(false)
+      }
+      else setisLoggedin(true)
+    }, [isLoggedin]);
+    return isLoggedin;
+  }
+
+  const loginState = checkLogin();
+
   useEffect(() => {
     const screenWidth = window.screen.width;
     if (screenWidth < 770) {
@@ -52,34 +68,71 @@ function App() {
     setOpen(false);
   };
 
-  if (typeof window !== "undefined") {
-    // Perform localStorage action
-    const item = localStorage.getItem("token");
+  const [loginParams, setloginParams] = useState({
+    user_id: "",
+    user_password: ""
+  })
 
-    axios.defaults.headers.common["Authorization"] = `Bearer ${item}`;
-  }
+  const handleFormChange = (event) => {
+    let loginParamsNew = { ...loginParams };
+    let val = event.target.value;
+    loginParamsNew[event.target.name] = val;
+    setloginParams(loginParamsNew);
+  };
+
+  const login = (event) => {
+    let user_id = loginParams.user_id;
+    let user_password = loginParams.user_password;
+    if (user_id === "admin" && user_password === "123") {
+      localStorage.setItem("token", "T");
+      loginState = true
+    }
+    // else alert('wrong Password')
+    event.preventDefault();
+  };
+
+
+  // if (typeof window !== "undefined") {
+  //   const item = localStorage.getItem("token");
+
+  //   axios.defaults.headers.common["Authorization"] = `Bearer ${item}`;
+  // }
   const classes = useStyles();
 
   return (
     <>
       <BrowserRouter>
-        <div style={{ display: "flex" }}>
-          <SideBar
-            handleDrawerOpen={handleDrawerOpen}
-            handleDrawerClose={handleDrawerClose}
-            open={open}
-          />
-          <div className={`${screenWidth > 770 ? classes.containerWidth : classes.containerWidthResponsive}`} style={{ flexGrow: 1 }}>
-            <Routes>
-              <Route
-                path="/"
-                element={<Home open={open} screenWidth={screenWidth} />}
-              />
-              <Route path="/Ratings" element={<Ratings />} />
-              <Route path="/InputData" element={<InputData />} />
-            </Routes>
+
+        {console.log(loginState, 'loggedIn')}
+        {localStorage.getItem('token') == null ?
+          <Routes >
+            <Route path="/" replace element={<Login
+              login={login}
+              handleFormChange={handleFormChange}
+            />
+            }
+            />
+          </Routes>
+          :
+          <div style={{ display: "flex" }}>
+            <SideBar
+              handleDrawerOpen={handleDrawerOpen}
+              handleDrawerClose={handleDrawerClose}
+              open={open}
+              loginState={loginState}
+            />
+            <div className={`${screenWidth > 770 ? classes.containerWidth : classes.containerWidthResponsive}`} style={{ flexGrow: 1 }}>
+              <Routes>
+                <Route
+                  path="/" replace
+                  element={<Home open={open} screenWidth={screenWidth} />}
+                />
+                <Route path="/Ratings" element={<Ratings />} />
+                <Route path="/InputData" element={<InputData />} />
+              </Routes>
+            </div>
           </div>
-        </div>
+        }
       </BrowserRouter>
     </>
   );

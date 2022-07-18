@@ -140,6 +140,7 @@ export default function SideBar(props) {
                 clasname={clsx(classes.appBar, {
                     [classes.appBarShift]: props.open,
                 })}
+                // loginState={props.loginState}
                 isOpen={props.open}
                 SideNavOpen={props.handleDrawerOpen}
                 SideNavClose={props.handleDrawerClose}

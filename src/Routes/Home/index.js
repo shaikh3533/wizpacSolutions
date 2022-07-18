@@ -167,7 +167,7 @@ export default function Index(props) {
                 color="transparent"
                 aria-label="edit"
                 variant="extended"
-                className="ms-2"
+                className={`ms-2 fabCustom ${classes.topAbsolute}`}
               >
                 <MoreVertIcon  {...bindTrigger(popupState)} />
               </Fab>
@@ -306,6 +306,9 @@ const useStyles = makeStyles((theme) => ({
   },
   responsiveLeft: {
     width: '100%',
+  },
+  topAbsolute: {
+    top: '4px'
   }
 }));
 

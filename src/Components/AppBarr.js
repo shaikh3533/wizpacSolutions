@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -12,6 +12,8 @@ import logo from '../Assets/Images/PACRA_logo.png'
 import MailIcon from '@material-ui/icons/Mail';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
+import { Navigate, NavLink, useLocation } from 'react-router-dom';
+import { WindowSharp } from '@mui/icons-material';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -32,9 +34,8 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   img: {
-    width: '70px',
-    height: '70px',
-    padding: '10px'
+    width: '45px',
+    height: '45px',
   },
   sectionDesktop: {
     display: 'none',
@@ -53,8 +54,8 @@ const useStyles = makeStyles((theme) => ({
 
 export default function AppBarr(props) {
   const classes = useStyles();
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -76,6 +77,11 @@ export default function AppBarr(props) {
     setMobileMoreAnchorEl(event.currentTarget);
   };
 
+  const signout = () => {
+    localStorage.removeItem("token")
+    window.location.pathname = "/"
+  }
+  const location = useLocation()
   const menuId = 'primary-search-account-menu';
   const renderMenu = (
     <Menu
@@ -87,8 +93,9 @@ export default function AppBarr(props) {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-      <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+      {/* <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
+      <MenuItem onClick={handleMenuClose}>My account</MenuItem> */}
+      <MenuItem onClick={signout} >Sign Out</MenuItem>
     </Menu>
   );
 
@@ -103,22 +110,22 @@ export default function AppBarr(props) {
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
     >
-      <MenuItem>
+      {/* <MenuItem>
         <IconButton aria-label="show 4 new mails">
           <Badge badgeContent={4} color="secondary">
             <MailIcon className={classes.themeColor} />
           </Badge>
         </IconButton>
         <p className={classes.themeColor}>Messages</p>
-      </MenuItem>
-      <MenuItem>
+      </MenuItem> */}
+      {/* <MenuItem>
         <IconButton aria-label="show 11 new notifications">
           <Badge badgeContent={11} color="secondary">
             <NotificationsIcon className={classes.themeColor} />
           </Badge>
         </IconButton>
         <p className={classes.themeColor}>Notifications</p>
-      </MenuItem>
+      </MenuItem> */}
       <MenuItem onClick={handleProfileMenuOpen}>
         <IconButton
           aria-label="account of current user"
@@ -142,7 +149,7 @@ export default function AppBarr(props) {
             onClick={props.SideNavOpen}
             onClose={props.SideNavClose}
             edge="start"
-            className={`${classes.menuButton} ${props.clasName}`}
+            className={`${classes.menuButton} mx-0 ${props.clasName}`}
             aria-label="open drawer">
             <MenuIcon />
           </IconButton>

@@ -16,6 +16,7 @@ import { FiltersToolPanelModule } from "@ag-grid-enterprise/filter-tool-panel";
 import "ag-grid-enterprise";
 import "./TableComponent.css";
 import {
+  Clear,
   Search,
 } from "@material-ui/icons";
 import { Box} from "@mui/material";
@@ -89,7 +90,6 @@ export default function TableComponent(props) {
       document.getElementById("filter-text-box").value
     );
   }, []);
-
 
   const detailCellRenderer = useMemo(() => {
     return props.MobViewRender;
@@ -171,16 +171,19 @@ export default function TableComponent(props) {
 
   return (
     <div style={{ containerStyle }} className="themeContainer">
-      <center>
-        <Box className="p-1">
-          {props.datefilter? <>
-            <Fab
-            color="neutral"
-            aria-label="Date"
-            variant="extended"
-            className=" mb-1"
-          >
+      <Box className="p-1 mt-1 my-md-0 filterTabs text-end text-md-center">
+      {props.datefilter? <>
+        <Fab
+          color="transparent"
+          aria-label="Date"
+          variant="extended"
+          className="fabCustom mb-1"
+        >
+          {date ?
+            <Clear onClick={onChangeDate} className="theme_text" />
+            :
             <CalendarMonth onClick={onChangeDate} className="theme_text" />
+            }
             <div className={`p-1 ${date ? "d-inline-flex" : "d-none"}`}>
               <div className="m-1">
                 {/* <p className="theme_text me-1 my-auto"> From </p> */}
@@ -259,10 +262,9 @@ export default function TableComponent(props) {
             <button onClick={filterview}>Filter</button>
           </div>
         ) : null} */}
-      </center>
       <div
-        className="ag-theme-alpine"
-        style={{ height: "75vh", width: "100%", gridStyle }}
+        className={`ag-theme-alpine ${props.screenWidth > 770 ? 'height_' : 'heightresponsive'}`}
+        style={{ width: "100%", gridStyle }}
       >
         <AgGridReact
           ref={gridRef}
@@ -285,6 +287,6 @@ export default function TableComponent(props) {
 
         />
       </div>
-    </div>
+    </div >
   );
 }
