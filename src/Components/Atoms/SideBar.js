@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import clsx from 'clsx';
-import logo from '../Assets/Images/PACRA_logo.png';
+import logo from '../../Assets/Images/PACRA_logo.png';
 import {
     Divider,
     List,

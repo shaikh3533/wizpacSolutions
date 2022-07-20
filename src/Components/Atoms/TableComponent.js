@@ -14,12 +14,14 @@ import { SetFilterModule } from "@ag-grid-enterprise/set-filter";
 import { MenuModule } from "@ag-grid-enterprise/menu";
 import { FiltersToolPanelModule } from "@ag-grid-enterprise/filter-tool-panel";
 import "ag-grid-enterprise";
-import "./TableComponent.css";
-import { Clear, Search } from "@material-ui/icons";
+import {
+  Clear,
+  Search,
+} from "@material-ui/icons";
 import { Box } from "@mui/material";
 import Fab from "@mui/material/Fab";
 import { CalendarMonth, FilterAlt, FilterAltOff } from "@mui/icons-material";
-import StatusBarComponent from "../Components/StatusBarComponent";
+import StatusBarComponent from "../StatusBarComponent";
 ModuleRegistry.registerModules([
   ClientSideRowModelModule,
   SetFilterModule,
@@ -58,6 +60,9 @@ export default function TableComponent(props) {
   const onGridReady = useCallback((params) => {
     setGridApi(params);
   }, []);
+
+
+
 
   const gridStyle = useMemo(() => ({ height: "100%", width: "100%" }), []);
 
@@ -166,55 +171,54 @@ export default function TableComponent(props) {
   return (
     <div style={{ containerStyle }} className="themeContainer">
       <Box className="p-1 mt-1 my-md-0 filterTabs text-end text-md-center">
-        {props.datefilter ? (
-          <>
-            <Fab
-              color="transparent"
-              aria-label="Date"
-              variant="extended"
-              className="fabCustom mb-1"
-            >
-              {date ? (
-                <Clear onClick={onChangeDate} className="theme_text" />
-              ) : (
-                <CalendarMonth onClick={onChangeDate} className="theme_text" />
-              )}
-              <div className={`p-1 ${date ? "d-inline-flex" : "d-none"}`}>
-                <div className="m-1">
-                  {/* <p className="theme_text me-1 my-auto"> From </p> */}
-                  <input
-                    type="date"
-                    id="startDate"
-                    onChange={(e) => setStartDate(e.target.value)}
-                    className="px-1 btn_theme"
-                    style={props.screenWidth < 400 ? { width: 125 } : null}
-                  />
-                </div>
-                <div className="m-1">
-                  {/* <p className="theme_text me-1 my-auto"> To </p> */}
-                  <input
-                    type="date"
-                    id="endDate"
-                    onChange={(e) => setEndDate(e.target.value)}
-                    className="px-1 btn_theme"
-                    style={props.screenWidth < 400 ? { width: 125 } : null}
-                  />
-                </div>
+        {props.datefilter ? <>
+          <Fab
+            color="transparent"
+            aria-label="Date"
+            variant="extended"
+            className="fabCustom mb-1"
+          >
+            {date ?
+              <Clear onClick={onChangeDate} className="theme_text" />
+              :
+              <CalendarMonth onClick={onChangeDate} className="theme_text" />
+            }
+            <div className={`p-1 ${date ? "d-inline-flex" : "d-none"}`}>
+              <div className="m-1">
+                {/* <p className="theme_text me-1 my-auto"> From </p> */}
+                <input
+                  type="date"
+                  id="startDate"
+                  onChange={(e) => setStartDate(e.target.value)}
+                  className="px-1 btn_theme"
+                  style={props.screenWidth < 400 ? { width: 125 } : null}
+                />
               </div>
-            </Fab>
-          </>
-        ) : null}
+              <div className="m-1">
+                {/* <p className="theme_text me-1 my-auto"> To </p> */}
+                <input
+                  type="date"
+                  id="endDate"
+                  onChange={(e) => setEndDate(e.target.value)}
+                  className="px-1 btn_theme"
+                  style={props.screenWidth < 400 ? { width: 125 } : null}
+                />
+              </div>
+            </div>
+          </Fab>
+        </> :
+          null}
         <Fab
           color="neutral"
           aria-label="edit"
           variant="extended"
           className="ms-2 fabCustom mb-1"
         >
-          {search ? (
+          {search ?
             <Clear onClick={onChangeSearch} className="theme_text" />
-          ) : (
-            <Search onClick={onChangeSearch} className="theme_text" />
-          )}
+            :
+            <Search onClick={onChangeSearch} className='theme_text' />
+          }
           <div className={`px-2 ${search ? "d-block" : "d-none"}`}>
             <input
               className="form-control"
@@ -284,6 +288,8 @@ export default function TableComponent(props) {
           // overlayLoadingTemplate={'<span class="ag-overlay-loading-center">Please wait while your rows are loading</span>'}
           // overlayNoRowsTemplate={'<span class="ag-overlay-loading-center"><i className="fas fa-hourglass-half" style="color: blue; height: 0%"> Please wait while your data are loading </i> </span>'}
           onGridReady={onGridReady}
+
+
         />
       </div>
     </div>

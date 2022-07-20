@@ -1,9 +1,9 @@
 import React from 'react';
 import { Zoom } from 'react-slideshow-image';
 import 'react-slideshow-image/dist/styles.css';
-import img1 from "../Assets/Images/img1.jpg"
-import img2 from "../Assets/Images/img2.jpg"
-import img3 from "../Assets/Images/img3.jpg"
+import img1 from "../../Assets/Images/img1.jpeg"
+import img2 from "../../Assets/Images/img2.jpg"
+import img3 from "../../Assets/Images/image3.jpeg"
 
 const Imageslider = () => {
     const images = [
@@ -13,8 +13,8 @@ const Imageslider = () => {
     return (
         <Zoom scale={1.4} indicators={false} duration={2000} arrows={false} canSwipe={true} infinite={true}>
             {images.map((each, index) => (
-                <div key={index} style={{ width: "100%" }}>
-                    <img style={{ objectFit: "cover", width: "100%", height:"509px" }} alt="Slide Image" src={each} />
+                <div key={index}>
+                    <img style={{ objectFit: "cover", width: "120%", height:"509px" }} alt="Slide Image" src={each} />
                 </div>
             ))}
         </Zoom>
