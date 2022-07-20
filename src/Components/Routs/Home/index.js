@@ -14,6 +14,7 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { Fab } from '@mui/material';
 import { Popover } from '@material-ui/core';
 import PopupState, { bindTrigger, bindPopover } from 'material-ui-popup-state';
+import OpinionData from './OpinionData';
 const data = require("../../Data/outstanding_data.json")
 
 
@@ -25,6 +26,7 @@ export default function Index(props) {
   const [OutstandingDataArray, setOutstandingDataArray] = useState(data)
   const [InProcessDataArray, setInProcessDataArray] = useState([])
   const [UnFinihedDataArray, setUnFinishedDataArray] = useState([])
+  const [OpinionDataArray, setOpinionDataArray] = useState([])
 
   useEffect(() => {
 
@@ -45,52 +47,52 @@ export default function Index(props) {
       res = res.data.data;
       for (let i in res) {
         res[i].sNo = Number(i) + 1;
-        const date = ()=>{
+        const date = () => {
           var date1 = new Date();
           var date2 = new Date(res[i].Initiationdays);
-          var Difference_In_Time = date1.getTime() - date2.getTime() ;
+          var Difference_In_Time = date1.getTime() - date2.getTime();
           var Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
           res[i].initaldays = Math.floor(Difference_In_Days)
         }
         date();
-        const stage = ()=>{
-          if(res[i].ppl_date == null && res[i].rc_meeting_date !== null){
+        const stage = () => {
+          if (res[i].ppl_date == null && res[i].rc_meeting_date !== null) {
             res[i].stage = "RC"
             res[i].stage_date = res[i].rc_meeting_date
             var date1 = new Date();
             var date2 = new Date(res[i].rc_meeting_date);
-            var Difference_In_Time = date1.getTime() - date2.getTime() ;
+            var Difference_In_Time = date1.getTime() - date2.getTime();
             var Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
             res[i].stagedays = Math.floor(Difference_In_Days)
           }
-          if(res[i].ppl_date !== null && res[i].rc_meeting_date == null){
+          if (res[i].ppl_date !== null && res[i].rc_meeting_date == null) {
             res[i].stage = "PPL"
             res[i].stage_date = res[i].ppl_date
             var date1 = new Date();
             var date2 = new Date(res[i].ppl_date);
-            var Difference_In_Time = date1.getTime() - date2.getTime() ;
+            var Difference_In_Time = date1.getTime() - date2.getTime();
             var Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
             res[i].stagedays = Math.floor(Difference_In_Days)
           }
-          if(res[i].ppl_date !== null && res[i].rc_meeting_date !== null){
+          if (res[i].ppl_date !== null && res[i].rc_meeting_date !== null) {
             res[i].stage = "PPL"
             res[i].stage_date = res[i].ppl_date
             var date1 = new Date();
             var date2 = new Date(res[i].ppl_date);
-            var Difference_In_Time = date1.getTime() - date2.getTime() ;
+            var Difference_In_Time = date1.getTime() - date2.getTime();
             var Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
             res[i].stagedays = Math.floor(Difference_In_Days)
           }
-          if(res[i].ppl_date == null && res[i].rc_meeting_date ==null && res[i].Initiation !== null){
+          if (res[i].ppl_date == null && res[i].rc_meeting_date == null && res[i].Initiation !== null) {
             res[i].stage = "Initiation"
-            res[i].stage_date = res[i].Initiation 
+            res[i].stage_date = res[i].Initiation
             var date1 = new Date();
             var date2 = new Date(res[i].Initiation);
-            var Difference_In_Time = date1.getTime() - date2.getTime() ;
+            var Difference_In_Time = date1.getTime() - date2.getTime();
             var Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
             res[i].stagedays = Math.floor(Difference_In_Days)
           }
-          if(res[i].ppl_date == null && res[i].rc_meeting_date ==null && res[i].Initiation == null){
+          if (res[i].ppl_date == null && res[i].rc_meeting_date == null && res[i].Initiation == null) {
             res[i].stage = "Not Captured"
             res[i].stage_date = null
             res[i].stagedays = null
@@ -102,16 +104,16 @@ export default function Index(props) {
     })
   }, [])
 
-  useEffect(()=>{
+  useEffect(() => {
     GetData.UnFinished().then(res => {
       res = res.data.data;
       console.log(res, "this is res");
       for (let i in res) {
         res[i].sNo = Number(i) + 1;
-        const date = ()=>{
+        const date = () => {
           var date1 = new Date();
           var date2 = new Date(res[i].Notification);
-          var Difference_In_Time = date1.getTime() - date2.getTime() ;
+          var Difference_In_Time = date1.getTime() - date2.getTime();
           var Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
           res[i].daysNl = Math.floor(Difference_In_Days)
         }
@@ -122,6 +124,18 @@ export default function Index(props) {
 
     })
   }, [])
+
+  useEffect(() => {
+    GetData.OpinionData().then(res => {
+      console.log(res, "this is opinon data res");
+      res = res.data.data;
+      for (let i in res) {
+        res[i].sNo = Number(i) + 1;
+      }
+      setOpinionDataArray(res);
+    })
+  }, [])
+
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -145,7 +159,7 @@ export default function Index(props) {
           >
             <Tab label="Outstanding" {...a11yProps(0)} />
             <Tab label="In-Process" {...a11yProps(1)} />
-            <Tab label="Deadline" {...a11yProps(2)} />
+            <Tab label="Opinion-Data" {...a11yProps(2)} />
             <Tab label="UnFinished" {...a11yProps(3)} />
             <Tab label="Initial" {...a11yProps(4)} />
             <Tab label="In-MNA" {...a11yProps(5)} />
@@ -194,7 +208,7 @@ export default function Index(props) {
                 >
                   <Tab label="Outstanding" {...a11yProps(0)} />
                   <Tab label="In-Process" {...a11yProps(1)} />
-                  <Tab label="Deadline" {...a11yProps(2)} />
+                  <Tab label="Opinion-Data" {...a11yProps(2)} />
                   <Tab label="UnFinished" {...a11yProps(3)} />
                   <Tab label="Initial" {...a11yProps(4)} />
                   <Tab label="In-MNA" {...a11yProps(5)} />
@@ -219,10 +233,10 @@ export default function Index(props) {
         <InProcess InProcess={InProcessDataArray} screenWidth={props.screenWidth} />
       </TabPanel>
       <TabPanel value={value} index={2}>
-        Deadline
+        <OpinionData OpinionData={OpinionDataArray} screenWidth={props.screenWidth} />
       </TabPanel>
       <TabPanel value={value} index={3}>
-      <UnFinihed UnFinihed={UnFinihedDataArray} screenWidth={props.screenWidth} />
+        <UnFinihed UnFinihed={UnFinihedDataArray} screenWidth={props.screenWidth} />
       </TabPanel>
       <TabPanel value={value} index={4}>
         Initial
