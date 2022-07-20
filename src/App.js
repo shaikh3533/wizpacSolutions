@@ -55,7 +55,7 @@ function App() {
     return isLoggedin;
   }
 
-  var loginState = checkLogin();
+  const loginState = checkLogin();
 
   useEffect(() => {
     const screenWidth = window.screen.width;
