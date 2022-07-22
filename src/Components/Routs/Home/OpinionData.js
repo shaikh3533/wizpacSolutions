@@ -286,8 +286,7 @@ function OpinionData(props) {
         },
         {
             headerName: "Team",
-            // minWidth: responsiveColumns(),
-            // maxWidth: responsiveColumns(),
+            maxWidth: 200,
             hide: columnHide(),
             field: "Team",
             sortable: true,
@@ -309,8 +308,7 @@ function OpinionData(props) {
         {
             headerName: "City",
             field: "city",
-            minWidth: 130,
-            maxWidth: 130,
+            maxWidth: 85,
             sortable: true,
             hide: columnHide(),
             filter: "agSetColumnFilter",
@@ -320,7 +318,7 @@ function OpinionData(props) {
         {
             headerName: "Stage",
             field: "stage",
-            maxWidth: 75,
+            maxWidth: 100,
             sortable: true,
             filter: "agSetColumnFilter",
             excelMode: "windows",
