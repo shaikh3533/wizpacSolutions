@@ -12,6 +12,42 @@ import {
 import { Table, TableCell, TableRow } from "@mui/material";
 
 function OpinionData(props) {
+
+    // const Status = function (){
+    //     var groupuniqueCount = props.GroupArray;
+    //     var grouparray = [];
+    //     var groupcount = 0;
+    //     var clientuniqueCount = props.ClientArray;
+    //     var clientarray = [];
+    //     var clientcount = 0;
+    //     var opinionuniqueCount = props.OpinionArray;
+    //     var opinionarray = [];
+    //     var opinioncount = 0;
+    //     groupuniqueCount.forEach(function(i){
+    //         grouparray[i] = (grouparray[i] || 0) + 1;
+    //     })
+    //     clientuniqueCount.forEach(function(i){
+    //         clientarray[i] = (clientarray[i] || 0) + 1;
+    //     })
+    //     opinionuniqueCount.forEach(function(i){
+    //         opinionarray[i] = (opinionarray[i] || 0) + 1;
+    //     })
+
+    //     for(let i in grouparray){
+    //         groupcount++
+    //     }
+    //     for(let i in clientarray){
+    //         clientcount++
+    //     }
+    //     for(let i in opinionarray){
+    //         opinioncount++
+    //     }
+    //     return (
+    //         <p className='mt-2 ms-1'> GroupName: {groupcount} ClientName: {clientcount} OpinionName: {opinioncount} </p>
+    //      )
+
+    // }
+    // Status()
     const responsiveColumns = () => {
         if (props.screenWidth < 770) {
             return null;
@@ -163,6 +199,7 @@ function OpinionData(props) {
             return params.value;
         }
     };
+    
 
     const columnDefs = [
         {
@@ -283,7 +320,7 @@ function OpinionData(props) {
         {
             headerName: "Stage",
             field: "stage",
-            minWidth: 94,
+            maxWidth: 75,
             sortable: true,
             filter: "agSetColumnFilter",
             excelMode: "windows",
@@ -344,7 +381,14 @@ function OpinionData(props) {
 
     return (
         <TableComponent Data={props.OpinionData} columnDefs={columnDefs}
-            screenWidth={props.screenWidth} MobViewRender={MobViewRender} />
+            screenWidth={props.screenWidth} MobViewRender={MobViewRender} statusbar = {props.status}  count = {true}
+            GroupArray={props.GroupArray}
+            ClientArray={props.ClientArray}
+            OpinionArray={props.OpinionArray}
+            setGroupArray={props.setGroupArray}
+            setClientArray={props.setClientArray}
+            setOpinionArray={props.setOpinionArray}
+            />
     )
 }
 

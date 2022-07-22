@@ -154,6 +154,33 @@ function InProcess(props) {
     }
   };
 
+  const inprocessdatefilters = (startDate, endDate, gridApi, getFilterType)=>{
+
+    var dateFilterComponent = gridApi.api.getFilterInstance("Initiation");
+      dateFilterComponent.setModel({
+        type: getFilterType(),
+        inRange: true,
+        dateFrom: startDate,
+        dateTo: endDate,
+      });
+      var dateFilterComponent1 = gridApi.api.getFilterInstance("stage_date");
+      dateFilterComponent1.setModel({
+        type: getFilterType(),
+        inRange: true,
+        dateFrom: startDate,
+        dateTo: endDate,
+      });
+      var dateFilterComponent1 = gridApi.api.getFilterInstance("prcdate");
+      dateFilterComponent1.setModel({
+        type: getFilterType(),
+        inRange: true,
+        dateFrom: startDate,
+        dateTo: endDate,
+      });
+
+
+  }
+
 
 
   const columnDefs = [
@@ -641,7 +668,7 @@ function InProcess(props) {
 
   return (
     <TableComponent Data={props.InProcess} columnDefs={columnDefs}
-      screenWidth={props.screenWidth} MobViewRender={MobViewRender} />
+      screenWidth={props.screenWidth} datefilters={inprocessdatefilters} MobViewRender={MobViewRender} datefilter={true} />
   )
 }
 

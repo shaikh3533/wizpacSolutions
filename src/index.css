@@ -350,3 +350,11 @@ color: red !important;
 .theme_bg {
   background: #000078;
 }
+
+.marginRight{
+  margin-right: 8vw !important;
+}
+
+.ag-theme-alpine .ag-status-bar{
+  max-height: 40px;
+}
