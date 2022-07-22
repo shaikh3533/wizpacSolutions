@@ -1,48 +1,48 @@
-import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
-import { makeStyles } from '@material-ui/core/styles';
-import AppBar from '@material-ui/core/AppBar';
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
-import Typography from '@material-ui/core/Typography';
-import Box from '@material-ui/core/Box';
-import Outstanding from './Outstanding';
-import InProcess from './InProcess';
-import UnFinihed from './UnFinished';
-import GetData from '../../../API/GetData';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
-import { Fab } from '@mui/material';
-import { Popover } from '@material-ui/core';
-import PopupState, { bindTrigger, bindPopover } from 'material-ui-popup-state';
-import OpinionData from './OpinionData';
-const data = require("../../Data/outstanding_data.json")
-
-
+import React, { useState, useEffect } from "react";
+import PropTypes from "prop-types";
+import { makeStyles } from "@material-ui/core/styles";
+import AppBar from "@material-ui/core/AppBar";
+import Tabs from "@material-ui/core/Tabs";
+import Tab from "@material-ui/core/Tab";
+import Typography from "@material-ui/core/Typography";
+import Box from "@material-ui/core/Box";
+import Outstanding from "./Outstanding";
+import InProcess from "./InProcess";
+import UnFinihed from "./UnFinished";
+import GetData from "../../../API/GetData";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
+import { Fab } from "@mui/material";
+import { Popover } from "@material-ui/core";
+import PopupState, { bindTrigger, bindPopover } from "material-ui-popup-state";
+import OpinionData from "./OpinionData";
+const data = require("../../Data/outstanding_data.json");
 
 export default function Index(props) {
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
 
-  const [OutstandingDataArray, setOutstandingDataArray] = useState(data)
-  const [InProcessDataArray, setInProcessDataArray] = useState([])
-  const [UnFinihedDataArray, setUnFinishedDataArray] = useState([])
-  const [OpinionDataArray, setOpinionDataArray] = useState([])
+  const [OutstandingDataArray, setOutstandingDataArray] = useState(data);
+  const [InProcessDataArray, setInProcessDataArray] = useState([]);
+  const [UnFinihedDataArray, setUnFinishedDataArray] = useState([]);
+  const [OpinionDataArray, setOpinionDataArray] = useState([]);
+  const [GroupArray, setGroupArray] = useState([]);
+  const [ClientArray, setClientArray] = useState([]);
+  const [OpinionArray, setOpinionArray] = useState([]);
+  const [groupcount, setgroupcount] = useState(0);
+  
 
   useEffect(() => {
-
-    GetData.OutstandingData().then(res => {
+    GetData.OutstandingData().then((res) => {
       res = res.data.data;
       for (let i in res) {
         res[i].sNo = Number(i) + 1;
       }
-      setOutstandingDataArray(res)
-
-    })
-  }, [])
-
+      setOutstandingDataArray(res);
+    });
+  }, []);
+  var status = "hey";
   useEffect(() => {
-
-    GetData.InProcess().then(res => {
+    GetData.InProcess().then((res) => {
       console.log(res, "res");
       res = res.data.data;
       for (let i in res) {
@@ -52,60 +52,68 @@ export default function Index(props) {
           var date2 = new Date(res[i].Initiationdays);
           var Difference_In_Time = date1.getTime() - date2.getTime();
           var Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
-          res[i].initaldays = Math.floor(Difference_In_Days)
-        }
+          res[i].initaldays = Math.floor(Difference_In_Days);
+        };
         date();
         const stage = () => {
           if (res[i].ppl_date == null && res[i].rc_meeting_date !== null) {
-            res[i].stage = "RC"
-            res[i].stage_date = res[i].rc_meeting_date
+            res[i].stage = "RC";
+            res[i].stage_date = res[i].rc_meeting_date;
             var date1 = new Date();
             var date2 = new Date(res[i].rc_meeting_date);
             var Difference_In_Time = date1.getTime() - date2.getTime();
             var Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
-            res[i].stagedays = Math.floor(Difference_In_Days)
+            res[i].stagedays = Math.floor(Difference_In_Days);
           }
           if (res[i].ppl_date !== null && res[i].rc_meeting_date == null) {
-            res[i].stage = "PPL"
-            res[i].stage_date = res[i].ppl_date
+            res[i].stage = "PPL";
+            res[i].stage_date = res[i].ppl_date;
             var date1 = new Date();
             var date2 = new Date(res[i].ppl_date);
             var Difference_In_Time = date1.getTime() - date2.getTime();
             var Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
-            res[i].stagedays = Math.floor(Difference_In_Days)
+            res[i].stagedays = Math.floor(Difference_In_Days);
           }
           if (res[i].ppl_date !== null && res[i].rc_meeting_date !== null) {
-            res[i].stage = "PPL"
-            res[i].stage_date = res[i].ppl_date
+            res[i].stage = "PPL";
+            res[i].stage_date = res[i].ppl_date;
             var date1 = new Date();
             var date2 = new Date(res[i].ppl_date);
             var Difference_In_Time = date1.getTime() - date2.getTime();
             var Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
-            res[i].stagedays = Math.floor(Difference_In_Days)
+            res[i].stagedays = Math.floor(Difference_In_Days);
           }
-          if (res[i].ppl_date == null && res[i].rc_meeting_date == null && res[i].Initiation !== null) {
-            res[i].stage = "Initiation"
-            res[i].stage_date = res[i].Initiation
+          if (
+            res[i].ppl_date == null &&
+            res[i].rc_meeting_date == null &&
+            res[i].Initiation !== null
+          ) {
+            res[i].stage = "Initiation";
+            res[i].stage_date = res[i].Initiation;
             var date1 = new Date();
             var date2 = new Date(res[i].Initiation);
             var Difference_In_Time = date1.getTime() - date2.getTime();
             var Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
-            res[i].stagedays = Math.floor(Difference_In_Days)
+            res[i].stagedays = Math.floor(Difference_In_Days);
           }
-          if (res[i].ppl_date == null && res[i].rc_meeting_date == null && res[i].Initiation == null) {
-            res[i].stage = "Not Captured"
-            res[i].stage_date = null
-            res[i].stagedays = null
+          if (
+            res[i].ppl_date == null &&
+            res[i].rc_meeting_date == null &&
+            res[i].Initiation == null
+          ) {
+            res[i].stage = "Not Captured";
+            res[i].stage_date = null;
+            res[i].stagedays = null;
           }
-        }
+        };
         stage();
       }
       setInProcessDataArray(res);
-    })
-  }, [])
+    });
+  }, []);
 
   useEffect(() => {
-    GetData.UnFinished().then(res => {
+    GetData.UnFinished().then((res) => {
       res = res.data.data;
       console.log(res, "this is res");
       for (let i in res) {
@@ -115,44 +123,107 @@ export default function Index(props) {
           var date2 = new Date(res[i].Notification);
           var Difference_In_Time = date1.getTime() - date2.getTime();
           var Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24);
-          res[i].daysNl = Math.floor(Difference_In_Days)
-        }
+          res[i].daysNl = Math.floor(Difference_In_Days);
+        };
         date();
         setUnFinishedDataArray(res);
       }
-
-
-    })
-  }, [])
+    });
+  }, []);
 
   useEffect(() => {
-    GetData.OpinionData().then(res => {
-      console.log(res, "this is opinon data res");
+    GetData.OpinionData().then((res) => {
       res = res.data.data;
+      console.log(res, "this is opinon data res");
       for (let i in res) {
         res[i].sNo = Number(i) + 1;
       }
       setOpinionDataArray(res);
-    })
-  }, [])
+      var GroupNameArray = [];
+      var ClientNameArray = [];
+      var OpinionNameArray = [];
+      for (let i in res) {
+        if (res[i].GroupName && res[i].GroupName !== "0") {
+          GroupNameArray.push(res[i].GroupName);
+        }
+        if (res[i].ClientName) {
+          ClientNameArray.push(res[i].ClientName);
+        }
 
+        if (res[i].OpinionName) {
+          OpinionNameArray.push(res[i].OpinionName);
+        }
+      }
+      setGroupArray(GroupNameArray);
+      setClientArray(ClientNameArray);
+      setOpinionArray(OpinionNameArray);
+    });
+    
+    // const Status = () => {
+  var groupuniqueCount = GroupArray;
+  var grouparray = [];
+  // var groupcount = 0;
+  var clientuniqueCount = ClientArray;
+  var clientarray = [];
+  var clientcount = 0;
+  var opinionuniqueCount = OpinionArray;
+  var opinionarray = [];
+  var opinioncount = 0;
+  groupuniqueCount.forEach(function (i) {
+    grouparray[i] = (grouparray[i] || 0) + 1;
+  });
+  clientuniqueCount.forEach(function (i) {
+    clientarray[i] = (clientarray[i] || 0) + 1;
+  });
+  opinionuniqueCount.forEach(function (i) {
+    opinionarray[i] = (opinionarray[i] || 0) + 1;
+  });
 
+  for (let i in grouparray) {
+    setgroupcount(+1);
+  }
+  for (let i in clientarray) {
+    clientcount++;
+  }
+  for (let i in opinionarray) {
+    opinioncount++;
+  }
+  // return (
+    //   <p className="mt-2 ms-1">
+    //     GroupName: {groupcount}
+    //     ClientName: {clientcount}
+    //     OpinionName: {opinioncount}
+    //   </p>
+  // );
+  // };
+  // const resultt = Status();
+}, []);
+  
   const handleChange = (event, newValue) => {
     setValue(newValue);
     // setValue(event.target.newValue);
   };
 
-
   return (
     <div className={classes.root}>
       {console.log(props.open)}
-      {props.screenWidth > 770 ?
-        (<AppBar position="fixed" className={` ${classes.topMargin} ${props.open ? classes.leftMargin : props.screenWidth < 700 ? classes.responsiveLeft : classes.left}`} color="default">
+      {props.screenWidth > 770 ? (
+        <AppBar
+          position="fixed"
+          className={` ${classes.topMargin} ${
+            props.open
+              ? classes.leftMargin
+              : props.screenWidth < 700
+              ? classes.responsiveLeft
+              : classes.left
+          }`}
+          color="default"
+        >
           <Tabs
             value={value}
             onChange={handleChange}
             indicatorColor="primary"
-            className='theme_text'
+            className="theme_text"
             variant="scrollable"
             scrollButtons="auto"
             aria-label="scrollable auto tabs example"
@@ -171,10 +242,15 @@ export default function Index(props) {
             <Tab label="Address Book" {...a11yProps(11)} />
             <Tab label="Pvt Ratings" {...a11yProps(12)} />
           </Tabs>
-        </AppBar>)
-        :
-        (<PopupState variant="popover" popupId="demo-popup-popover"
-          className={`height_TabsBar ${classes.topMargin} ${props.open ? classes.leftMargin : classes.responsiveLeft}`}>
+        </AppBar>
+      ) : (
+        <PopupState
+          variant="popover"
+          popupId="demo-popup-popover"
+          className={`height_TabsBar ${classes.topMargin} ${
+            props.open ? classes.leftMargin : classes.responsiveLeft
+          }`}
+        >
           {(popupState) => (
             <>
               <Fab
@@ -183,17 +259,17 @@ export default function Index(props) {
                 variant="extended"
                 className={`ms-2 fabCustom ${classes.topAbsolute}`}
               >
-                <MoreVertIcon  {...bindTrigger(popupState)} />
+                <MoreVertIcon {...bindTrigger(popupState)} />
               </Fab>
               <Popover
                 {...bindPopover(popupState)}
                 anchorOrigin={{
-                  vertical: 'bottom',
-                  horizontal: 'center',
+                  vertical: "bottom",
+                  horizontal: "center",
                 }}
                 transformOrigin={{
-                  vertical: 'top',
-                  horizontal: 'center',
+                  vertical: "top",
+                  horizontal: "center",
                 }}
               >
                 <Tabs
@@ -201,7 +277,7 @@ export default function Index(props) {
                   onChange={handleChange}
                   orientation="vertical"
                   indicatorColor="primary"
-                  className='theme_text'
+                  className="theme_text"
                   variant="scrollable"
                   scrollButtons="auto"
                   aria-label="scrollable auto tabs example"
@@ -223,20 +299,38 @@ export default function Index(props) {
               </Popover>
             </>
           )}
-        </PopupState>)
-      }
+        </PopupState>
+      )}
       {/* <div className='container'> */}
       <TabPanel value={value} index={0}>
-        <Outstanding Outstanding={OutstandingDataArray} screenWidth={props.screenWidth} />
+        <Outstanding
+          Outstanding={OutstandingDataArray}
+          screenWidth={props.screenWidth}
+        />
       </TabPanel>
       <TabPanel value={value} index={1}>
-        <InProcess InProcess={InProcessDataArray} screenWidth={props.screenWidth} />
+        <InProcess
+          InProcess={InProcessDataArray}
+          screenWidth={props.screenWidth}
+        />
       </TabPanel>
       <TabPanel value={value} index={2}>
-        <OpinionData OpinionData={OpinionDataArray} screenWidth={props.screenWidth} />
+        <OpinionData
+          OpinionData={OpinionDataArray}
+          GroupArray={GroupArray}
+          ClientArray={ClientArray}
+          OpinionArray={OpinionArray}
+          setGroupArray={setGroupArray}
+          setClientArray={setClientArray}
+          setOpinionArray={setOpinionArray}
+          screenWidth={props.screenWidth}
+        />
       </TabPanel>
       <TabPanel value={value} index={3}>
-        <UnFinihed UnFinihed={UnFinihedDataArray} screenWidth={props.screenWidth} />
+        <UnFinihed
+          UnFinihed={UnFinihedDataArray}
+          screenWidth={props.screenWidth}
+        />
       </TabPanel>
       <TabPanel value={value} index={4}>
         Initial
@@ -266,13 +360,12 @@ export default function Index(props) {
         Pvt Ratings
       </TabPanel>
       {/* </div> */}
-    </div >
+    </div>
   );
 }
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
-
 
   return (
     <div
@@ -281,7 +374,7 @@ function TabPanel(props) {
       id={`scrollable-auto-tabpanel-${index}`}
       aria-labelledby={`scrollable-auto-tab-${index}`}
       {...other}
-      className={`card ${props.screenWidth > 770 ? 'mt-4' : 'negative_margin'}`}
+      className={`card ${props.screenWidth > 770 ? "mt-4" : "negative_margin"}`}
     >
       {value === index && (
         <Box>
@@ -301,16 +394,16 @@ TabPanel.propTypes = {
 function a11yProps(index) {
   return {
     id: `scrollable-auto-tab-${index}`,
-    'aria-controls': `scrollable-auto-tabpanel-${index}`,
+    "aria-controls": `scrollable-auto-tabpanel-${index}`,
   };
 }
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    width: '100%'
+    width: "100%",
   },
   topMargin: {
-    top: '50px',
+    top: "50px",
   },
   leftMargin: {
     width: `calc(100% - ${240}px)`,
@@ -319,10 +412,9 @@ const useStyles = makeStyles((theme) => ({
     width: `calc(100% - ${74}px)`,
   },
   responsiveLeft: {
-    width: '100%',
+    width: "100%",
   },
   topAbsolute: {
-    top: '4px'
-  }
+    top: "4px",
+  },
 }));
-

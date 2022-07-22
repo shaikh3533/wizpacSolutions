@@ -13,6 +13,7 @@ import {
 } from "@material-ui/icons";
 import { Table, TableCell, TableRow } from "@mui/material";
 
+
 function Outstanding(props) {
 
   const responsiveColumns = () => {
@@ -126,6 +127,25 @@ function Outstanding(props) {
       return params.value;
     }
   };
+  const outstandingdatefilters = (startDate, endDate, gridApi, getFilterType)=>{
+
+    var dateFilterComponent = gridApi.api.getFilterInstance("Notification");
+      dateFilterComponent.setModel({
+        type: getFilterType(),
+        inRange: true,
+        dateFrom: startDate,
+        dateTo: endDate,
+      });
+      var dateFilterComponent1 = gridApi.api.getFilterInstance("Dissemination");
+      dateFilterComponent1.setModel({
+        type: getFilterType(),
+        inRange: true,
+        dateFrom: startDate,
+        dateTo: endDate,
+      });
+
+
+  }
 
   const columnDefs = [
     {
@@ -630,7 +650,7 @@ function Outstanding(props) {
   return (
     <>
       <TableComponent Data={props.Outstanding} screenWidth={props.screenWidth}
-        MobViewRender={MobViewRender} columnDefs={columnDefs} datefilter={true} />
+        MobViewRender={MobViewRender} columnDefs={columnDefs} datefilters = {outstandingdatefilters} datefilter={true} />
     </>
   )
 }
