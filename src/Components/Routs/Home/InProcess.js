@@ -163,20 +163,20 @@ function InProcess(props) {
       dateFrom: startDate,
       dateTo: endDate,
     });
-    // var dateFilterComponent1 = gridApi.api.getFilterInstance("stage_date");
-    // dateFilterComponent1.setModel({
-    //   type: getFilterType(),
-    //   inRange: true,
-    //   dateFrom: startDate,
-    //   dateTo: endDate,
-    // });
-    // var dateFilterComponent1 = gridApi.api.getFilterInstance("prcdate");
-    // dateFilterComponent1.setModel({
-    //   type: getFilterType(),
-    //   inRange: true,
-    //   dateFrom: startDate,
-    //   dateTo: endDate,
-    // });
+    var dateFilterComponent1 = gridApi.api.getFilterInstance("stage_date");
+    dateFilterComponent1.setModel({
+      type: getFilterType(),
+      inRange: true,
+      dateFrom: startDate,
+      dateTo: endDate,
+    });
+    var dateFilterComponent2 = gridApi.api.getFilterInstance("prcdate");
+    dateFilterComponent2.setModel({
+      type: getFilterType(),
+      inRange: true,
+      dateFrom: startDate,
+      dateTo: endDate,
+    });
 
 
   }
