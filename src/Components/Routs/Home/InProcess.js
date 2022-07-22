@@ -154,29 +154,29 @@ function InProcess(props) {
     }
   };
 
-  const inprocessdatefilters = (startDate, endDate, gridApi, getFilterType)=>{
-
-    var dateFilterComponent = gridApi.api.getFilterInstance("Initiation");
-      dateFilterComponent.setModel({
-        type: getFilterType(),
-        inRange: true,
-        dateFrom: startDate,
-        dateTo: endDate,
-      });
-      var dateFilterComponent1 = gridApi.api.getFilterInstance("stage_date");
-      dateFilterComponent1.setModel({
-        type: getFilterType(),
-        inRange: true,
-        dateFrom: startDate,
-        dateTo: endDate,
-      });
-      var dateFilterComponent1 = gridApi.api.getFilterInstance("prcdate");
-      dateFilterComponent1.setModel({
-        type: getFilterType(),
-        inRange: true,
-        dateFrom: startDate,
-        dateTo: endDate,
-      });
+  const inprocessdatefilters = (startDate, endDate, gridApi, getFilterType) => {
+    var dateFilterComponent = gridApi.api.getFilterInstance("Initiation", "stage_date", "prcdate");
+    console.log(dateFilterComponent)
+    dateFilterComponent.setModel({
+      type: getFilterType(),
+      inRange: true,
+      dateFrom: startDate,
+      dateTo: endDate,
+    });
+    // var dateFilterComponent1 = gridApi.api.getFilterInstance("stage_date");
+    // dateFilterComponent1.setModel({
+    //   type: getFilterType(),
+    //   inRange: true,
+    //   dateFrom: startDate,
+    //   dateTo: endDate,
+    // });
+    // var dateFilterComponent1 = gridApi.api.getFilterInstance("prcdate");
+    // dateFilterComponent1.setModel({
+    //   type: getFilterType(),
+    //   inRange: true,
+    //   dateFrom: startDate,
+    //   dateTo: endDate,
+    // });
 
 
   }
