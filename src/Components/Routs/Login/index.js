@@ -33,6 +33,7 @@ const index = (props) => {
                                 label="Email / Username"
                                 name="user_id"
                                 variant="outlined"
+                                required
                                 clasName='input_'
                                 onChange={props.handleFormChange} />
                         </FormControl>
@@ -42,6 +43,7 @@ const index = (props) => {
                             <OutlinedInput
                                 id="outlined-adornment-password"
                                 type={!isHidden ? 'text' : 'password'}
+                                required
                                 name="user_password"
                                 // value={props.user_password}
                                 onChange={props.handleFormChange}
