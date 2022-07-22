@@ -174,21 +174,12 @@ a {
 } */
 
 
-/* @media (max-width: 770px) {
+@media (max-width: 770px) {
 
-  .makeStyles-drawerClose-10,
-  .jss10, .responsiveSideBar {
-    width: 0px !important
+  .hover:hover .onHover {
+    display: none !important;
   }
-
-  .makeStyles-left-28 {
-    width: 100% !important;
-  }
-
-  .makeStyles-left-16 {
-    width: 100% !important;
-  }
-} */
+}
 
 /* .makeStyles-left-28 {
   width: calc(100% - 77px);
@@ -351,10 +342,10 @@ color: red !important;
   background: #000078;
 }
 
-.marginRight{
+.marginRight {
   margin-right: 8vw !important;
 }
 
-.ag-theme-alpine .ag-status-bar{
+.ag-theme-alpine .ag-status-bar {
   max-height: 40px;
 }
